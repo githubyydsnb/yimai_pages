@@ -28,12 +28,14 @@
     <script type="text/javascript" src="../../js/tban.js"></script>
     
 	<script type="text/javascript" src="../../js/lrscroll_1.js"></script>
-    
+
+    <script type="text/javascript" src="../../js/vue.js"></script>
     
 <title>尤洪</title>
 </head>
 <body>
 <!--Begin Header Begin-->
+<div id="root">
 <div class="soubg">
 	<div class="sou">
     	<!--Begin 所在收货地区 Begin-->
@@ -206,7 +208,7 @@
     	<div class="nav">
         	<div class="nav_t">全部商品分类</div>
             <div class="leftNav">
-                <ul>      
+                <ul>
                     <li>
                     	<div class="fj">
                         	<span class="n_img"><span></span><img src="../../images/nav1.png" /></span>
@@ -323,18 +325,16 @@
                             </div>
                         </div>
                     </li>
-                    <li>
+                    <li v-for="(category,index) in categoryOneList" :key="category.id"  @mouseenter="getParentId(category.id)">
                     	<div class="fj">
                         	<span class="n_img"><span></span><img src="../../images/nav5.png" /></span>
-                            <span class="fl">美妆、个人护理、洗护</span>
-                        </div>
-                        <div class="zj" style="top:-160px;">
+                            <span class="fl">{{category.name}}</span>
+                        </div><!-- style="top:-160px;" -->
+                        <div class="zj" v-for="(cateTwo,index) in categoryTwoList" :key="cateTwo.id" >
                             <div class="zj_l">
                                 <div class="zj_l_c">
-                                    <h2>零食 / 糖果 / 巧克力5</h2>
-                                    <a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">巧克力</a>|
-                                    <a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|
-                                    <a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">蜜饯</a>|
+                                    <h2>{{cateTwo.name}}</h2>
+                                    <a href="#" v-for="(cateThree,index) in categoryThreeList" :key="cateThree.id">{{cateThree.name}}</a>|
                                 </div>
                             </div>
                             <div class="zj_r">
@@ -343,106 +343,8 @@
                             </div>
                         </div>
                     </li>
-                    <li>
-                    	<div class="fj">
-                        	<span class="n_img"><span></span><img src="../../images/nav6.png" /></span>
-                            <span class="fl">女装、内衣、中老年</span>
-                        </div>
-                        <div class="zj" style="top:-200px;">
-                            <div class="zj_l">
-                                <div class="zj_l_c">
-                                    <h2>零食 / 糖果 / 巧克力6</h2>
-                                    <a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">巧克力</a>|
-                                    <a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|
-                                    <a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">蜜饯</a>|
-                                </div>
-                            </div>
-                            <div class="zj_r">
-                                <a href="#"><img src="../../images/n_img1.jpg" width="236" height="200" /></a>
-                                <a href="#"><img src="../../images/n_img2.jpg" width="236" height="200" /></a>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                    	<div class="fj">
-                        	<span class="n_img"><span></span><img src="../../images/nav7.png" /></span>
-                            <span class="fl">鞋靴、箱包、腕表配饰</span>
-                        </div>
-                        <div class="zj" style="top:-240px;">
-                            <div class="zj_l">
-                                <div class="zj_l_c">
-                                    <h2>零食 / 糖果 / 巧克力7</h2>
-                                    <a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">巧克力</a>|
-                                    <a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|
-                                    <a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">蜜饯</a>|
-                                </div>
-                            </div>
-                            <div class="zj_r">
-                                <a href="#"><img src="../../images/n_img1.jpg" width="236" height="200" /></a>
-                                <a href="#"><img src="../../images/n_img2.jpg" width="236" height="200" /></a>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                    	<div class="fj">
-                        	<span class="n_img"><span></span><img src="../../images/nav8.png" /></span>
-                            <span class="fl">男装、运动</span>
-                        </div>
-                        <div class="zj" style="top:-280px;">
-                            <div class="zj_l">
-                                <div class="zj_l_c">
-                                    <h2>零食 / 糖果 / 巧克力8</h2>
-                                    <a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">巧克力</a>|
-                                    <a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|
-                                    <a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">蜜饯</a>|
-                                </div>
-                            </div>
-                            <div class="zj_r">
-                                <a href="#"><img src="../../images/n_img1.jpg" width="236" height="200" /></a>
-                                <a href="#"><img src="../../images/n_img2.jpg" width="236" height="200" /></a>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                    	<div class="fj">
-                        	<span class="n_img"><span></span><img src="../../images/nav9.png" /></span>
-                            <span class="fl">手机、小家电、电脑</span>
-                        </div>
-                        <div class="zj" style="top:-320px;">
-                            <div class="zj_l">
-                                <div class="zj_l_c">
-                                    <h2>零食 / 糖果 / 巧克力9</h2>
-                                    <a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">巧克力</a>|
-                                    <a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|
-                                    <a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">蜜饯</a>|
-                                </div>
-                            </div>
-                            <div class="zj_r">
-                                <a href="#"><img src="../../images/n_img1.jpg" width="236" height="200" /></a>
-                                <a href="#"><img src="../../images/n_img2.jpg" width="236" height="200" /></a>
-                            </div>
-                        </div>
-                    </li>                    
-                    <li>
-                    	<div class="fj">
-                        	<span class="n_img"><span></span><img src="../../images/nav10.png" /></span>
-                            <span class="fl">礼品、充值</span>
-                        </div>
-                        <div class="zj" style="top:-360px;">
-                            <div class="zj_l">
-                                <div class="zj_l_c">
-                                    <h2>零食 / 糖果 / 巧克力10</h2>
-                                    <a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">巧克力</a>|
-                                    <a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|
-                                    <a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a href="#">蜜饯</a>|
-                                </div>
-                            </div>
-                            <div class="zj_r">
-                                <a href="#"><img src="../../images/n_img1.jpg" width="236" height="200" /></a>
-                                <a href="#"><img src="../../images/n_img2.jpg" width="236" height="200" /></a>
-                            </div>
-                        </div>
-                    </li>                    	
+
+
                 </ul>            
             </div>
         </div>  
@@ -613,8 +515,8 @@
                             </ul>
                         </div>
                     </div>
-                    <a class="h_prev" href="javascript:void();">Previous</a>
-                    <a class="h_next" href="javascript:void();">Next</a>
+                    <a class="h_prev" href="javascript:void(0);">Previous</a>
+                    <a class="h_next" href="javascript:void(0);">Next</a>
                 </div>
             </div>
         </div>
@@ -1261,8 +1163,8 @@
                         </ul>
                     </div>
                 </div>
-                <a class="l_prev" href="javascript:void();">Previous</a>
-                <a class="l_next" href="javascript:void();">Next</a>
+                <a class="l_prev" href="javascript:void(0);">Previous</a>
+                <a class="l_next" href="javascript:void(0);">Next</a>
             </div>
         </div>
     </div>
@@ -1352,13 +1254,7 @@
     <!--End Footer End -->    
 </div>
 
-</body>
 
-
-<!--[if IE 6]>
-<script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
-<![endif]-->
-</html>
 
 
 <div class="top">
@@ -1381,14 +1277,14 @@
         <div class="car_t">购物车 [ <span>3</span> ]</div>
         <div class="car_bg">
             <!--Begin 购物车未登录 Begin-->
-            <c:if test="${sessionScope.loginUser==null}">
-                <div class="un_login">还未登录！<a href="${ctx}/Login?action=toLogin" style="color:#ff4e00;">马上登录</a> 查看购物车！</div>
-            </c:if>
+<!--            <c:if test="${sessionScope.loginUser==null}">-->
+<!--                <div class="un_login">还未登录！<a href="${ctx}/Login?action=toLogin" style="color:#ff4e00;">马上登录</a> 查看购物车！</div>-->
+<!--            </c:if>-->
             <!--End 购物车未登录 End-->
             <!--Begin 购物车已登录 Begin-->
             <ul class="cars">
-                <c:if test="${sessionScope.cart2==null || sessionScope.cart2.items.size()<1}"> 您尚未购买任何物品，是否进入<a href="${ctx}/Home?action=index">商品页</a>进行购买！</c:if>
-                <c:if test="${sessionScope.cart2.items.size()>=1}">
+<!--                <c:if test="${sessionScope.cart2==null || sessionScope.cart2.items.size()<1}"> 您尚未购买任何物品，是否进入<a href="${ctx}/Home?action=index">商品页</a>进行购买！</c:if>-->
+<!--                <c:if test="${sessionScope.cart2.items.size()>=1}">-->
                     <li>
                         <div class="img">
                             <a href="javascript:void(0)">
@@ -1402,7 +1298,7 @@
                             <font color="#ff4e00">￥399</font>X1
                         </div>
                     </li>
-                </c:if>
+<!--                </c:if>-->
             </ul>
             <div class="price_sum">共计&nbsp; <font color="#ff4e00">￥</font><span>1058</span></div>
             <div class="price_a"><a href="javascript:void(0)">去购物车结算</a></div>
@@ -1410,3 +1306,50 @@
         </div>
     </div>
 </div>
+</div>
+</body>
+<script type="module">
+    import  {getCategoryOneList} from '../../api/category.js';
+    import  {getCategoryTwoList} from '../../api/category.js';
+    import  {getCategoryThreeList} from '../../api/category.js';
+    const vm = new Vue({
+        el:"#root",
+        data(){
+            return{
+                categoryOneList: [],
+                categoryTwoList: [],
+                categoryThreeList: [],
+            }
+        },
+        mounted:function (){
+            this.getCategoryOneList();
+        },
+        methods:{
+            async getCategoryOneList(){
+                let repsonse = await getCategoryOneList();
+                this.categoryOneList = repsonse.data
+                console.log(this.categoryOneList);
+            },
+            getParentId(id){
+                this.getCategoryTwoList(id);
+            },
+            async getCategoryTwoList(id){
+                let repsonse = await getCategoryTwoList(id);
+                this.categoryTwoList = repsonse.data
+                if(this.categoryTwoList.length>0){
+                    this.getCategoryThreeList(this.categoryThreeList[0].parentId);
+                }
+                console.log(this.categoryTwoList);
+            },
+            async getCategoryThreeList(parentId){
+                let repsonse = await getCategoryThreeList(parentId);
+                this.categoryThreeList = repsonse.data
+                console.log(this.categoryThreeList);
+            }
+        }
+    })
+</script>
+<!--[if IE 6]>
+<script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+</html>
