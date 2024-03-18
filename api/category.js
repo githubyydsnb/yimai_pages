@@ -6,11 +6,11 @@ const getCategoryOneList = ()=>{
 }
 
 const getCategoryTwoList = (id)=>{
-    return request.post(baseUrl+"/getProductCategoryTwo")
+    return request.post(baseUrl+"/getProductCategoryTwo",id)
 }
 
 const getCategoryThreeList = (parentId)=>{
-    return request.post(baseUrl+"/getProductCategoryThree")
+    return request.post(baseUrl+"/getProductCategoryThree",parentId)
 }
 
 export {
