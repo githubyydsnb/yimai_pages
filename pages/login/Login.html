@@ -1,10 +1,10 @@
 <!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+		PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link type="text/css" rel="stylesheet" href="../../css/style.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link type="text/css" rel="stylesheet" href="../../css/style.css"/>
 	<!--[if IE 6]>
 	<script src="../../js/iepng.js" type="text/javascript"></script>
 	<script type="text/javascript">
@@ -36,111 +36,113 @@
 </head>
 
 <body>
-	<div id="app">
-		<!--Begin Header Begin-->
-		<div class="soubg">
-			<div class="sou">
+<div id="app">
+	<!--Begin Header Begin-->
+	<div class="soubg">
+		<div class="sou">
 				<span class="fr">
 					<span class="fl">你好，请<a href="Login.html">登录</a>&nbsp; <a href="Regist.html"
-							style="color:#ff4e00;">免费注册</a>&nbsp; </span>
+																				   style="color:#ff4e00;">免费注册</a>&nbsp; </span>
 					<span class="fl">|&nbsp;关注我们：</span>
 					<span class="s_sh"><a href="#" class="sh1">新浪</a><a href="#" class="sh2">微信</a></span>
 					<span class="fr">|&nbsp;<a href="#">手机版&nbsp;<img src="../../images/s_tel.png"
-								align="absmiddle" /></a></span>
+																		 align="absmiddle"/></a></span>
 				</span>
-			</div>
 		</div>
-		<!--End Header End-->
-		<!--Begin Login Begin-->
-		<div class="log_bg">
-			<div class="top">
-				<div class="logo"><a href="pages/index/Index.html"><img src="../../images/logo.png" /></a></div>
-			</div>
-			<div class="login">
-				<div class="log_img"><img src="../../images/l_img.png" width="611" height="425" /></div>
-				<div class="log_c">
-					<!-- <form action="">
-						<table border="0" style="width:370px; font-size:14px; margin-top:30px;" cellspacing="0"
-							cellpadding="0">
-							<tr height="50" valign="top">
-								<td width="55">&nbsp;</td>
-								<td>
-									<span class="fl" style="font-size:24px;">登录</span>
-									<span class="fr">还没有商城账号，<a href="Regist.html"
-											style="color:#ff4e00;">立即注册</a></span>
-								</td>
-							</tr>
-							<tr height="70">
-								<td>用户名</td>
-								<td><input type="text" v-model="user.loginName" class="l_user" /></td>
-							</tr>
-							<tr height="70">
-								<td>密&nbsp; &nbsp; 码</td>
-								<td><input type="password" v-model="user.password" class="l_pwd" /></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td style="font-size:12px; padding-top:20px;">
-									<span style="font-family:'宋体';" class="fl">
-										<label class="r_rad"><input type="checkbox" /></label><label
-											class="r_txt">请保存我这次的登录信息</label>
-									</span>
-									<span class="fr"><a href="#" style="color:#ff4e00;">忘记密码</a></span>
-								</td>
-							</tr>
-							<tr height="60">
-								<td>&nbsp;</td>
-								<td><input @click.prevent="checkLogin" type="submit" value="登录" class="log_btn" /></td>
-							</tr>
-						</table>
-					</form> -->
-					<table border="0" style="width:370px; font-size:14px; margin-top:30px;" cellspacing="0">
-						<span class="fl" style="font-size:24px;">登录</span>
-
-					</table>
-
-					<el-form :model="user" status-icon :rules="rules" ref="user" label-width="100px"
-						class="demo-ruleForm" v-cloak style="width: 400px">
-						<el-form-item label="账户" prop="loginName">
-							<el-input prefix-icon="el-icon-user" clearable type="text" v-model.trim="user.loginName"
-								autocomplete="off">
-							</el-input>
-						</el-form-item>
-						<el-form-item label="密码" prop="password">
-							<el-input prefix-icon="el-icon-unlock" clearable show-password
-								v-model.trim.number="user.password" autocomplete="off"></el-input>
-						</el-form-item>
-						<el-form-item>
-							<el-checkbox style="float: left">记住密码</el-checkbox>
-							<el-link style="float:right;" :underline="false" icon="">忘记密码?</el-link>
-						</el-form-item>
-						<el-form-item>
-							<!-- <el-button type="primary" style="width: 100%" @click="submitForm('user')">登录</el-button> -->
-							<input @click.prevent="submitForm('user')" type="submit" value="登录" class="log_btn" />
-
-						</el-form-item>
-						<el-form-item style="float:right;">
-							<el-link @click.prevent="toRegister">注册账号</el-link>
-						</el-form-item>
-					</el-form>
-				</div>
-			</div>
-		</div>
-		<!--End Login End-->
-		<!--Begin Footer Begin-->
-		<div class="btmbg">
-			<div class="btm">
-				备案/许可证编号：蜀ICP备12009302号-1-www.dingguagua.com Copyright © 2015-2018 尤洪商城网 All Rights Reserved.
-				复制必究 ,
-				Technical Support: Dgg Group <br />
-				<img src="../../images/b_1.gif" width="98" height="33" /><img src="../../images/b_2.gif" width="98"
-					height="33" /><img src="../../images/b_3.gif" width="98" height="33" /><img
-					src="../../images/b_4.gif" width="98" height="33" /><img src="../../images/b_5.gif" width="98"
-					height="33" /><img src="../../images/b_6.gif" width="98" height="33" />
-			</div>
-		</div>
-		<!--End Footer End -->
 	</div>
+	<!--End Header End-->
+	<!--Begin Login Begin-->
+	<div class="log_bg">
+		<div class="top">
+			<div class="logo"><a href="pages/index/Index.html"><img src="../../images/logo.png"/></a></div>
+		</div>
+		<div class="login">
+			<div class="log_img"><img src="../../images/l_img.png" width="611" height="425"/></div>
+			<div class="log_c">
+				<!-- <form action="">
+					<table border="0" style="width:370px; font-size:14px; margin-top:30px;" cellspacing="0"
+						cellpadding="0">
+						<tr height="50" valign="top">
+							<td width="55">&nbsp;</td>
+							<td>
+								<span class="fl" style="font-size:24px;">登录</span>
+								<span class="fr">还没有商城账号，<a href="Regist.html"
+										style="color:#ff4e00;">立即注册</a></span>
+							</td>
+						</tr>
+						<tr height="70">
+							<td>用户名</td>
+							<td><input type="text" v-model="user.loginName" class="l_user" /></td>
+						</tr>
+						<tr height="70">
+							<td>密&nbsp; &nbsp; 码</td>
+							<td><input type="password" v-model="user.password" class="l_pwd" /></td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td style="font-size:12px; padding-top:20px;">
+								<span style="font-family:'宋体';" class="fl">
+									<label class="r_rad"><input type="checkbox" /></label><label
+										class="r_txt">请保存我这次的登录信息</label>
+								</span>
+								<span class="fr"><a href="#" style="color:#ff4e00;">忘记密码</a></span>
+							</td>
+						</tr>
+						<tr height="60">
+							<td>&nbsp;</td>
+							<td><input @click.prevent="checkLogin" type="submit" value="登录" class="log_btn" /></td>
+						</tr>
+					</table>
+				</form> -->
+				<table border="0" style="width:370px; font-size:14px; margin-top:30px;" cellspacing="0">
+					<span class="fl" style="font-size:24px;">登录</span>
+
+				</table>
+
+				<el-form :model="user" status-icon :rules="rules" ref="user" label-width="100px"
+						 class="demo-ruleForm" v-cloak style="width: 400px">
+					<el-form-item label="账户" prop="loginName">
+						<el-input prefix-icon="el-icon-user" clearable type="text" v-model.trim="user.loginName"
+								  autocomplete="off">
+						</el-input>
+					</el-form-item>
+					<el-form-item label="密码" prop="password">
+						<el-input prefix-icon="el-icon-unlock" clearable show-password
+								  v-model.trim.number="user.password" autocomplete="off"></el-input>
+					</el-form-item>
+					<el-form-item>
+						<el-checkbox style="float: left">记住密码</el-checkbox>
+						<el-link style="float:right;" :underline="false" icon="">忘记密码?</el-link>
+					</el-form-item>
+					<el-form-item>
+						<!-- <el-button type="primary" style="width: 100%" @click="submitForm('user')">登录</el-button> -->
+						<input @click.prevent="submitForm('user')" type="submit" value="登录" class="log_btn"/>
+
+					</el-form-item>
+					<el-form-item style="float:right;">
+						<el-link @click.prevent="toRegister">注册账号</el-link>
+					</el-form-item>
+				</el-form>
+			</div>
+		</div>
+	</div>
+	<!--End Login End-->
+	<!--Begin Footer Begin-->
+	<div class="btmbg">
+		<div class="btm">
+			备案/许可证编号：蜀ICP备12009302号-1-www.dingguagua.com Copyright © 2015-2018 尤洪商城网 All Rights Reserved.
+			复制必究 ,
+			Technical Support: Dgg Group <br/>
+			<img src="../../images/b_1.gif" width="98" height="33"/><img src="../../images/b_2.gif" width="98"
+																		 height="33"/><img src="../../images/b_3.gif"
+																						   width="98" height="33"/><img
+				src="../../images/b_4.gif" width="98" height="33"/><img src="../../images/b_5.gif" width="98"
+																		height="33"/><img src="../../images/b_6.gif"
+																						  width="98" height="33"/>
+		</div>
+	</div>
+	<!--End Footer End -->
+</div>
 </body>
 
 
@@ -210,10 +212,10 @@
 						const {code} = await checkLogin(this.user);
 						if (code == "500") {
 							this.$message("账户或密码错误")
-						}else{
-							this.$message("登陆成功")
-
+							return;
 						}
+						this.$message("登陆成功")
+						window.location.href = "../index/Index.html";
 					} else {
 						// this.$message.error('error submit!')
 						return false;
@@ -224,7 +226,7 @@
 				this.$refs[formName].resetFields();
 			},
 			toRegister() {
-				window.location.href="Regist.html";
+				window.location.href = "Regist.html";
 			}
 		},
 	})
