@@ -5,16 +5,11 @@ const getCategoryOneList = ()=>{
     return request.post(baseUrl + "/getProductCategoryOne")
 }
 
-const getCategoryTwoList = (id)=>{
-    return request.post(baseUrl+"/getProductCategoryTwo",id)
-}
-
-const getCategoryThreeList = (parentId)=>{
-    return request.post(baseUrl+"/getProductCategoryThree",parentId)
+const getCategoryList = (id)=>{
+    return request.post(baseUrl+"/getCategoryList", {id:id})
 }
 
 export {
     getCategoryOneList,
-    getCategoryTwoList,
-    getCategoryThreeList,
+    getCategoryList,
 }
