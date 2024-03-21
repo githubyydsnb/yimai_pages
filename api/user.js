@@ -41,10 +41,14 @@ const validateCode = () => {
 
     })
 }
+const getUserByMobile = (user)=>{
+    return request.post(baseUrl+"/getUserByMobile",{user:user});
+}
 export {
     checkUser,
     checkLogin,
     addUser,
     sendCode,
     validateCode,
+    getUserByMobile,
 }
