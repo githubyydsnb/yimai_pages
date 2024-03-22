@@ -1,20 +1,78 @@
 import request from "../utils/request.js";
+
 const baseUrl = '/ProductCategory';
 
-const getCategoryOneList = ()=>{
+const getCategoryOneList = () => {
     return request.post(baseUrl + "/getProductCategoryOne")
 }
 
-const getCategoryTwoList = (id)=>{
-    return request.post(baseUrl+"/getProductCategoryTwo",id)
+const getCategoryList = (id) => {
+    return request.post(baseUrl + "/getCategoryList", {id: id})
+}
+const getProductCategoryListByParentId = (id) => {
+    return request.post(baseUrl + "/getProductCategoryListByParentId", {
+        category: {
+            id
+        }
+    })
+}
+const getProductCategoryList = (category, page) => {
+    return request.post(baseUrl + "/getProductCategoryList", {
+        category,
+        page
+    })
+}
+const getSecondIdByChild = (id) => {
+    console.log(id)
+    return request.get(baseUrl + "/getSecondIdByChild", {
+        params: {
+            id: id
+        }
+    })
+}
+const getOneIdByChild = (id) => {
+    return request.get(baseUrl + "/getOneIdByChild", {
+        params: {
+            id: id
+        }
+    })
 }
 
-const getCategoryThreeList = (parentId)=>{
-    return request.post(baseUrl+"/getProductCategoryThree",parentId)
+const getCategoryThreeListByThird = (id) => {
+    return request.get(baseUrl + "/getCategoryThreeListByThird", {
+        params: {
+            id: id
+        }
+    })
 }
 
+const getSecondIdListByChild = (id) => {
+    console.log(id)
+    return request.get(baseUrl + "/getSecondIdListByChild", {
+        params: {
+            id
+        }
+    })
+}
+const getProductCategory = (product) => {
+    console.log(product)
+    return request.post(baseUrl + "/getProductCategory", {
+        category: {name: product.name}
+    })
+}
+
+const getTypeList = () => {
+    return request.get(baseUrl + "/getTypeList")
+}
 export {
     getCategoryOneList,
-    getCategoryTwoList,
-    getCategoryThreeList,
+    getCategoryList,
+    getProductCategoryListByParentId,
+    getProductCategoryList,
+    getSecondIdByChild,
+    getOneIdByChild,
+    getCategoryThreeListByThird,
+    getSecondIdListByChild,
+    getProductCategory,
+    getTypeList
 }
