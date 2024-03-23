@@ -206,159 +206,12 @@
 				<div class="nav_t">全部商品分类</div>
 				<div class="leftNav">
 					<ul>
-						<li>
+						<li v-for="(category,index) in categoryOneList" :key="category.id"  @mouseenter="getParentId(category.id)">
 							<div class="fj">
-								<span class="n_img"><span></span><img src="../../images/nav1.png"/></span>
-								<span class="fl">进口食品、生鲜</span>
-							</div>
-							<div class="zj">
-								<div class="zj_l">
-									<div class="zj_l_c">
-										<h2>零食 / 糖果 / 巧克力</h2>
-										<a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a
-											href="#">牛肉干</a>|<a href="#">巧克力</a>|
-										<a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a
-											href="#">蜜饯</a>|<a href="#">红枣</a>|
-										<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a
-											href="#">蜜饯</a>|
-									</div>
-									<div class="zj_l_c">
-										<h2>零食 / 糖果 / 巧克力</h2>
-										<a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a
-											href="#">牛肉干</a>|<a href="#">巧克力</a>|
-										<a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a
-											href="#">蜜饯</a>|<a href="#">红枣</a>|
-										<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a
-											href="#">蜜饯</a>|
-									</div>
-									<div class="zj_l_c">
-										<h2>零食 / 糖果 / 巧克力</h2>
-										<a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a
-											href="#">牛肉干</a>|<a href="#">巧克力</a>|
-										<a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a
-											href="#">蜜饯</a>|<a href="#">红枣</a>|
-										<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a
-											href="#">蜜饯</a>|
-									</div>
-									<div class="zj_l_c">
-										<h2>零食 / 糖果 / 巧克力</h2>
-										<a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a
-											href="#">牛肉干</a>|<a href="#">巧克力</a>|
-										<a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a
-											href="#">蜜饯</a>|<a href="#">红枣</a>|
-										<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a
-											href="#">蜜饯</a>|
-									</div>
-									<div class="zj_l_c">
-										<h2>零食 / 糖果 / 巧克力</h2>
-										<a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a
-											href="#">牛肉干</a>|<a href="#">巧克力</a>|
-										<a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a
-											href="#">蜜饯</a>|<a href="#">红枣</a>|
-										<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a
-											href="#">蜜饯</a>|
-									</div>
-									<div class="zj_l_c">
-										<h2>零食 / 糖果 / 巧克力</h2>
-										<a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a
-											href="#">牛肉干</a>|<a href="#">巧克力</a>|
-										<a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a
-											href="#">蜜饯</a>|<a href="#">红枣</a>|
-										<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a
-											href="#">蜜饯</a>|
-									</div>
-								</div>
-								<div class="zj_r">
-									<a href="#"><img src="../../images/n_img1.jpg" width="236" height="200"/></a>
-									<a href="#"><img src="../../images/n_img2.jpg" width="236" height="200"/></a>
-								</div>
-							</div>
-						</li>
-						<li>
-							<div class="fj">
-								<span class="n_img"><span></span><img src="../../images/nav2.png"/></span>
-								<span class="fl">食品、饮料、酒</span>
-							</div>
-							<div class="zj" style="top:-40px;">
-								<div class="zj_l">
-									<div class="zj_l_c">
-										<h2>零食 / 糖果 / 巧克力2</h2>
-										<a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a
-											href="#">牛肉干</a>|<a href="#">巧克力</a>|
-										<a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a
-											href="#">蜜饯</a>|<a href="#">红枣</a>|
-										<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a
-											href="#">蜜饯</a>|
-									</div>
-									<div class="zj_l_c">
-										<h2>零食 / 糖果 / 巧克力</h2>
-										<a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a
-											href="#">牛肉干</a>|<a href="#">巧克力</a>|
-										<a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a
-											href="#">蜜饯</a>|<a href="#">红枣</a>|
-										<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a
-											href="#">蜜饯</a>|
-									</div>
-								</div>
-								<div class="zj_r">
-									<a href="#"><img src="../../images/n_img1.jpg" width="236" height="200"/></a>
-									<a href="#"><img src="../../images/n_img2.jpg" width="236" height="200"/></a>
-								</div>
-							</div>
-						</li>
-						<li>
-							<div class="fj">
-								<span class="n_img"><span></span><img src="../../images/nav3.png"/></span>
-								<span class="fl">母婴、玩具、童装</span>
-							</div>
-							<div class="zj" style="top:-80px;">
-								<div class="zj_l">
-									<div class="zj_l_c">
-										<h2>零食 / 糖果 / 巧克力3</h2>
-										<a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a
-											href="#">牛肉干</a>|<a href="#">巧克力</a>|
-										<a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a
-											href="#">蜜饯</a>|<a href="#">红枣</a>|
-										<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a
-											href="#">蜜饯</a>|
-									</div>
-								</div>
-								<div class="zj_r">
-									<a href="#"><img src="../../images/n_img1.jpg" width="236" height="200"/></a>
-									<a href="#"><img src="../../images/n_img2.jpg" width="236" height="200"/></a>
-								</div>
-							</div>
-						</li>
-						<li>
-							<div class="fj">
-								<span class="n_img"><span></span><img src="../../images/nav4.png"/></span>
-								<span class="fl">家居、家庭清洁、纸品</span>
-							</div>
-							<div class="zj" style="top:-120px;">
-								<div class="zj_l">
-									<div class="zj_l_c">
-										<h2>零食 / 糖果 / 巧克力4</h2>
-										<a href="#">坚果</a>|<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a
-											href="#">牛肉干</a>|<a href="#">巧克力</a>|
-										<a href="#">口香糖</a>|<a href="#">海苔</a>|<a href="#">鱼干</a>|<a
-											href="#">蜜饯</a>|<a href="#">红枣</a>|
-										<a href="#">蜜饯</a>|<a href="#">红枣</a>|<a href="#">牛肉干</a>|<a
-											href="#">蜜饯</a>|
-									</div>
-								</div>
-								<div class="zj_r">
-									<a href="#"><img src="../../images/n_img1.jpg" width="236" height="200"/></a>
-									<a href="#"><img src="../../images/n_img2.jpg" width="236" height="200"/></a>
-								</div>
-							</div>
-						</li>
-						<li v-for="(category,index) in categoryOneList" :key="category.id"
-							@mouseenter="getParentId(category.id)">
-							<div class="fj">
-								<span class="n_img"><span></span><img src="../../images/nav5.png"/></span>
+								<span class="n_img"><span></span><img src="../../images/nav5.png" /></span>
 								<span class="fl">{{category.name}}</span>
 							</div><!-- style="top:-160px;" -->
-							<div class="zj" v-for="(cateTwo,index) in categoryTwoList" :key="cateTwo.id">
+							<div class="zj" v-for="(cateTwo,index) in categoryTwoList" :key="cateTwo.id" >
 								<div class="zj_l">
 									<div class="zj_l_c">
 										<h2>{{cateTwo.name}}</h2>
@@ -366,13 +219,11 @@
 									</div>
 								</div>
 								<div class="zj_r">
-									<a href="#"><img src="../../images/n_img1.jpg" width="236" height="200"/></a>
-									<a href="#"><img src="../../images/n_img2.jpg" width="236" height="200"/></a>
+									<a href="#"><img src="../../images/n_img1.jpg" width="236" height="200" /></a>
+									<a href="#"><img src="../../images/n_img2.jpg" width="236" height="200" /></a>
 								</div>
 							</div>
 						</li>
-
-
 					</ul>
 				</div>
 			</div>
@@ -419,14 +270,14 @@
 			<!--End Banner End-->
 			<div class="inews">
 				<div class="news_t">
-					<span class="fr"><a href="#">更多 ></a></span>新闻资讯
+					<span class="fr"><a :href="'/yimai/member/Member_NewsList.html'">更多 ></a></span>新闻资讯
 				</div>
 				<ul>
-					<li><span>[ 特惠 ]</span><a href="#">掬一轮明月 表无尽惦念</a></li>
-					<li><span>[ 公告 ]</span><a href="#">好奇金装成长裤新品上市</a></li>
-					<li><span>[ 特惠 ]</span><a href="#">大牌闪购 · 抢！</a></li>
-					<li><span>[ 公告 ]</span><a href="#">发福利 买车就抢千元油卡</a></li>
-					<li><span>[ 公告 ]</span><a href="#">家电低至五折</a></li>
+					<li v-for="(news,index) in newsList" :key="news.id">
+						<span v-if="index % 2==0">[ 特惠 ]</span>
+						<span v-else>[ 公告 ]</span>
+						<a  :href="'/yimai/member/Member_NewsContent.html?id='+news.id">{{news.title}}</a>
+					</li>
 				</ul>
 				<div class="charge_t">
 					话费充值
@@ -436,23 +287,23 @@
 					<table border="0" style="width:205px; margin-top:10px;" cellspacing="0" cellpadding="0">
 						<tr height="35">
 							<td width="33">号码</td>
-							<td><input type="text" value="" class="c_ipt"/></td>
+							<td><input type="text" v-model="user.mobile" class="c_ipt" @blur="getMobile"/></td>
 						</tr>
 						<tr height="35">
 							<td>面值</td>
 							<td>
-								<select class="jj" name="city">
-									<option value="0" selected="selected">100元</option>
-									<option value="1">50元</option>
-									<option value="2">30元</option>
-									<option value="3">20元</option>
-									<option value="4">10元</option>
+								<select name="city" v-model="amount">
+									<option value="100" selected="selected">100元</option>
+									<option value="50">50元</option>
+									<option value="30">30元</option>
+									<option value="20">20元</option>
+									<option value="10">10元</option>
 								</select>
-								<span style="color:#ff4e00; font-size:14px;">￥99.5</span>
+								<span style="color:#ff4e00; font-size:14px;">{{user.balance}}</span><!-- style="color:#ff4e00; font-size:14px;"-->
 							</td>
 						</tr>
 						<tr height="35">
-							<td colspan="2"><input type="submit" value="立即充值" class="c_btn"/></td>
+							<td colspan="2"><input type="button" value="立即充值" @click="balance" class="c_btn"/></td>
 						</tr>
 					</table>
 				</form>
@@ -1212,16 +1063,81 @@
 
 </body>
 <script type="module">
-	import {getCategoryOneList,} from '../../api/category.js';
+	import {getCategoryOneList, getCategoryList} from '../../api/category.js';
 	import {getProductList, getProductHotList} from '../../api/product.js';
 	import {getShopCarList} from '../../api/shoppingCar.js';
+	import {getUserByMobile} from '../../api/user.js';
+	import  {getNewsList} from '../../api/news.js';
 
 	const vm = new Vue({
 		el: "#root",
 		data() {
 			return {
+				categoryOneList: [
+					{
+						"id": 548,
+						"name": "化妆品",
+						"parentId": 0,
+						"type": 1,
+						"iconClass": "",
+						"isDel": 0,
+						"createTime": "2024-03-17 19:13:42"
+					},
+					{
+						"id": 628,
+						"name": "家用商品",
+						"parentId": 0,
+						"type": 1,
+						"iconClass": "",
+						"isDel": 0,
+						"createTime": "2024-03-17 19:13:42"
+					},
+					{
+						"id": 660,
+						"name": "进口食品,生鲜",
+						"parentId": 0,
+						"type": 1,
+						"iconClass": "",
+						"isDel": 0,
+						"createTime": "2024-03-17 19:13:42"
+					},
+					{
+						"id": 670,
+						"name": "电子商品",
+						"parentId": 0,
+						"type": 1,
+						"iconClass": "",
+						"isDel": 0,
+						"createTime": "2024-03-17 19:13:42"
+					},
+					{
+						"id": 676,
+						"name": "保健食品",
+						"parentId": 0,
+						"type": 1,
+						"iconClass": "",
+						"isDel": 0,
+						"createTime": "2024-03-17 19:13:42"
+					},
+					{
+						"id": 681,
+						"name": "箱包",
+						"parentId": 0,
+						"type": 1,
+						"iconClass": "",
+						"isDel": 0,
+						"createTime": "2024-03-17 19:13:42"
+					}
+				],
+				// categoryOneList: [],
+				categoryTwoList: [],
+				categoryThreeList: [],
+				page:{},
+				newsList:[],
+				news:{},
 				cars: [],
-				user: {id: 21},
+				user: {id: 21,balance:"",mobile:""},
+				amount:"10",
 				products1: [],
 				products2: [],
 				products3: [],
@@ -1229,18 +1145,13 @@
 				products5: [],
 				products6: [],
 				productHotList: [],
-				categoryOneList: [],
-				categoryTwoList: [],
-				categoryThreeList: [],
 				productKeyWord: {
 					name: '',
 				},
 				product:{
 					categoryLevelId:1,
 				},
-				page:{
 
-				}
 
 			}
 		},
@@ -1263,25 +1174,25 @@
 				this.categoryOneList = repsonse.data
 				console.log(this.categoryOneList);
 			},
-			async getParentId(id) {
-				await this.getCategoryTwoList(id);
+			getParentId(id){
+				this.getCategoryList(id);
 			},
 			getPicPathById(id) {
 				return "http://localhost:5173/nginx/product/downloadProductImg?id=" + id;
 			},
-			// async getCategoryTwoList(id) {
-			// 	let repsonse = await getCategoryTwoList(id);
-			// 	this.categoryTwoList = repsonse.data
-			// 	if (this.categoryTwoList.length > 0) {
-			// 		await this.getCategoryThreeList(this.categoryThreeList[0].parentId);
-			// 	}
-			// 	console.log(this.categoryTwoList);
-			// },
-			// async getCategoryThreeList(parentId) {
-			// 	let repsonse = await getCategoryThreeList(parentId);
-			// 	this.categoryThreeList = repsonse.data
-			// 	console.log(this.categoryThreeList);
-			// },
+			async getCategoryList(id){
+				let repsonse = await getCategoryList(id);
+				this.categoryTwoList = repsonse.data;
+				if(this.categoryTwoList.length>0){
+					this.getCategoryList2(this.categoryTwoList[0].id);
+				}
+				console.log(this.categoryTwoList);
+			},
+			async getCategoryList2(id){
+				let repsonse = await getCategoryList(id);
+				this.categoryThreeList = repsonse.data;
+				console.log(this.categoryThreeList);
+			},
 			async getProductList1() {
 				this.product.categoryLevelId=733
 				const {data} = await getProductList(this.product,this.page);
@@ -1322,10 +1233,52 @@
 			async getShopCarList() {
 				const {data} = await getShopCarList(this.user.id);
 				this.cars = data;
+			},
+			getMobile(){
+				this.getUserByMobile(this.user);
+			},
+			async getUserByMobile(user){
+				const regMobile = /^1[3-9][0-9]{9}$/;
+				if(user.mobile==null||user.mobile==""){
+					alert("话费充值请输入需要充值的手机号");
+					return;
+				}
+				if(!regMobile.test(user.mobile)){
+					alert("请输入正确的十一位数字的手机号！");
+					return;
+				}
+				const response = await  getUserByMobile(user);
+				if(response.code=="200"){
+					this.user = response.data;
+				}else{
+					alert(response.msg);
+					return ;
+				}
+			},
+			balance(){
+				this.getUserByMobile(this.user);
+				this.userBalance(this.user,this.amount);
+			},
+			async userBalance(user,amount){
+				if(amount<1){
+					alert("请选择充值金额！");
+					return;
+				}
+				window.location.href="http://localhost:8080/alipay/createOrder?mobile="+user.mobile+"&balanceStr="+amount;
+				// const repsonse = await userBalance(user);
+				// alert(repsonse.msg);
+			},
+			async getNewsListBy(currPageNo){
+				this.page.currPageNo = currPageNo;
+				let response = await getNewsList(this.page,this.news);
+				console.log(response);
+				this.newsList = response.data.newsList;
+				this.page = response.data.page;
 			}
 		},
 		mounted() {
 			this.getCategoryOneList();
+			this.getNewsListBy(1);
 			this.getProductList1();
 			this.getProductList2();
 			this.getProductList3();

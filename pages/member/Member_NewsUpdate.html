@@ -138,8 +138,8 @@
         <div class="m_logo"><a href="../index/Index.html"><img src="../../images/logo1.png" /></a></div>
         <div class="m_search">
             <form>
-                <input type="text" v-model="news.title" class="m_ipt" />
-                <input type="button" @click="searchBy" value="搜索" class="m_btn" />
+                <input type="text" value="" class="m_ipt" />
+                <input type="submit" value="搜索" class="m_btn" />
             </form>                      
             <span class="fl"><a href="#">咖啡</a><a href="#">iphone 6S</a><a href="#">新鲜美食</a><a href="#">蛋糕</a><a href="#">日用品</a><a href="#">连衣裙</a></span>
         </div>
@@ -207,40 +207,27 @@
                 </ul>
             </div>
             <div class="left_m">
-            	<div class="left_m_t t_bg4">资讯中心</div>
+                <div class="left_m_t t_bg4">资讯中心</div>
                 <ul>
-                	<li><a href="Member_NewsList.html">资讯列表</a></li>
+                    <li><a href="Member_NewsList.html">资讯列表</a></li>
                     <li><a href="Member_NewsAdd.html">添加资讯</a></li>
                 </ul>
             </div>
         </div>
 		<div class="m_right">
             <p></p>
-            <div class="mem_tit" ><h3>资讯列表</h3></div>
-            <input type="button" @click="add" value="添加" style=" margin: 10px;margin-left:900px"/>
-            <table border="0" class="order_tab" style="width:930px; text-align:center; margin-bottom:30px;" cellspacing="0" cellpadding="0">
-              <tr>                                                                                                                                                    
-                <td width="40%">文章标题</td>
-                <td width="40%">创建时间</td>
-                <td width="20%" colspan="2">操作</td>
-              </tr>
-              <tr v-for="(news,index) in newsList" :key="news.id">
-                <td><a  :href="'Member_NewsContent.html?id='+news.id"><font color="#ff4e00">{{news.title}}</font></a></td>
-                <td>{{news.createTime}}</td>
-                  <td ><a :href="'Member_NewsUpdate.html?id='+news.id">修改</a></td>
-                  <td ><a href="javascript:void(0)" @click="del(news.id)" >删除</a></td>
-              </tr>
-            </table>
-            <div class="pages">
-                <a href="javascript:void(0)" @click="previous" v-if="page.currPageNo>1" class="p_pre">上一页</a>
-                <a href="javascript:void(0)" @click="getNewsListBy(1)" class="cur">1</a>
-                <a href="javascript:void(0)" @click="getNewsListBy(2)" v-if="page.totalPage>=2">2</a>
-<!--                <a href="javascript:void(0)" v-else>2</a>-->
-                <a href="javascript:void(0)" @click="getNewsListBy(3)" v-if="page.totalPage>=3">3</a>
-                <a href="javascript:void(0)" @click="next" v-if="page.currPageNo<page.totalPage" class="p_pre">下一页</a>
-                <a href="javascript:void(0)" @click="last" class="cur">尾页</a>
+            <div style="{margin: 100px;margin-top: 60px;width: 770px;height: 700px;word-break: break-all;word-wrap: break-word;overflow: hidden}">
+                <p></p>
+                <form >
+                标题：<input type="text" v-model.trim="news.title" @blur="titleCheck"/><span>{{msg.title}}</span><br/>
+                内容：<textarea rows="20px" cols="80px" @blur="contentCheck" v-model.trim="news.content"></textarea>
+                    <span>{{msg.content}}</span><br/>
+<!--                <p>{{news.title}}</p>-->
+<!--                &lt;!&ndash;{{news.content}}&ndash;&gt;<div v-html="news.content"></div>-->
+                    <input type="button" @click="update" value="修改"/>
+                    <input type="button" @click="back" value="返回"/>
+                </form>
             </div>
-            
         </div>
     </div>
 	<!--End 用户中心 End--> 
@@ -330,54 +317,72 @@
 </div>
 </body>
 <script type="module">
-    import  {getNewsList,delNewsById} from '../../api/news.js';
+    import  {getNewsById,updateNews} from '../../api/news.js';
+    let params = window.location.search.split("=");
+    let id = params[1];
+
     const vm = new Vue({
         el:"#root",
         data(){
             return{
-                newsList:[],
-                page:{},
-                news:{}
+                news:{},
+                msg: {
+                    content:"",
+                    title:""
+                }
             }
         },
-        mounted:function (){
-            this.getNewsListBy(1);
+        mounted:function(){
+            this.getById(id);
         },
         methods:{
-            async getNewsListBy(currPageNo){
-                this.page.currPageNo = currPageNo;
-                let response = await getNewsList(this.page,this.news);
+            async getById(id){
+                let response = await getNewsById(id);
                 console.log(response);
-                this.newsList = response.data.newsList;
-                this.page = response.data.page;
+                this.news = response.data;
             },
-            previous(){
-                this.getNewsListBy(this.page.currPageNo-1);
+            titleCheck(){
+                let msg =this.msg;
+                let news = this.news;
+                msg.title = "";
+                if(news.title==null||news.title==''){
+                    msg.title = "标题不能为空！";
+                    return false;
+                }
+                if(news.title.length>30){
+                    msg.title = "标题不能超过30字符！";
+                    return false;
+                }
+                return true;
             },
-            next(){
-                this.getNewsListBy(this.page.currPageNo+1);
+            contentCheck(){
+                let msg =this.msg;
+                let news = this.news;
+                msg.content="";
+                if(news.content==null||news.content==''){
+                    msg.content="内容不能为空！";
+                    return false;
+                }
+                if(news.title.length>300){
+                    msg.content="内容不能超过300字符！";
+                    return false;
+                }
+                return true;
             },
-            last(){
-                this.getNewsListBy(this.page.totalPage);
-            },
-            searchBy(){
-                this.getNewsListBy(1);
-            },
-            del(id){
-                if(confirm("是否确认删除？")) {
-                    this.delNewsById(id);
+            update(){
+                if(this.contentCheck()&&this.titleCheck()){
+                    this.updateNews(this.news);
                 }
             },
-            async delNewsById(id){
-                let response = await delNewsById(id);
+            async updateNews(news){
+                let response = await updateNews(news);
+                console.log(response);
                 if(response.code=="200"){
-                    this.getNewsListBy(1);
-                }else{
-                    alert(response.msg);
+                    window.location.href="Member_NewsList.html";
                 }
             },
-            add(){
-                window.location.href="Member_NewsAdd.html";
+            back(){
+                window.location.href="Member_NewsList.html";
             }
         }
     })

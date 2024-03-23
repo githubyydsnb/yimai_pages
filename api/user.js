@@ -18,12 +18,7 @@ const checkLogin = (user) => {
 
 const addUser = (user) => {
     return request.post(baseUrl + "/addUser", {
-        user: {
-            loginName: user.loginName,
-            password: user.password,
-            email: user.email,
-            mobile: user.mobile,
-        }
+        user: user
     });
 }
 const sendCode = (email) => {
@@ -41,10 +36,34 @@ const validateCode = () => {
 
     })
 }
+const getUserByMobile = (user)=>{
+    return request.post(baseUrl+"/getUserByMobile",{user:user});
+}
+const getUserList = (page,user) => {
+    return request.post(baseUrl+"/getUserList",{user:user,page:page});
+}
+const getUserLogin = () =>{
+    return request.post(baseUrl+"/getUserLogin");
+}
+const delUserById =(id) =>{
+    return request.post(baseUrl+"/delUserById",{id:id});
+}
+const getUserById = (user) =>{
+    return request.post(baseUrl+"/getUserById",{user:user});
+}
+const updateUser = (user) =>{
+    return request.post(baseUrl + "/updateUser",{user:user});
+}
 export {
     checkUser,
     checkLogin,
     addUser,
     sendCode,
     validateCode,
+    getUserByMobile,
+    getUserList,
+    getUserLogin,
+    delUserById,
+    getUserById,
+    updateUser,
 }
