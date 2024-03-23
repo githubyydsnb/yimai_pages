@@ -227,7 +227,7 @@
             <el-form :model="user" status-icon :rules="rules" ref="user" label-width="100px"
                      class="demo-ruleForm" v-cloak style="width: 400px">
                 <el-form-item label="用户名" prop="loginName">
-                    <el-input prefix-icon="el-icon-user" clearable type="text" v-model.trim="user.loginName"
+                    <el-input disabled prefix-icon="el-icon-user" clearable type="text" v-model.trim="user.loginName"
                               autocomplete="off">
                     </el-input>
                 </el-form-item>
@@ -240,12 +240,12 @@
                     <el-input prefix-icon="el-icon-unlock" clearable show-password
                               v-model.trim="user.password" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="确认密码" prop="confirmPass">
+                <el-form-item label="新密码" prop="confirmPass">
                     <el-input prefix-icon="el-icon-unlock" clearable show-password
                               v-model.trim="user.confirmPass" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="身份证号" prop="identityCode">
-                    <el-input prefix-icon="el-icon-unlock" clearable show-password
+                    <el-input prefix-icon="el-icon-unlock" clearable
                               v-model.trim="user.identityCode" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
@@ -364,7 +364,7 @@
 </div>
 </body>
 <script type="module">
-    import {getUserById,updateUser,checkUser,getUserByMobile} from "../../api/user.js";
+    import {getUserById,updateUser} from "../../api/user.js";
     import {getRoleList} from "../../api/role.js";
     let params = window.location.search.split("=");
     let id = params[1];
@@ -438,8 +438,8 @@
                     callback(new Error('请再次输入密码'));
                 } else if (value.length < 3 || value.length > 6) {
                     callback(new Error('请输入3-6位密码'));
-                } else if (value != vm.user.password) {
-                    callback(new Error('请输入一致密码'));
+                } else if (value == vm.user.password) {
+                    callback(new Error('不能和原密码相同'));
                 } else {
                     this.confirmPassFlag = true;
                     callback();
@@ -457,16 +457,15 @@
             };
             var validateMobile = (rule, value, callback) => {
                 const regMobile = /^1[3-9][0-9]{9}$/;
-                if (!regMobile.test(value)) {
-                    callback(new Error("请输入合法的手机号"));
-                    return;
+                if (regMobile.test(value)) {
+                    this.mobileFlag = true;
+                    return callback();
                 }
-                if(this.checkMobile(this.user)!=null){
-                    callback(new Error("该手机号已经被注册！"));
-                    return;
-                }
-                this.mobileFlag = true;
-                return callback();
+				if(this.checkMobile(this.user)!=null){
+					callback(new Error("该手机号已经被注册！"));
+					return;
+				}
+                callback(new Error("请输入合法的手机号"));
             };
             var validateRoleId = (rule, value, callback) => {
                 if (value>0) {
@@ -589,13 +588,10 @@
                 let response = await getRoleList();
                 this.roleList = response.data;
             },
-            async checkMobile(user){
-                let response = await getUserByMobile(user);
-                return response.data;
-            },
             submitForm(formName) {
                 this.$refs[formName].validate(async (valid) => {
                     if (valid ) {
+						this.user.password=this.user.confirmPass;
                         this.$delete(this.user,'confirmPass');
                         const {code} = (await updateUser(this.user));
                         if (code == "200") {
@@ -623,7 +619,11 @@
             async getUserById(user){
                 let response = await getUserById(user);
                 this.user=response.data;
-            }
+            },
+			async checkMobile(user){
+				let response = await getUserByMobile(user);
+				return response.data;
+			},
 
         }
     })

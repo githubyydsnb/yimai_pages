@@ -29,6 +29,11 @@
 
 	<script type="text/javascript" src="../../js/vue.js"></script>
 
+	<!-- 引入样式 -->
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<!-- 引入组件库 -->
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script type="text/javascript" src="../../js/n_nav.js"></script>
 	<title>尤洪</title>
 </head>
 <body>
@@ -206,12 +211,13 @@
 				<div class="nav_t">全部商品分类</div>
 				<div class="leftNav">
 					<ul>
-						<li v-for="(category,index) in categoryOneList" :key="category.id"  @mouseenter="getParentId(category.id)">
+						<li v-for="(category,index) in categoryOneList" :key="category.id"
+							@mouseenter="getParentId(category.id)">
 							<div class="fj">
-								<span class="n_img"><span></span><img src="../../images/nav5.png" /></span>
+								<span class="n_img"><span></span><img src="../../images/nav5.png"/></span>
 								<span class="fl">{{category.name}}</span>
 							</div><!-- style="top:-160px;" -->
-							<div class="zj" v-for="(cateTwo,index) in categoryTwoList" :key="cateTwo.id" >
+							<div class="zj" v-for="(cateTwo,index) in categoryTwoList" :key="cateTwo.id">
 								<div class="zj_l">
 									<div class="zj_l_c">
 										<h2>{{cateTwo.name}}</h2>
@@ -219,8 +225,8 @@
 									</div>
 								</div>
 								<div class="zj_r">
-									<a href="#"><img src="../../images/n_img1.jpg" width="236" height="200" /></a>
-									<a href="#"><img src="../../images/n_img2.jpg" width="236" height="200" /></a>
+									<a href="#"><img src="../../images/n_img1.jpg" width="236" height="200"/></a>
+									<a href="#"><img src="../../images/n_img2.jpg" width="236" height="200"/></a>
 								</div>
 							</div>
 						</li>
@@ -276,7 +282,7 @@
 					<li v-for="(news,index) in newsList" :key="news.id">
 						<span v-if="index % 2==0">[ 特惠 ]</span>
 						<span v-else>[ 公告 ]</span>
-						<a  :href="'/yimai/member/Member_NewsContent.html?id='+news.id">{{news.title}}</a>
+						<a :href="'/yimai/member/Member_NewsContent.html?id='+news.id">{{news.title}}</a>
 					</li>
 				</ul>
 				<div class="charge_t">
@@ -299,7 +305,8 @@
 									<option value="20">20元</option>
 									<option value="10">10元</option>
 								</select>
-								<span style="color:#ff4e00; font-size:14px;">{{user.balance}}</span><!-- style="color:#ff4e00; font-size:14px;"-->
+								<span style="color:#ff4e00; font-size:14px;">{{user.balance}}</span>
+								<!-- style="color:#ff4e00; font-size:14px;"-->
 							</td>
 						</tr>
 						<tr height="35">
@@ -519,46 +526,7 @@
 														  height="155"/></a>
 						</div>
 					</li>
-					<!--					<li>-->
-					<!--						<div class="name"><a href="#">新鲜美味 进口美食</a></div>-->
-					<!--						<div class="price">-->
-					<!--							<font>￥<span>198.00</span></font> &nbsp; 26R-->
-					<!--						</div>-->
-					<!--						<div class="img"><a href="#"><img src="../../images/fre_2.jpg" width="185" height="155"/></a>-->
-					<!--						</div>-->
-					<!--					</li>-->
-					<!--					<li>-->
-					<!--						<div class="name"><a href="#">新鲜美味 进口美食</a></div>-->
-					<!--						<div class="price">-->
-					<!--							<font>￥<span>198.00</span></font> &nbsp; 26R-->
-					<!--						</div>-->
-					<!--						<div class="img"><a href="#"><img src="../../images/fre_3.jpg" width="185" height="155"/></a>-->
-					<!--						</div>-->
-					<!--					</li>-->
-					<!--					<li>-->
-					<!--						<div class="name"><a href="#">新鲜美味 进口美食</a></div>-->
-					<!--						<div class="price">-->
-					<!--							<font>￥<span>198.00</span></font> &nbsp; 26R-->
-					<!--						</div>-->
-					<!--						<div class="img"><a href="#"><img src="../../images/fre_4.jpg" width="185" height="155"/></a>-->
-					<!--						</div>-->
-					<!--					</li>-->
-					<!--					<li>-->
-					<!--						<div class="name"><a href="#">新鲜美味 进口美食</a></div>-->
-					<!--						<div class="price">-->
-					<!--							<font>￥<span>198.00</span></font> &nbsp; 26R-->
-					<!--						</div>-->
-					<!--						<div class="img"><a href="#"><img src="../../images/fre_5.jpg" width="185" height="155"/></a>-->
-					<!--						</div>-->
-					<!--					</li>-->
-					<!--					<li>-->
-					<!--						<div class="name"><a href="#">新鲜美味 进口美食</a></div>-->
-					<!--						<div class="price">-->
-					<!--							<font>￥<span>198.00</span></font> &nbsp; 26R-->
-					<!--						</div>-->
-					<!--						<div class="img"><a href="#"><img src="../../images/fre_6.jpg" width="185" height="155"/></a>-->
-					<!--						</div>-->
-					<!--					</li>-->
+
 				</ul>
 			</div>
 			<div class="fresh_right">
@@ -659,46 +627,7 @@
 														  height="155"/></a>
 						</div>
 					</li>
-					<!--					<li>-->
-					<!--						<div class="name"><a href="#">美宝莲粉饼</a></div>-->
-					<!--						<div class="price">-->
-					<!--							<font>￥<span>260.00</span></font> &nbsp; 16R-->
-					<!--						</div>-->
-					<!--						<div class="img"><a href="#"><img src="../../images/make_2.jpg" width="185" height="155"/></a>-->
-					<!--						</div>-->
-					<!--					</li>-->
-					<!--					<li>-->
-					<!--						<div class="name"><a href="#">美宝莲粉饼</a></div>-->
-					<!--						<div class="price">-->
-					<!--							<font>￥<span>260.00</span></font> &nbsp; 16R-->
-					<!--						</div>-->
-					<!--						<div class="img"><a href="#"><img src="../../images/make_3.jpg" width="185" height="155"/></a>-->
-					<!--						</div>-->
-					<!--					</li>-->
-					<!--					<li>-->
-					<!--						<div class="name"><a href="#">美宝莲粉饼</a></div>-->
-					<!--						<div class="price">-->
-					<!--							<font>￥<span>260.00</span></font> &nbsp; 16R-->
-					<!--						</div>-->
-					<!--						<div class="img"><a href="#"><img src="../../images/make_4.jpg" width="185" height="155"/></a>-->
-					<!--						</div>-->
-					<!--					</li>-->
-					<!--					<li>-->
-					<!--						<div class="name"><a href="#">美宝莲粉饼</a></div>-->
-					<!--						<div class="price">-->
-					<!--							<font>￥<span>260.00</span></font> &nbsp; 16R-->
-					<!--						</div>-->
-					<!--						<div class="img"><a href="#"><img src="../../images/make_5.jpg" width="185" height="155"/></a>-->
-					<!--						</div>-->
-					<!--					</li>-->
-					<!--					<li>-->
-					<!--						<div class="name"><a href="#">美宝莲粉饼</a></div>-->
-					<!--						<div class="price">-->
-					<!--							<font>￥<span>260.00</span></font> &nbsp; 16R-->
-					<!--						</div>-->
-					<!--						<div class="img"><a href="#"><img src="../../images/make_6.jpg" width="185" height="155"/></a>-->
-					<!--						</div>-->
-					<!--					</li>-->
+
 				</ul>
 			</div>
 			<div class="fresh_right">
@@ -1067,7 +996,7 @@
 	import {getProductList, getProductHotList} from '../../api/product.js';
 	import {getShopCarList} from '../../api/shoppingCar.js';
 	import {getUserByMobile} from '../../api/user.js';
-	import  {getNewsList} from '../../api/news.js';
+	import {getNewsList} from '../../api/news.js';
 
 	const vm = new Vue({
 		el: "#root",
@@ -1127,17 +1056,29 @@
 						"iconClass": "",
 						"isDel": 0,
 						"createTime": "2024-03-17 19:13:42"
+					},
+					{
+						"id": 681,
+						"name": "箱包",
+						"parentId": 0,
+						"type": 1,
+						"iconClass": "",
+						"isDel": 0,
+						"createTime": "2024-03-17 19:13:42"
 					}
 				],
 				// categoryOneList: [],
 				categoryTwoList: [],
 				categoryThreeList: [],
-				page:{},
-				newsList:[],
-				news:{},
+				page: {},
+				newsList: [],
+				news: {},
 				cars: [],
-				user: {id: 21,balance:"",mobile:""},
-				amount:"10",
+				shopCar: {
+					userId: 21,
+				},
+				user: {id: 21, balance: "", mobile: ""},
+				amount: "10",
 				products1: [],
 				products2: [],
 				products3: [],
@@ -1147,7 +1088,12 @@
 				productHotList: [],
 				productKeyWord: {
 					name: '',
-				}
+				},
+				product: {
+					categoryLevelId: 1,
+				},
+
+
 			}
 		},
 		computed: {
@@ -1167,100 +1113,118 @@
 			async getCategoryOneList() {
 				let repsonse = await getCategoryOneList();
 				this.categoryOneList = repsonse.data
-				console.log(this.categoryOneList);
+				for (let i = 0; i < this.categoryOneList.length; i++) {
+					let temp =
+							{
+								"id": this.categoryOneList[i].id,
+								"name": this.categoryOneList[i].name,
+								"parentId": this.categoryOneList[i].parentId,
+								"type": this.categoryOneList[i].type,
+								"iconClass": this.categoryOneList[i].iconClass,
+								"isDel": this.categoryOneList[i].isDel,
+								"createTime": this.categoryOneList[i].createTime
+							}
+					this.categoryOneList[i] = temp;
+				}
 			},
-			getParentId(id){
+			getParentId(id) {
 				this.getCategoryList(id);
 			},
 			getPicPathById(id) {
 				return "http://localhost:5173/nginx/product/downloadProductImg?id=" + id;
 			},
-			async getCategoryList(id){
+			async getCategoryList(id) {
 				let repsonse = await getCategoryList(id);
 				this.categoryTwoList = repsonse.data;
-				if(this.categoryTwoList.length>0){
+				if (this.categoryTwoList.length > 0) {
 					this.getCategoryList2(this.categoryTwoList[0].id);
 				}
-				console.log(this.categoryTwoList);
 			},
-			async getCategoryList2(id){
+			async getCategoryList2(id) {
 				let repsonse = await getCategoryList(id);
 				this.categoryThreeList = repsonse.data;
-				console.log(this.categoryThreeList);
 			},
 			async getProductList1() {
-				const {data} = await getProductList(733);
-				this.products1 = data;
+				this.product.categoryLevelId = 733
+				const {data} = await getProductList(this.product, this.page);
+				this.products1 = data.productList;
 
 			},
 			async getProductList2() {
-				const {data} = await getProductList(655);
-				this.products2 = data;
+				this.product.categoryLevelId = 662
+				const {data} = await getProductList(this.product, this.page);
+				this.products2 = data.productList;
 
 			},
 			async getProductList3() {
-				const {data} = await getProductList(688);
-				this.products3 = data;
+				this.product.categoryLevelId = 688
+				const {data} = await getProductList(this.product, this.page);
+				this.products3 = data.productList;
 			},
 			async getProductList4() {
-				const {data} = await getProductList(659);
-				this.products4 = data;
+				this.product.categoryLevelId = 673
+				const {data} = await getProductList(this.product, this.page);
+				this.products4 = data.productList;
 
 			},
 			async getProductList5() {
-				const {data} = await getProductList(672);
-				this.products5 = data;
+				this.product.categoryLevelId = 672
+				const {data} = await getProductList(this.product, this.page);
+				this.products5 = data.productList;
 			},
 			async getProductList6() {
-				const {data} = await getProductList(691);
-				this.products6 = data;
+				this.product.categoryLevelId = 691
+				const {data} = await getProductList(this.product, this.page);
+				this.products6 = data.productList;
 			},
 			async getProductHotList() {
 				const {data} = await getProductHotList();
 				this.productHotList = data;
 			},
 			async getShopCarList() {
-				const {data} = await getShopCarList(this.user.id);
+				const {data} = await getShopCarList(this.shopCar);
 				this.cars = data;
 			},
-			getMobile(){
+			getMobile() {
 				this.getUserByMobile(this.user);
 			},
-			async getUserByMobile(user){
+			async getUserByMobile(user) {
 				const regMobile = /^1[3-9][0-9]{9}$/;
-				if(user.mobile==null||user.mobile==""){
-					alert("话费充值请输入需要充值的手机号");
-					return;
+				if (user.mobile == null || user.mobile == "") {
+					this.$message.error("话费充值请输入需要充值的手机号")
+					return false;
 				}
-				if(!regMobile.test(user.mobile)){
-					alert("请输入正确的十一位数字的手机号！");
-					return;
+				if (!regMobile.test(user.mobile)) {
+					this.$message.error("请输入正确的十一位数字的手机号！")
+					return false;
 				}
-				const response = await  getUserByMobile(user);
-				if(response.code=="200"){
+				const response = await getUserByMobile(user);
+				if (response.code == "200") {
 					this.user = response.data;
-				}else{
-					alert(response.msg);
-					return ;
+					return true;
 				}
+				this.$message.error(response.msg)
+				// alert(response.msg);
+				return false;
+
+
 			},
-			balance(){
-				this.getUserByMobile(this.user);
-				this.userBalance(this.user,this.amount);
-			},
-			async userBalance(user,amount){
-				if(amount<1){
-					alert("请选择充值金额！");
+			async balance() {
+				if (!await this.getUserByMobile(this.user)) {
 					return;
 				}
-				window.location.href="http://localhost:8080/alipay/createOrder?mobile="+user.mobile+"&balanceStr="+amount;
-				// const repsonse = await userBalance(user);
-				// alert(repsonse.msg);
+				this.userBalance(this.user, this.amount);
 			},
-			async getNewsListBy(currPageNo){
+			async userBalance(user, amount) {
+				if (amount < 1) {
+					this.$message.error("请选择充值金额！")
+					return false;
+				}
+				window.location.href = "http://localhost:8080/alipay/createOrder?mobile=" + user.mobile + "&balanceStr=" + amount;
+			},
+			async getNewsListBy(currPageNo) {
 				this.page.currPageNo = currPageNo;
-				let response = await getNewsList(this.page,this.news);
-				console.log(response);
+				let response = await getNewsList(this.page, this.news);
 				this.newsList = response.data.newsList;
 				this.page = response.data.page;
 			}

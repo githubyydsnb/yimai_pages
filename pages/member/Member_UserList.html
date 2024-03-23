@@ -137,7 +137,7 @@
         <div class="top">
             <div class="m_logo"><a href="../index/Index.html"><img src="../../images/logo1.png" /></a></div>
             <select style="margin-top: 100px;margin-left: -391px" v-model="user.roleId">
-                <option value="0">请选择</option>
+                <option value="0">全部</option>
                 <option autocomplete="off" :value="role.id" v-for="(role,index) in roleList" :key="role.id">{{role.roleName}}</option>
             </select>
             <div class="m_search">
@@ -221,7 +221,7 @@
 		<div class="m_right">
             <p></p>
             <div class="mem_tit" ><h3>用户列表</h3></div>
-            <input type="button" :href="'Member_UserAdd.html'" style=" margin: 10px;margin-left:880px" value="添加用户">
+            <a type="button" :href="'Member_UserAdd.html'" style=" margin: 10px;margin-left:880px" value="">添加用户</a>
             <table border="0" class="order_tab" style="width:930px; text-align:center; margin-bottom:30px;" cellspacing="0" cellpadding="0">
               <tr>                                                                                                                                                    
                 <td width="28%">用户名称</td>

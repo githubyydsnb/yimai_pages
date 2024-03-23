@@ -33,9 +33,9 @@
 	<script type="text/javascript" src="../../js/vue.js"></script>
 	<!--	<script type="text/javascript" src="../../js/Element.js"></script>-->
 	<!-- 引入样式 -->
-	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<link rel="stylesheet" href="/css/Element.css">
 	<!-- 引入组件库 -->
-	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script src="/js/Element.js"></script>
 
 	<title>尤洪</title>
 	<style>
@@ -79,11 +79,11 @@
 					</el-form-item>
 					<el-form-item label="密码" prop="password">
 						<el-input prefix-icon="el-icon-unlock" clearable show-password
-								  v-model.trim.number="user.password" autocomplete="off"></el-input>
+								  v-model.trim="user.password" autocomplete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="确认密码" prop="confirmPass">
 						<el-input prefix-icon="el-icon-unlock" clearable show-password
-								  v-model.trim.number="user.confirmPass" autocomplete="off"></el-input>
+								  v-model.trim="user.confirmPass" autocomplete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="邮箱" prop="email">
 						<el-input type="text" prefix-icon="el-icon-unlock" clearable v-model.trim="user.email"
@@ -91,7 +91,7 @@
 					</el-form-item>
 					<el-form-item label="手机" prop="mobile">
 						<el-input type="text" prefix-icon="el-icon-unlock" clearable
-								  v-model.trim.number="user.mobile" autocomplete="off"></el-input>
+								  v-model.trim="user.mobile" autocomplete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="验证码" prop="inputVerifyCode">
 						<input type="text" v-model="user.inputVerifyCode" @blur="validateInputVerifyCode"></input>
@@ -100,7 +100,7 @@
 						<!--						<el-input type="text" prefix-icon="el-icon-unlock" clearable-->
 						<!--								  v-model="user.inputVerifyCode" autocomplete="off"></el-input>-->
 						<el-button v-show="showTime" @click="sendVerifyCode('user')" size="mini"
-								   style="background-color: #ff4e00;border: 0;" type="primary">发送验证码
+								   :disabled="isDisable" style="background-color: #ff4e00;border: 0;" type="primary">发送验证码
 						</el-button>
 						<div v-show="!showTime">{{getTime}}后获取</div>
 					</el-form-item>
@@ -220,6 +220,7 @@
 				showTime: true,
 				getTime: 60,
 				timer: '',
+				isDisable:false,
 				rules: {
 					loginName: [{
 						required: true,
@@ -287,9 +288,11 @@
 		},
 		methods: {
 			submitForm(formName) {
+				 this.validateInputVerifyCode();
 				this.$refs[formName].validate(async (valid) => {
-					await this.validateInputVerifyCode;
 					if (valid && this.inputVerifyCodeFlag) {
+						this.$delete(this.user,'confirmPass')
+						this.$delete(this.user,'inputVerifyCode')
 						const {code} = (await addUser(this.user));
 						if (code == "200") {
 							this.$message({
@@ -307,6 +310,8 @@
 			async sendVerifyCode(formName) {
 				this.$refs[formName].validate(async (valid) => {
 					if (valid ) {
+						this.isDisable=true;
+
 						this.verifyCode = await sendCode(this.user.email);
 						let timer = setInterval(() => {
 							this.getTime -= 1;
@@ -315,6 +320,7 @@
 								this.showTime = true;
 								this.getTime = 60;
 							}
+							this.isDisable=false;
 						}, 1000);
 						console.log(this.verifyCode)
 						this.showTime = false;

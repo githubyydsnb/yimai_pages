@@ -1,4 +1,4 @@
-import "../js/axios.js";
+import  "../js/axios.js";
 
 const instance = axios.create({
     baseURL: '/nginx',
