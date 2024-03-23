@@ -1212,7 +1212,7 @@
 
 </body>
 <script type="module">
-	import {getCategoryOneList, getCategoryTwoList, getCategoryThreeList} from '../../api/category.js';
+	import {getCategoryOneList,} from '../../api/category.js';
 	import {getProductList, getProductHotList} from '../../api/product.js';
 	import {getShopCarList} from '../../api/shoppingCar.js';
 
@@ -1234,7 +1234,14 @@
 				categoryThreeList: [],
 				productKeyWord: {
 					name: '',
+				},
+				product:{
+					categoryLevelId:1,
+				},
+				page:{
+
 				}
+
 			}
 		},
 		computed: {
@@ -1262,45 +1269,51 @@
 			getPicPathById(id) {
 				return "http://localhost:5173/nginx/product/downloadProductImg?id=" + id;
 			},
-			async getCategoryTwoList(id) {
-				let repsonse = await getCategoryTwoList(id);
-				this.categoryTwoList = repsonse.data
-				if (this.categoryTwoList.length > 0) {
-					await this.getCategoryThreeList(this.categoryThreeList[0].parentId);
-				}
-				console.log(this.categoryTwoList);
-			},
-			async getCategoryThreeList(parentId) {
-				let repsonse = await getCategoryThreeList(parentId);
-				this.categoryThreeList = repsonse.data
-				console.log(this.categoryThreeList);
-			},
+			// async getCategoryTwoList(id) {
+			// 	let repsonse = await getCategoryTwoList(id);
+			// 	this.categoryTwoList = repsonse.data
+			// 	if (this.categoryTwoList.length > 0) {
+			// 		await this.getCategoryThreeList(this.categoryThreeList[0].parentId);
+			// 	}
+			// 	console.log(this.categoryTwoList);
+			// },
+			// async getCategoryThreeList(parentId) {
+			// 	let repsonse = await getCategoryThreeList(parentId);
+			// 	this.categoryThreeList = repsonse.data
+			// 	console.log(this.categoryThreeList);
+			// },
 			async getProductList1() {
-				const {data} = await getProductList(733);
-				this.products1 = data;
+				this.product.categoryLevelId=733
+				const {data} = await getProductList(this.product,this.page);
+				this.products1 = data.productList;
 
 			},
 			async getProductList2() {
-				const {data} = await getProductList(655);
-				this.products2 = data;
+				this.product.categoryLevelId=662
+				const {data} = await getProductList(this.product,this.page);
+				this.products2 = data.productList;
 
 			},
 			async getProductList3() {
-				const {data} = await getProductList(688);
-				this.products3 = data;
+				this.product.categoryLevelId=688
+				const {data} = await getProductList(this.product,this.page);
+				this.products3 = data.productList;
 			},
 			async getProductList4() {
-				const {data} = await getProductList(659);
-				this.products4 = data;
+				this.product.categoryLevelId=673
+				const {data} = await getProductList(this.product,this.page);
+				this.products4 = data.productList;
 
 			},
 			async getProductList5() {
-				const {data} = await getProductList(672);
-				this.products5 = data;
+				this.product.categoryLevelId=672
+				const {data} = await getProductList(this.product,this.page);
+				this.products5 = data.productList;
 			},
 			async getProductList6() {
-				const {data} = await getProductList(691);
-				this.products6 = data;
+				this.product.categoryLevelId=691
+				const {data} = await getProductList(this.product,this.page);
+				this.products6 = data.productList;
 			},
 			async getProductHotList() {
 				const {data} = await getProductHotList();

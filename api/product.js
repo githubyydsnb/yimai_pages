@@ -25,7 +25,6 @@ const getProductHotList = () => {
     return request.post(baseUrl + "/getProductHot")
 }
 const getProductByCondition = (product, brand, page) => {
-    console.log(brand)
     return request.post(baseUrl + "/getProductListByEs", {
         product,
         page,

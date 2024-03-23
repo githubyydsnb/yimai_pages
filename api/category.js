@@ -54,15 +54,34 @@ const getSecondIdListByChild = (id) => {
         }
     })
 }
-const getProductCategory = (product) => {
-    console.log(product)
+const getProductCategory = (category) => {
     return request.post(baseUrl + "/getProductCategory", {
-        category: {name: product.name}
+        category: {
+            name: category.name,
+            id: category.id
+        }
     })
 }
 
 const getTypeList = () => {
     return request.get(baseUrl + "/getTypeList")
+}
+const modifyCategory = (category) => {
+    return request.post(baseUrl + "/modifyCategory", {
+        category
+    })
+}
+const deleteCategory = (type, id) => {
+    return request.get(baseUrl + "/deleteCategory", {
+        params: {
+            id,
+            type
+        }
+    })
+}
+const addCategory = (category) => {
+    return request.post(baseUrl + "/addCategory", {
+        category:category})
 }
 export {
     getCategoryOneList,
@@ -74,5 +93,8 @@ export {
     getCategoryThreeListByThird,
     getSecondIdListByChild,
     getProductCategory,
-    getTypeList
+    getTypeList,
+    modifyCategory,
+    deleteCategory,
+    addCategory
 }

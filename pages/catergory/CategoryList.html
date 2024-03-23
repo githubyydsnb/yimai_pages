@@ -163,7 +163,7 @@
 		<div class="search">
 			<form>
 				<input type="text" v-model="productKeyWord.name" value="" class="s_ipt"/>
-				<input type="submit" @click.prevent="getProduct(1)" value="搜索" class="s_btn"/>
+				<input type="submit" @click.prevent="getProduct(1,brand.brandName)" value="搜索" class="s_btn"/>
 			</form>
 			<span class="fl"><a href="javascript:void(0)">咖啡</a><a href="javascript:void(0)">iphone 6S</a><a
 					href="javascript:void(0)">新鲜美食</a><a href="javascript:void(0)">蛋糕</a><a
@@ -586,7 +586,7 @@
 				<tr valign="top">
 					<td width="70">&nbsp; 品牌：</td>
 					<td class="td_a">
-						<a href="javascript:void(0)" @click="getProduct(1,null)">全部</a>
+						<a href="javascript:void(0)" @click="getProduct(1,'')">全部</a>
 						<a @click="getProduct(1,brand.brandName)" href="javascript:void(0)"
 						   v-for="brand in brandList" >{{brand.brandName}}</a>
 						<!--						<a href="javascript:void(0)" class="now">香奈儿（Chanel）</a><a-->
@@ -838,10 +838,12 @@
 		data() {
 			return {
 				brand: {
-					brandName:'',
+					brandName:'ff',
 				},
 				cars: [],
-				shopCar: {},
+				shopCar: {
+					userId:21,
+				},
 				user: {
 					id: 21,
 				},
@@ -869,7 +871,11 @@
 		methods: {
 			async getProduct(currPageNo, brandName) {
 				this.page.currPageNo = currPageNo;
+				if(brandName==undefined){
+					brandName=''
+				}
 				this.brand.brandName = brandName;
+
 				const {data} = await getProductByCondition(this.productKeyWord,this.brand, this.page);
 				console.log(data);
 				this.products = data.products;
@@ -914,7 +920,7 @@
 				}
 			},
 			async getShopCarList() {
-				const {data} = await getShopCarList(this.user.id);
+				const {data} = await getShopCarList(this.shopCar);
 				this.cars = data;
 			},
 			async getBrandList() {
