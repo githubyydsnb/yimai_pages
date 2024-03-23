@@ -266,7 +266,8 @@
 					<!--					添加二级分类-->
 					<el-form :inline="true" ref="categoryTwoAddForm" :model="categoryTwoAddForm" :rules="rules">
 						<el-form-item label="选择一级分类" prop="id">
-							<el-select clearable v-model="categoryTwoAddForm.id"
+							<el-select @click.native="getCategoryOneList();"
+									   clearable v-model="categoryTwoAddForm.id"
 									   placeholder="请选择选择一级分类">
 								<el-option v-for="category in categoryOneList" :key="category.id" :label="category.name"
 										   :value="category.id">
@@ -288,18 +289,24 @@
 					<el-form :inline="true" ref="categoryThreeAddForm" :model="categoryThreeAddForm" :rules="rules">
 						<el-form-item label="选择二级分类" prop="id">
 							<el-cascader
+
 									placeholder="选择一二级分类"
 									clearable
 									v-model="categoryThreeAddForm.id"
 									:options="categoryOneAndTowList"
+									@change="getCategoryOneList"
 									:props="{ expandTrigger: 'hover' }"
-							></el-cascader>
+							>
+<!--								<template slot-scope="{ node, data }">-->
+<!--									<span style="display:block" @click="getCategoryOneList(node)">{{ data.label }}</span>-->
+<!--								</template>-->
+							</el-cascader>
 						</el-form-item>
 						<el-form-item label="添加三级分类名" prop="name">
-								<el-input clearable v-model="categoryThreeAddForm.name"
-										  autocomplete="off"></el-input>
+							<el-input clearable v-model="categoryThreeAddForm.name"
+									  autocomplete="off"></el-input>
 						</el-form-item>
-						<el-form-item >
+						<el-form-item>
 							<el-link @click="addThreeCategory('categoryThreeAddForm')">添加三级分类</el-link>
 						</el-form-item>
 					</el-form>
@@ -554,8 +561,7 @@
 				categoryTwoAddForm: {
 					// selectName: '',
 				},
-				categoryThreeAddForm: {
-				},
+				categoryThreeAddForm: {},
 				categoryOneList: [],
 				categoryTwoList: [],
 				categoryThreeList: [],
@@ -568,9 +574,7 @@
 				brands: [],
 				dialogFormVisible: false,
 				dialogFormAddVisible: false,
-				categoryOneAndTowList: [
-
-				],
+				categoryOneAndTowList: [],
 				rules: {
 					name: [
 						{required: true, message: '请输入分类名', trigger: 'blur'},
@@ -663,6 +667,8 @@
 						const {code} = await addCategory(this.categoryOneAddForm);
 						if (code == "200") {
 							this.$message.success("添加一级分类成功!");
+							this.getProductCategoryList(1);
+
 						}
 					}
 				});
@@ -679,6 +685,8 @@
 						const {code} = await addCategory(category);
 						if (code == "200") {
 							this.$message.success("添加二级分类成功!");
+							this.getProductCategoryList(1);
+
 						}
 					}
 				});
@@ -687,14 +695,15 @@
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
 						var category = {
-							type:3,
+							type: 3,
 							parentId: this.categoryThreeAddForm.id[1],
 							name: this.categoryThreeAddForm.name
 						};
 						const {code} = await addCategory(category);
 						if (code == "200") {
 							this.$message.success("添加三级分类成功!");
-							this.getCategoryOneList();
+							this.getProductCategoryList(1);
+
 						}
 					}
 				});
@@ -704,22 +713,23 @@
 				var page = {};
 				const {data} = await getProductCategoryList(category, page);
 				this.categoryOneList = data.categoryList;
-				for(let i=0;i<data.categoryList.length;i++){
-					this.categoryOneAndTowList[i]={value:0,label:'',children:[
-							{value:0,label:''}
-						]};
-					this.categoryOneAndTowList[i].value=data.categoryList[i].id;
-					this.categoryOneAndTowList[i].label=data.categoryList[i].name;
+				for (let i = 0; i < data.categoryList.length; i++) {
+					this.categoryOneAndTowList[i] = {
+						value: 0, label: '', children: [
+							{value: 0, label: ''}
+						]
+					};
+					this.categoryOneAndTowList[i].value = data.categoryList[i].id;
+					this.categoryOneAndTowList[i].label = data.categoryList[i].name;
 				}
-				for(let i=0;i<this.categoryOneAndTowList.length;i++){
-					const {data}=await getCategoryThreeListByThird(this.categoryOneAndTowList[i].value);
-					for( let i=0;i<data.length;i++){
-						data[i]={value:data[i].id,label:data[i].name}
+				for (let i = 0; i < this.categoryOneAndTowList.length; i++) {
+					const {data} = await getCategoryThreeListByThird(this.categoryOneAndTowList[i].value);
+					for (let i = 0; i < data.length; i++) {
+						data[i] = {value: data[i].id, label: data[i].name}
 					}
-					this.categoryOneAndTowList[i].children=data//数组
+					this.categoryOneAndTowList[i].children = data//数组
 				}
-				console.log()
-				}
+			}
 		},
 
 		mounted() {

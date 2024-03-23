@@ -222,7 +222,7 @@
 		<div class="m_right">
             <p></p >
             <div style="margin: 100px;">
-            <h1>修改用户信息</h1>
+            <h1>添加用户信息</h1>
             <div  class="pages">
             <el-form :model="user" status-icon :rules="rules" ref="user" label-width="100px"
                      class="demo-ruleForm" v-cloak style="width: 400px">
@@ -377,12 +377,17 @@
                     callback(new Error('请3-6位账户名'))
                     return;
                 }
-                const {code} = await checkUser(this.user.loginName);
+
                 const regUserAccount = /^[A-Za-z0-9]{3,6}$/;
                 if (!regUserAccount.test(value)) {
                     callback(new Error('请输入英文或者数字'));
                     return;
                 }
+				const {code} = await checkUser(this.user.loginName);
+				if(code=="500"){
+					callback(new Error('用户名已经存在!'));
+					return;
+				}
                 this.loginName = true;
                 callback();
             };

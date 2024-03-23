@@ -291,6 +291,8 @@
 				 this.validateInputVerifyCode();
 				this.$refs[formName].validate(async (valid) => {
 					if (valid && this.inputVerifyCodeFlag) {
+						this.$delete(this.user,'confirmPass')
+						this.$delete(this.user,'inputVerifyCode')
 						const {code} = (await addUser(this.user));
 						if (code == "200") {
 							this.$message({
