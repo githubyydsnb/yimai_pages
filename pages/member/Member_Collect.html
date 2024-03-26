@@ -14,12 +14,18 @@
     <script type="text/javascript" src="../../js/menu.js"></script>
         
 	<script type="text/javascript" src="../../js/select.js"></script>
-        
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script type="text/javascript" src="../../js/n_nav.js"></script>
     
 <title>尤洪</title>
 </head>
 <body>  
 <!--Begin Header Begin-->
+<div id="root">
 <div class="soubg">
 	<div class="sou">
     	<!--Begin 所在收货地区 Begin-->
@@ -107,8 +113,8 @@
                     	<div class="s_city_t"></div>
                         <div class="ss_list_c">
                         	<ul>
-                            	<li><a href="#">我的收藏夹</a></li>
-                                <li><a href="#">我的收藏夹</a></li>
+                            	<li><a href="/yimai/member/Member_Collect.html">我的收藏夹</a></li>
+                                <li><a href="/yimai/member/Member_Collect.html">我的收藏夹</a></li>
                             </ul>
                         </div>
                     </div>     
@@ -232,7 +238,7 @@
 		<div class="m_right">
             <p></p>
             <div class="mem_tit">
-            	<span class="fr" style="font-size:12px; color:#55555; font-family:'宋体'; margin-top:5px;">共发现4件</span>我的收藏
+            	<span class="fr" style="font-size:12px; color:#55555; font-family:'宋体'; margin-top:5px;">共发现{{count}}件(收藏夹最多只能保存6件商品)</span>我的收藏
             </div>
            	<table border="0" class="order_tab" style="width:930px;" cellspacing="0" cellpadding="0">
               <tr>                                                                                                                                       
@@ -240,34 +246,16 @@
                 <td align="center" width="180">价格</td>
                 <td align="center" width="270">操作</td>
               </tr>
-              <tr>
+              <tr v-for="(product,index) in collectList" :key="index">
                 <td style="font-family:'宋体';">
-                	<div class="sm_img"><img src="../../images/simg.jpg" width="48" height="48" /></div>法颂浪漫梦境50ML 香水女士持久清新淡香 送2ML小样3只
+                    <div class="sm_img"><img :src="getPicPathById(product.id)" width="48" height="48" /></div>
+<!--                    <div class="sm_img"><img src="../../images/simg.jpg" width="48" height="48" /></div>-->
+                    {{product.name}}
                 </td>
-                <td align="center">￥456.00</td>
-                <td align="center"><a href="#">关注</a>&nbsp; &nbsp; <a href="#" style="color:#ff4e00;">加入购物车</a>&nbsp; &nbsp; <a href="#">删除</a></td>
+                <td align="center">{{product.price}}￥</td>
+                <td align="center"><a href="javascript:void(0)" @click="addShopCar(product.id,1)" style="color:#ff4e00;">加入购物车</a>&nbsp; &nbsp; <a href="javascript:void(0)" @click="del(product)">删除</a></td>
               </tr>
-              <tr>
-                <td style="font-family:'宋体';">
-                	<div class="sm_img"><img src="../../images/simg.jpg" width="48" height="48" /></div>法颂浪漫梦境50ML 香水女士持久清新淡香 送2ML小样3只
-                </td>
-                <td align="center">￥456.00</td>
-                <td align="center"><a href="#">关注</a>&nbsp; &nbsp; <a href="#" style="color:#ff4e00;">加入购物车</a>&nbsp; &nbsp; <a href="#">删除</a></td>
-              </tr>
-              <tr>
-                <td style="font-family:'宋体';">
-                	<div class="sm_img"><img src="../../images/simg.jpg" width="48" height="48" /></div>法颂浪漫梦境50ML 香水女士持久清新淡香 送2ML小样3只
-                </td>
-                <td align="center">￥456.00</td>
-                <td align="center"><a href="#">关注</a>&nbsp; &nbsp; <a href="#" style="color:#ff4e00;">加入购物车</a>&nbsp; &nbsp; <a href="#">删除</a></td>
-              </tr>
-              <tr>
-                <td style="font-family:'宋体';">
-                	<div class="sm_img"><img src="../../images/simg.jpg" width="48" height="48" /></div>法颂浪漫梦境50ML 香水女士持久清新淡香 送2ML小样3只
-                </td>
-                <td align="center">￥456.00</td>
-                <td align="center"><a href="#">关注</a>&nbsp; &nbsp; <a href="#" style="color:#ff4e00;">加入购物车</a>&nbsp; &nbsp; <a href="#">删除</a></td>
-              </tr>
+
             </table>
 
 
@@ -358,9 +346,84 @@
     </div>
     <!--End Footer End -->    
 </div>
+</div>
 
 </body>
+<script  type="module">
+    import {getCollectionsCount,getCollectionsList,delCollections} from "../../api/collect.js";
+    import {addShopCar, checkShopIsExit} from '../../api/shoppingCar.js';
+    const vm = new Vue({
+        el:"#root",
+        data(){
+            return{
+                count:"",
+                collectList:[],
+                shopCar: {
+                    userId:21,
+                },
+                user: {
+                    id: 21,
+                },
+            }
+        },
+        mounted:function(){
+            this.getCollectList();
+            this.getCount();
+        },
+        methods:{
+            async checkShopIsExit(shopCar) {
+                const {code} = await checkShopIsExit(shopCar);
+                console.log(code)
+                if (code == "200") {
+                    return true;
+                }
+                return false;
+            },
+            async addShopCar(productId, count) {
+                this.shopCar.productId = productId;
+                this.shopCar.count = count;
+                this.shopCar.userId = this.user.id;
+                if (!await this.checkShopIsExit(this.shopCar)) {
+                    return;
+                }
+                const {code} = await addShopCar(this.shopCar);
+                if (code == "200") {
+                    this.isAddShopCar = true;
+                    this.$message({
+                        message: '加入购物车成功!',
+                        type: 'success',
+                        center: true,
+                    });
 
+                }
+            },
+            async getCount(){
+               let data = await getCollectionsCount();
+               this.count = data.data;
+            },
+            async getCollectList(){
+                let data = await getCollectionsList();
+                this.collectList = data.data;
+            },
+            del(product){
+                this.delCollections(product);
+            },
+            async delCollections(product){
+                let data = await delCollections(product);
+                if(data.code=="200"){
+                    this.getCollectList();
+                    this.getCount();
+                }else{
+                    alert(data.msg);
+                }
+            },
+            getPicPathById(id) {
+                return "http://localhost:5173/nginx/product/downloadProductImg?id=" + id;
+            },
+
+        }
+    })
+</script>
 
 <!--[if IE 6]>
 <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>

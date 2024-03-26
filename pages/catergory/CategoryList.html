@@ -594,7 +594,7 @@
 					<td>&nbsp; 价格：</td>
 					<td class="td_a"><a href="javascript:void(0)">0-199</a><a href="javascript:void(0)" class="now">200-399</a><a
 							href="javascript:void(0)">400-599</a><a
-							href="#">600-899</a><a href="javascript:void(0)">900-1299</a><a href="javascript:void(0)">1300-1399</a><a
+							0							href="#">600-899</a><a href="javascript:void()">900-1299</a><a href="javascript:void(0)">1300-1399</a><a
 							href="#">1400以上</a>
 					</td>
 				</tr>
@@ -623,49 +623,13 @@
 					<span class="fr"><a href="javascript:void(0)">清空</a></span>
 				</div>
 				<ul>
-					<li>
-						<div class="img"><a href="javascript:void(0)"><img src="../../images/his_1.jpg" width="185"
-																		   height="162"/></a>
+					<li v-for="(historyPro,index) in historyList" :key="historyPro.id">
+<!--						<div class="img"><img :src="getPicPathById(product.id)" width="185" height="162" /></div>-->
+						<div class="img"><a href="javascript:void(0)"><img :src="getPicPathById(historyPro.id)" width="185" height="162" /></a>
 						</div>
-						<div class="name"><a href="javascript:void(0)">Dior/迪奥香水2件套装</a></div>
+						<div class="name"><a href="javascript:void(0)">{{historyPro.name}}</a></div>
 						<div class="price">
-							<font>￥<span>368.00</span></font> &nbsp; 18R
-						</div>
-					</li>
-					<li>
-						<div class="img"><a href="javascript:void(0)"><img src="../../images/his_2.jpg" width="185"
-																		   height="162"/></a>
-						</div>
-						<div class="name"><a href="javascript:void(0)">Dior/迪奥香水2件套装</a></div>
-						<div class="price">
-							<font>￥<span>768.00</span></font> &nbsp; 18R
-						</div>
-					</li>
-					<li>
-						<div class="img"><a href="javascript:void(0)"><img src="../../images/his_3.jpg" width="185"
-																		   height="162"/></a>
-						</div>
-						<div class="name"><a href="javascript:void(0)">Dior/迪奥香水2件套装</a></div>
-						<div class="price">
-							<font>￥<span>680.00</span></font> &nbsp; 18R
-						</div>
-					</li>
-					<li>
-						<div class="img"><a href="javascript:void(0)"><img src="../../images/his_4.jpg" width="185"
-																		   height="162"/></a>
-						</div>
-						<div class="name"><a href="javascript:void(0)">Dior/迪奥香水2件套装</a></div>
-						<div class="price">
-							<font>￥<span>368.00</span></font> &nbsp; 18R
-						</div>
-					</li>
-					<li>
-						<div class="img"><a href="javascript:void(0)"><img src="../../images/his_5.jpg" width="185"
-																		   height="162"/></a>
-						</div>
-						<div class="name"><a href="javascript:void(0)">Dior/迪奥香水2件套装</a></div>
-						<div class="price">
-							<font>￥<span>368.00</span></font> &nbsp; 18R
+							<font>￥<span>{{historyPro.price}}</span></font> &nbsp; 18R
 						</div>
 					</li>
 				</ul>
@@ -699,6 +663,10 @@
 							<div class="price">
 								<font>￥<span>{{product.id}}</span></font> &nbsp; 26R
 							</div>
+							<div class="name"><a href="javascript:void(0)" v-html="product.name"></a></div>
+							<div class="carbg">
+								<a href="javascript:void(0)" @click="addCollect(product)"  class="ss">收藏</a><!--v-show="!getCollection(product)"-->
+<!--								<a href="javascript:void(0)" @click="addCollect(product)" v-show="getCollection(product)" style="color:#888888; background:url(/images/heart_h.png) no-repeat 10px center;"  class="ss">收藏</a>-->
 							<div class="name" @click="goProductDetail(product.id)"><a href="javascript:void(0)" v-html="product.name"></a></div>
 							<div class="carbg" >
 								<a href="javascript:void(0)" class="ss">收藏</a>
@@ -826,23 +794,26 @@
 	</div>
 </div>
 </body>
-
+<script src="../../js/axios.js"></script>
 <script type="module">
 	import {getProductByCondition, getProductListByIds} from '../../api/product.js';
 	import {addShopCar, checkShopIsExit} from '../../api/shoppingCar.js';
 	import {getShopCarList} from '../../api/shoppingCar.js';
 	import {getBrandList} from '../../api/brand.js';
+	import {addCollection} from "../../api/collect.js";
+	import {getHistoryList} from "../../api/history.js";
+
 
 	new Vue({
 		el: '#root',
 		data() {
 			return {
 				brand: {
-					brandName: 'ff',
+					brandName:'ff',
 				},
 				cars: [],
 				shopCar: {
-					userId: 21,
+					userId:21,
 				},
 				user: {
 					id: 21,
@@ -855,8 +826,11 @@
 				},
 				products: [],
 				isAddShopCar: false,
+				isCollect: false,
 				carAndCollectStyle: "style:'color: #ff4e00;'",
 				brandList: [],
+				collectList:[],
+				historyList:[],
 			}
 		},
 		computed: {
@@ -871,12 +845,12 @@
 		methods: {
 			async getProduct(currPageNo, brandName) {
 				this.page.currPageNo = currPageNo;
-				if (brandName == undefined) {
-					brandName = ''
+				if(brandName==undefined){
+					brandName=''
 				}
 				this.brand.brandName = brandName;
 
-				const {data} = await getProductByCondition(this.productKeyWord, this.brand, this.page);
+				const {data} = await getProductByCondition(this.productKeyWord,this.brand, this.page);
 				console.log(data);
 				this.products = data.products;
 				this.page = data.page;
@@ -886,11 +860,11 @@
 			},
 			handleSizeChange(val) {
 				this.page.pageSize = val;
-				this.getProduct(this.page.currPageNo, this.brand.brandName);
+				this.getProduct(this.page.currPageNo,this.brand.brandName);
 			},
 			handleCurrentChange(val) {
 				this.page.currPageNo = val;
-				this.getProduct(this.page.currPageNo, this.brand.brandName);
+				this.getProduct(this.page.currPageNo,this.brand.brandName);
 			},
 			async checkShopIsExit(shopCar) {
 				const {code} = await checkShopIsExit(shopCar);
@@ -918,6 +892,7 @@
 						center: true,
 					});
 					await this.getShopCarList();
+
 				}
 
 			},
@@ -935,13 +910,57 @@
 			goProductDetail(id){
 				window.location.href='../product/Product.html?id='+id;
 			}
+			},
+			addCollect(product){
+				this.addCollection(product);
+			},
+			async addCollection(product){
+				let data = await addCollection(product);
+				if (data.code == "200") {
+					this.$message({
+						message: '加入收藏成功!',
+						type: 'success',
+						center: true,
+					});
+				}
+			},
+			isCollection(product){
+				this.getCollection(product);
+				return this.isCollect;
+			},
+			getCollection(product){
+				let that = this;
+				axios.post("/nginx/collect/getCollection",{product:product}).then(function(resp){
+					let msg = resp.data;
+					if(msg.code=="200"){
+						that.isCollect=true;
+						return;
+					}else{
+						that.isCollect = false;
+						return;
+					}
+				})
+				return this.isCollect;
+			},
+			async getHistoryList(){
+				let data = await  getHistoryList();
+				this.historyList = data.data;
+			},
 
 		},
+
 		async mounted() {
 			this.productKeyWord.name = decodeURIComponent(window.location.search.substring(6))
 			await this.getShopCarList();
 			await this.getBrandList();
 			await this.getProduct(1);
+		mounted() {
+			this.productKeyWord.name = decodeURIComponent(window.location.search.substring(6));
+			this.getProduct(1);
+			this.getShopCarList();
+			this.getBrandList();
+			this.getHistoryList();
+
 		},
 	})
 </script>
