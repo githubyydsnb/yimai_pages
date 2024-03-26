@@ -266,7 +266,7 @@
 						<el-popover trigger="hover" placement="top">
 							<p>品牌: {{ scope.row.brandName }}</p>
 							<p>库存: {{ scope.row.stock }}</p>
-							<p>描述: {{ scope.row.description==null?"暂无":scope.row.description}}</p>
+							<p>描述: {{ scope.row.description == null ? "暂无" : scope.row.description}}</p>
 
 							<div slot="reference" class="name-wrapper">
 								<el-tag size="medium">{{ scope.row.name }}</el-tag>
@@ -467,13 +467,16 @@
 			},
 			async deleteProduct(fileId, id) {
 				const {code} = await deleteProduct(id);
-				if (code == "200" && await deleteFile(fileId) == "200") {
+
+				await deleteFile(fileId);
+				await this.getProductList(this.page.currPageNo);
+				if (code == "200") {
 					this.$message({
 						center: true,
 						message: "删除成功",
 						type: 'success',
 					})
-					await this.getProductList(1);
+
 				}
 			},
 			toModify(id) {
@@ -485,10 +488,10 @@
 				this.categoryList = data.categoryList;
 			}
 		},
-		mounted() {
-			this.getProductList(1);
-			this.getBrandList();
-			this.getProductCategoryList();
+		async mounted() {
+			await this.getProductList(1);
+			await this.getBrandList();
+			await this.getProductCategoryList();
 		}
 
 	})

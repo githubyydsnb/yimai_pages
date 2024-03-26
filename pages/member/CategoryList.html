@@ -732,10 +732,10 @@
 			}
 		},
 
-		mounted() {
-			this.getTypeList();
-			this.getProductCategoryList(1);
-			this.getCategoryOneList();
+		async mounted() {
+			await this.getTypeList();
+			await this.getProductCategoryList(1);
+			await this.getCategoryOneList();
 
 		}
 

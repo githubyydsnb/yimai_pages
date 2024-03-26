@@ -269,7 +269,7 @@
 								  prefix-icon="el-icon-unlock"
 								  autocomplete="off" name="stock"></el-input>
 					</el-form-item>
-					<el-form-item label="库存" prop="description">
+					<el-form-item label="描述" prop="description">
 						<el-input clearable
 								  v-model.trim="product.description"
 								  prefix-icon="el-icon-unlock"
@@ -295,13 +295,11 @@
 					</el-form-item>
 					<el-form-item label="商品图片">
 						<el-upload
-								accept="image/jpeg,image/png"
 								class="avatar-uploader"
 								action="#"
-								:auto-upload="false"
 								:show-file-list="false"
-								:on-change="handleChange"
 								:before-upload="beforeAvatarUpload"
+								:http-request="handleChange"
 								name="goodsFile"
 						>
 							<img v-if="imageUrl" width="100px" height="80px" :src="imageUrl" class="avatar" alt=""/>
@@ -313,7 +311,7 @@
 					</el-form-item>
 					<el-form-item>
 						<el-button type="primary" @click="submitForm('product')">提交</el-button>
-						<el-button @click="back">返回</el-button>
+						<el-button @click="resetForm('product')">重置</el-button>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -482,9 +480,10 @@
 			};
 			return {
 				product: {
-					name: '',
-					price: 0,
-					stock: 0,
+					// name: '',
+					// price: 0,
+					// stock: 0,
+					// description:'',
 				},
 				oneIdByChild: 0,
 				secondIdByChild: 0,
@@ -520,10 +519,10 @@
 							trigger: 'blur'
 						}
 					],
-					description:[
+					description: [
 						{required: true, message: '请输入描述', trigger: 'blur'},
 						{
-							min:2,max:6,message: '长度在2-6位', trigger: 'blur'
+							min: 2, max: 20, message: '长度在2-20位', trigger: 'blur'
 						}
 					]
 				}
@@ -534,9 +533,15 @@
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
 						let formData = new FormData(document.getElementById("product"))
+
+						// if (this.imageUrl == '') {
+						// 	this.imageUrl = URL.createObjectURL(this.product.filePath);
+						// 	formData.set("goodsFile", this.imageUrl);
+						// }
 						formData.set("id", this.product.id);
 						formData.set("brandId", this.product.brandId);
 						formData.set("categoryLevelId", this.product.categoryLevelId);
+
 						const {code} = await modifyProduct(formData)
 						if (code == "200") {
 							this.$message({
@@ -563,13 +568,10 @@
 				const {data} = await getProductByDataBase(id)
 				this.product = data;
 				this.loading = false;
-				// await this.getOneIdByChild();
-				// await this.getSecondIdByChild();
 				await this.getSecondIdListByChild();
 			},
 			getPicPathById() {
 				return "http://localhost:5173/nginx/product/downloadProductImg?id=" + window.location.search.substring(4);
-
 			},
 			async getBrandList() {
 				const {data} = await getBrandList();
@@ -610,31 +612,31 @@
 			},
 			async getProductCategoryThirdListByParentId(id) {
 				const {data} = await getCategoryThreeListByThird(id);
-				console.log(this.$refs.third)
-				// this.$refs.third = "";
 				this.categoryThreeList = data;
 			},
-			handleChange(file, fileList) {
-				this.imageUrl = URL.createObjectURL(file.raw);
+			handleChange(req) {
+				this.imageUrl = URL.createObjectURL(req.file);
 				this.product.filePath = this.imageUrl
 			},
 			beforeAvatarUpload(file) {
 				const isJPG = file.type === "image/jpeg";
+				const isPNG = file.type === "image/png";
 				const isLt2M = file.size / 1024 / 1024 < 2;
-				console.log(isJPG);
-				console.log(isLt2M);
-				if (!isJPG) {
-					this.$message.error("上传头像图片只能是 JPG 格式!");
+				if (!isJPG && !isPNG) {
+					this.$message.error("上传头像图片只能是 JPG或png 格式!");
 				}
 				if (!isLt2M) {
 					this.$message.error("上传头像图片大小不能超过 2MB!");
 				}
-				return isJPG && isLt2M;
+				return isJPG || isPNG && isLt2M;
 			},
+			resetForm(formName) {
+				this.$refs[formName].resetFields();
+			}
 		},
-		mounted() {
-			this.getProductByDataBase();
-			this.getBrandList();
+		async mounted() {
+			await this.getProductByDataBase();
+			await this.getBrandList();
 			// this.getCategoryOneList();
 
 		},

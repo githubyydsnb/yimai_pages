@@ -3,22 +3,27 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link type="text/css" rel="stylesheet" href="../../css/style.css" />
-	<!--[if IE 6]>
-	<script src="../../js/iepng.js" type="text/javascript"></script>
-	<script type="text/javascript">
-		EvPNG.fix('div, ul, img, li, input, a');
-	</script>
-	<![endif]-->
-        
+    <!--[if IE 6]>
+    <script src="js/iepng.js" type="text/javascript"></script>
+        <script type="text/javascript">
+           EvPNG.fix('div, ul, img, li, input, a');
+        </script>
+    <![endif]-->
+
     <script type="text/javascript" src="../../js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="../../js/menu.js"></script>
-        
-	<script type="text/javascript" src="../../js/select.js"></script>
-        
-    
+
+	<script type="text/javascript" src="js/select.js"></script>
+
+	<script type="text/javascript" src="../../js/vue.js"></script>
+	<!-- 引入样式 -->
+	<link rel="stylesheet" href="/css/Element.css">
+	<!-- 引入组件库 -->
+	<script src="/js/Element.js" type=""></script>
 <title>尤洪</title>
 </head>
-<body>  
+<body>
+<div id="app">
 <!--Begin Header Begin-->
 <div class="soubg">
 	<div class="sou">
@@ -99,7 +104,7 @@
         </span>
         <!--End 所在收货地区 End-->
         <span class="fr">
-        	<span class="fl">你好，请<a href="../../Login.html">登录</a>&nbsp; <a href="../../Regist.html" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;<a href="#">我的订单</a>&nbsp;|</span>
+        	<span class="fl">你好，请<a href="Login.html">登录</a>&nbsp; <a href="Regist.html" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;<a href="#">我的订单</a>&nbsp;|</span>
         	<span class="ss">
             	<div class="ss_list">
                 	<a href="#">收藏夹</a>
@@ -141,40 +146,40 @@
             </span>
             <span class="fl">|&nbsp;关注我们：</span>
             <span class="s_sh"><a href="#" class="sh1">新浪</a><a href="#" class="sh2">微信</a></span>
-            <span class="fr">|&nbsp;<a href="#">手机版&nbsp;<img src="../../images/s_tel.png" align="absmiddle" /></a></span>
+            <span class="fr">|&nbsp;<a href="#">手机版&nbsp;<img src="images/s_tel.png" align="absmiddle" /></a></span>
         </span>
     </div>
 </div>
 <div class="m_top_bg">
     <div class="top">
-        <div class="m_logo"><a href="../index/Index.html"><img src="../../images/logo1.png" /></a></div>
+        <div class="m_logo"><a href="Index.html"><img src="images/logo1.png" /></a></div>
         <div class="m_search">
             <form>
                 <input type="text" value="" class="m_ipt" />
                 <input type="submit" value="搜索" class="m_btn" />
-            </form>                      
+            </form>
             <span class="fl"><a href="#">咖啡</a><a href="#">iphone 6S</a><a href="#">新鲜美食</a><a href="#">蛋糕</a><a href="#">日用品</a><a href="#">连衣裙</a></span>
         </div>
         <div class="i_car">
             <div class="car_t">购物车 [ <span>3</span> ]</div>
             <div class="car_bg">
                 <!--Begin 购物车未登录 Begin-->
-                <div class="un_login">还未登录！<a href="../../Login.html" style="color:#ff4e00;">马上登录</a> 查看购物车！</div>
+                <div class="un_login">还未登录！<a href="Login.html" style="color:#ff4e00;">马上登录</a> 查看购物车！</div>
                 <!--End 购物车未登录 End-->
                 <!--Begin 购物车已登录 Begin-->
                 <ul class="cars">
                     <li>
-                        <div class="img"><a href="#"><img src="../../images/car1.jpg" width="58" height="58" /></a></div>
+                        <div class="img"><a href="#"><img src="images/car1.jpg" width="58" height="58" /></a></div>
                         <div class="name"><a href="#">法颂浪漫梦境50ML 香水女士持久清新淡香 送2ML小样3只</a></div>
                         <div class="price"><font color="#ff4e00">￥399</font> X1</div>
                     </li>
                     <li>
-                        <div class="img"><a href="#"><img src="../../images/car2.jpg" width="58" height="58" /></a></div>
+                        <div class="img"><a href="#"><img src="images/car2.jpg" width="58" height="58" /></a></div>
                         <div class="name"><a href="#">香奈儿（Chanel）邂逅活力淡香水50ml</a></div>
                         <div class="price"><font color="#ff4e00">￥399</font> X1</div>
                     </li>
                     <li>
-                        <div class="img"><a href="#"><img src="../../images/car2.jpg" width="58" height="58" /></a></div>
+                        <div class="img"><a href="#"><img src="images/car2.jpg" width="58" height="58" /></a></div>
                         <div class="name"><a href="#">香奈儿（Chanel）邂逅活力淡香水50ml</a></div>
                         <div class="price"><font color="#ff4e00">￥399</font> X1</div>
                     </li>
@@ -186,7 +191,7 @@
         </div>
     </div>
 </div>
-<!--End Header End--> 
+<!--End Header End-->
 <div class="i_bg bg_color">
     <!--Begin 用户中心 Begin -->
 	<div class="m_content">
@@ -229,156 +234,207 @@
                 </ul>
             </div>
         </div>
-
-
 		<div class="m_right">
             <p></p>
             <div class="mem_tit">收货地址</div>
-			<div class="address">
-            	<div class="a_close"><a href="#"><img src="../../images/a_close.png" /></a></div>
-            	<table border="0" class="add_t" align="center" style="width:98%; margin:10px auto;" cellspacing="0" cellpadding="0">
-                  <tr>
-                    <td colspan="2" style="font-size:14px; color:#ff4e00;">杨杨公司</td>
-                  </tr>
-                  <tr>
-                    <td align="right" width="80">收货人姓名：</td>
-                    <td>杨杨</td>
-                  </tr>
-                  <tr>
-                    <td align="right">配送区域：</td>
-                    <td>四川成都市武侯区三环以内</td>
-                  </tr>
-                  <tr>
-                    <td align="right">详细地址：</td>
-                    <td>科华北路66号世外桃源写字楼3楼</td>
-                  </tr>
-                  <tr>
-                    <td align="right">手机：</td>
-                    <td>12345678998</td>
-                  </tr>
-                  <tr>
-                    <td align="right">电话：</td>
-                    <td>028-12345678</td>
-                  </tr>
-                  <tr>
-                    <td align="right">电子邮箱：</td>
-                    <td>123456789@qq.com</td>
-                  </tr>
-                  <tr>
-                    <td align="right">标志建筑：</td>
-                    <td>世外桃源</td>
-                  </tr>
-                </table>
-				
-                <p align="right">
-                	<a href="#" style="color:#ff4e00;">设为默认</a>&nbsp; &nbsp; &nbsp; &nbsp; <a href="#" style="color:#ff4e00;">编辑</a>&nbsp; &nbsp; &nbsp; &nbsp; 
-                </p>
+			<div class="address" style="height: 400px;">
+                <h1>地址管理</h1>
+                <el-form :inline="true" class="demo-form-inline">
+                    <el-form-item>
+                        <el-input v-model="categoryName" placeholder="分类名称"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="initAddressList()">查询</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="window.location.href='Member_CategoryAdd.html'">添加分类</el-button>
+                    </el-form-item>
+                </el-form>
+                <el-table
+                        :data="addressList"
+                        style="width: 100%">
+                    <el-table-column
+                            prop="id"
+                            label="地址编号"
+                            width="80">
+                    </el-table-column>
+                    <el-table-column
+                            prop="name"
+                            label="收件人"
+                            width="80">
 
+                    </el-table-column>
+                    <el-table-column
+                            prop="phone"
+                            label="电话号码"
+                    >
+
+                    </el-table-column>
+                    <el-table-column
+                            prop="address"
+
+                            label="地址"
+                    ></el-table-column>
+                    <el-table-column
+                            prop="email"
+                            label="邮箱"
+                    >
+
+                    </el-table-column>
+                    <el-table-column
+                            prop="remark"
+                            label="默认">
+                        <template slot-scope="scope">
+                            <el-button
+                                    size="mini"
+                                    @click="setAddressDefault(scope.row.id)"
+                                    type="warning"
+                            v-if="scope.row.isDefault==0">设置默认
+                            </el-button>
+                            <el-button type="success" disabled v-if="scope.row.isDefault==1">默认</el-button>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column label="操作">
+                        <template slot-scope="scope">
+                            <el-button
+                                    size="mini"
+                                    @click="toupdate(scope.row.id)"
+                            width="50">编辑
+                            </el-button>
+                            <el-button
+                                    size="mini"
+                                    type="danger"
+                                    @click="deleteById(scope.row.id)">删除
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <div class="block" style="text-align: center">
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="initAddressList"
+                            :current-page="page.currentPageNo"
+                            :page-sizes="[5, 10, 15, 20]"
+                            :page-size="page.pageSize"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="page.totalCount" style="position: absolute">
+                    </el-pagination>
+                </div>
             </div>
 
-            <div class="mem_tit">
-            	<a href="#"><img src="../../images/add_ad.gif" /></a>
-            </div>
             <table border="0" class="add_tab" style="width:930px;"  cellspacing="0" cellpadding="0">
-              <tr>
-                <td width="135" align="right">配送地区</td>
-                <td colspan="3" style="font-family:'宋体';">
-                	<select class="jj" name="country" style="background-color:#f6f6f6;">
-                      <option value="0" selected="selected">请选择...</option>
-                      <option value="1">中国</option>
-                      <option value="2">中国</option>
-                      <option value="3">中国</option>
-                      <option value="4">中国</option>
-                    </select>
-                	<select class="jj" name="province">
-                      <option value="0" selected="selected">请选择...</option>
-                      <option value="1">四川</option>
-                      <option value="2">重庆</option>
-                      <option value="3">北京</option>
-                      <option value="4">云南</option>
-                    </select>
-                    <select class="jj" name="city">
-                      <option value="0" selected="selected">请选择...</option>
-                      <option value="1">成都</option>
-                      <option value="2">宜宾</option>
-                      <option value="3">南充</option>
-                      <option value="4">绵阳</option>
-                    </select>
-                    <select class="jj" name="area">
-                      <option value="0" selected="selected">请选择...</option>
-                      <option value="1">武侯区</option>
-                      <option value="2">成华区</option>
-                      <option value="3">锦江区</option>
-                      <option value="4">青羊区</option>
-                    </select>
-                    （必填）
-                </td>
-              </tr>
-              <tr>
-                <td align="right">收货人姓名</td>
-                <td style="font-family:'宋体';"><input type="text" value="姓名" class="add_ipt" />（必填）</td>
-                <td align="right">电子邮箱</td>
-                <td style="font-family:'宋体';"><input type="text" value="12345678@qq.com" class="add_ipt" />（必填）</td>
-              </tr>
-              <tr>
-                <td align="right">详细地址</td>
-                <td style="font-family:'宋体';"><input type="text" value="世外桃源" class="add_ipt" />（必填）</td>
-                <td align="right">邮政编码</td>
-                <td style="font-family:'宋体';"><input type="text" value="610000" class="add_ipt" /></td>
-              </tr>
-              <tr>
-                <td align="right">手机</td>
-                <td style="font-family:'宋体';"><input type="text" value="1361234587" class="add_ipt" />（必填）</td>
-                <td align="right">电话</td>
-                <td style="font-family:'宋体';"><input type="text" value="028-12345678" class="add_ipt" /></td>
-              </tr>
-              <tr>
-                <td align="right">标志建筑</td>
-                <td style="font-family:'宋体';"><input type="text" value="世外桃源大酒店" class="add_ipt" /></td>
-                <td align="right">最佳送货时间</td>
-                <td style="font-family:'宋体';"><input type="text" value="" class="add_ipt" /></td>
-              </tr>
+                <tr>
+                    <td width="135" align="right">配送地区</td>
+                    <td>
+                        <el-cascader
+                                v-model="selectedOptions"
+                                :options="pcaTextArr"
+                                @change="handleCascaderChange"
+                                placeholder="请选择"
+                        ></el-cascader>
+                    </td>
+                    <td>详细地址:</td>
+                    <td>
+                        <input type="text" style="width: 300px;height: 40px;"  v-model="detailAddress" class="add_ipt" />（必填)
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">收货人姓名</td>
+                    <td style="font-family:'宋体';"><input type="text" v-model="address.name"  class="add_ipt" />（必填）</td>
+                    <td align="right">电子邮箱</td>
+                    <td style="font-family:'宋体';"><input type="text" v-model="address.email" class="add_ipt" />（必填）</td>
+                </tr>
+                <tr>
+                    <td align="right">手机</td>
+                    <td style="font-family:'宋体';"><input type="text" v-model="address.phone" class="add_ipt" />（必填）</td>
+                    <td align="right">标记</td>
+                    <td style="font-family:'宋体';"><input type="text" v-model="address.remark" class="add_ipt" /></td>
+                </tr>
             </table>
-           	<p align="right">
-            	<a href="#">删除</a>&nbsp; &nbsp; <a href="#" class="add_b">确认修改</a>
-            </p> 
-           
+            <div class="mem_tit">
+                <div ><img src="images/add_ad.gif" @click="add()"/></div>
+            </div>
 
-            
+
+
         </div>
+<!--            	<div class="a_close"><a href="#"><img src="images/a_close.png" /></a></div>-->
+<!--            	<table border="0" class="add_t" align="center" style="width:98%; margin:10px auto;" cellspacing="0" cellpadding="0">-->
+<!--                  <tr>-->
+<!--                    <td colspan="2" style="font-size:14px; color:#ff4e00;">杨杨公司</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td align="right" width="80">收货人姓名：</td>-->
+<!--                    <td>杨杨</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td align="right">配送区域：</td>-->
+<!--                    <td>四川成都市武侯区三环以内</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td align="right">详细地址：</td>-->
+<!--                    <td>科华北路66号世外桃源写字楼3楼</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td align="right">手机：</td>-->
+<!--                    <td>12345678998</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td align="right">电话：</td>-->
+<!--                    <td>028-12345678</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td align="right">电子邮箱：</td>-->
+<!--                    <td>123456789@qq.com</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td align="right">标志建筑：</td>-->
+<!--                    <td>世外桃源</td>-->
+<!--                  </tr>-->
+<!--                </table>-->
+<!--				-->
+<!--                <p align="right">-->
+<!--                	<a href="#" style="color:#ff4e00;">设为默认</a>&nbsp; &nbsp; &nbsp; &nbsp; <a href="#" style="color:#ff4e00;">编辑</a>&nbsp; &nbsp; &nbsp; &nbsp; -->
+<!--                </p>-->
+
+            </div>
+
+
+
     </div>
-	<!--End 用户中心 End--> 
+	<!--End 用户中心 End-->
     <!--Begin Footer Begin -->
     <div class="b_btm_bg b_btm_c">
         <div class="b_btm">
             <table border="0" style="width:210px; height:62px; float:left; margin-left:75px; margin-top:30px;" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="72"><img src="../../images/b1.png" width="62" height="62" /></td>
+                <td width="72"><img src="images/b1.png" width="62" height="62" /></td>
                 <td><h2>正品保障</h2>正品行货  放心购买</td>
               </tr>
             </table>
 			<table border="0" style="width:210px; height:62px; float:left; margin-left:75px; margin-top:30px;" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="72"><img src="../../images/b2.png" width="62" height="62" /></td>
+                <td width="72"><img src="images/b2.png" width="62" height="62" /></td>
                 <td><h2>满38包邮</h2>满38包邮 免运费</td>
               </tr>
             </table>
             <table border="0" style="width:210px; height:62px; float:left; margin-left:75px; margin-top:30px;" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="72"><img src="../../images/b3.png" width="62" height="62" /></td>
+                <td width="72"><img src="images/b3.png" width="62" height="62" /></td>
                 <td><h2>天天低价</h2>天天低价 畅选无忧</td>
               </tr>
             </table>
             <table border="0" style="width:210px; height:62px; float:left; margin-left:75px; margin-top:30px;" cellspacing="0" cellpadding="0">
               <tr>
-                <td width="72"><img src="../../images/b4.png" width="62" height="62" /></td>
+                <td width="72"><img src="images/b4.png" width="62" height="62" /></td>
                 <td><h2>准时送达</h2>收货时间由你做主</td>
               </tr>
             </table>
         </div>
     </div>
     <div class="b_nav">
-    	<dl>                                                                                            
+    	<dl>
         	<dt><a href="#">新手上路</a></dt>
             <dd><a href="#">售后流程</a></dd>
             <dd><a href="#">购物流程</a></dd>
@@ -411,7 +467,7 @@
             <dd><a href="#">投诉与建议</a></dd>
         </dl>
         <div class="b_tel_bg">
-        	<a href="#" class="b_sh1">新浪微博</a>            
+        	<a href="#" class="b_sh1">新浪微博</a>
         	<a href="#" class="b_sh2">腾讯微博</a>
             <p>
             服务热线：<br />
@@ -419,19 +475,168 @@
             </p>
         </div>
         <div class="b_er">
-            <div class="b_er_c"><img src="../../images/er.gif" width="118" height="118" /></div>
-            <img src="../../images/ss.png" />
+            <div class="b_er_c"><img src="images/er.gif" width="118" height="118" /></div>
+            <img src="images/ss.png" />
         </div>
-    </div>    
+    </div>
     <div class="btmbg">
 		<div class="btm">
         	备案/许可证编号：蜀ICP备12009302号-1-www.dingguagua.com   Copyright © 2015-2018 尤洪商城网 All Rights Reserved. 复制必究 , Technical Support: Dgg Group <br />
-            <img src="../../images/b_1.gif" width="98" height="33" /><img src="../../images/b_2.gif" width="98" height="33" /><img src="../../images/b_3.gif" width="98" height="33" /><img src="../../images/b_4.gif" width="98" height="33" /><img src="../../images/b_5.gif" width="98" height="33" /><img src="../../images/b_6.gif" width="98" height="33" />
-        </div>    	
+            <img src="images/b_1.gif" width="98" height="33" /><img src="images/b_2.gif" width="98" height="33" /><img src="images/b_3.gif" width="98" height="33" /><img src="images/b_4.gif" width="98" height="33" /><img src="images/b_5.gif" width="98" height="33" /><img src="images/b_6.gif" width="98" height="33" />
+        </div>
     </div>
-    <!--End Footer End -->    
+    <!--End Footer End -->
 </div>
+</div>
+<script type="module">
+    import request from "./commonJS/request.js";
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    selectedOptions: [],
+                    pcaTextArr: elementChinaAreaData.pcaTextArr,
+                    detailAddress:'',
+                    address:{
+                        address: this.fullName,
+                        isDefault:0,
+                        remark:'',
+                        email:'',
+                        name:'',
+                        phone:''
+                    },
+                    page:{
+                        currentPageNo:1,
+                        totalCount:'',
+                        totalPageCount:'',
+                        pageSize:10
+                    },
+                    addressList:[]
+                };
+            },
+            methods: {
+                handleCascaderChange(value) {
+                    console.log(value);
+                },
+                async initAddressList(currentPageNo) {
+                    this.page.currentPageNo = currentPageNo;
+                    let resp = await request.post("/getAddresssList", this.page)
+                    console.log(resp)
+                    this.addressList = resp.data.list;
+                    this.page.totalCount = resp.data.total;
+                    this.page.pageSize = resp.data.pageSize
+                    this.page.totalPageCount = resp.data.pages;
+                },
+                async setAddressDefault(id) {
+                    let resp = await request.get("/setAddressDefault", {
+                        params: {
+                            id: id
+                        }
+                    })
+                    if (resp.code == "200") {
+                        this.$message({
+                            message: '设置成功!',
+                            type: 'success',
+                            center: 'true',
+                        })
+                        this.initAddressList();
 
+                    } else {
+                        this.$message({
+                            message: resp.msg,
+                            type: 'error',
+                            center: 'true',
+                        })
+                    }
+                },
+                handleSizeChange(val) {
+                    this.page.pageSize = val;
+                    this.initAddressList()
+                },
+                toupdate(id) {
+                    window.location.href = 'Member_AddressUpdate.html?id='+id;
+                },
+                async deleteById(id) {
+                    if (!confirm("您确定要删除该地址吗")) {
+                        return;
+                    }
+                    let resp = await request.get("/delAddressById", {
+                        params: {
+                            id: id
+                        }
+                    })
+                    console.log(resp)
+                    if (resp.code == "200") {
+                        this.$message({
+                            message: '删除成功!',
+                            type: 'success',
+                            center: 'true',
+                        })
+                        this.initAddressList();
+                    } else {
+                        this.$message({
+                            message: resp.message,
+                            type: 'error',
+                            center: 'true',
+                        })
+                    }
+
+                },
+                handleClose(done) {
+                    if (this.loading) {
+                        return;
+                    }
+                    this.$confirm('确定要添加咨询吗？')
+                        .then(_ => {
+                            this.loading = true;
+                            this.timer = setTimeout(() => {
+                                done();
+                                // 动画关闭需要一定的时间
+                                setTimeout(() => {
+                                    this.loading = false;
+                                }, 400);
+                            }, 2000);
+                        })
+                        .catch(_ => {
+                        });
+                },
+                cancelForm() {
+                    this.loading = false;
+                    this.dialog = false;
+                    clearTimeout(this.timer);
+
+                },
+                async add() {
+                    this.address.address=this.fullName
+                    let resp = await request.post("/addAddress",this.address)
+                    console.log(resp)
+                    if (resp.code == "200") {
+                        this.$message({
+                            message: "添加成功",
+                            type: 'success',
+                            center: 'true',
+                        })
+                        this.initAddressList();
+                    } else {
+                        this.$message({
+                            message: "添加失败",
+                            type: 'error',
+                            center: 'true',
+                        })
+                    }
+                }
+            },
+            computed: {
+                fullName() {
+                    return this.selectedOptions.join("") + this.detailAddress;
+                }
+            },
+            mounted() {
+                this.initAddressList();
+				console.log(mentChinaAreaData.pcaTextArr)
+            }
+        })
+</script>
 </body>
 
 

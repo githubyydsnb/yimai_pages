@@ -122,7 +122,7 @@
                                 <li><a href="#">我的收藏夹</a></li>
                             </ul>
                         </div>
-                    </div>     
+                    </div>
                 </div>
                 <div class="ss_list">
                 	<a href="#">客户服务</a>
@@ -135,7 +135,7 @@
                                 <li><a href="#">客户服务</a></li>
                             </ul>
                         </div>
-                    </div>    
+                    </div>
                 </div>
                 <div class="ss_list">
                 	<a href="#">网站导航</a>
@@ -147,7 +147,7 @@
                                 <li><a href="#">网站导航</a></li>
                             </ul>
                         </div>
-                    </div>    
+                    </div>
                 </div>
             </span>
             <span class="fl">|&nbsp;关注我们：</span>
@@ -248,7 +248,7 @@
 			</div>
 			<div class="m_right">
 				<p></p>
-				<div class="mem_tit">订单管理</div>
+				<div class="mem_tit">我的订单</div>
 				<el-select clearable v-model="order.status" placeholder="订单状态">
 					<el-option label="全部" value="0"></el-option>
 
@@ -274,8 +274,14 @@
 				>
 					<el-table-column
 							type="index"
-							label="序号"
 							sortable
+							label="序号"
+							width="120">
+					</el-table-column>
+					<el-table-column
+							label="订单id"
+							sortable
+							prop="id"
 							width="120">
 					</el-table-column>
 					<el-table-column
@@ -326,9 +332,12 @@
 							label="操作"
 							width="150">
 						<template slot-scope="scope">
-							<el-button @click="handleClick(scope.row.id)" type="text" size="small">查看</el-button>
+							<el-button @click="handleClick(scope.row.id)" v-if="scope.row.status==1 || scope.row.status==3"  type="text" size="small">查看</el-button>
 							<el-button v-if="scope.row.status==2" @click="handleCancel(scope.row.id)" type="text"
 									   size="small">取消订单
+							</el-button>
+							<el-button v-if="scope.row.status==2" @click="createOrder(scope.row.cost,scope.row.serialNumber,)" type="text"
+									   size="small">去支付
 							</el-button>
 						</template>
 					</el-table-column>
@@ -344,6 +353,11 @@
 						layout="total, sizes, prev, pager, next, jumper"
 						:total="page.totalCount">
 				</el-pagination>
+				<el-cascader
+						v-model="selectedOptions"
+						:options="pcaTextArr"
+						placeholder="请选择"
+				></el-cascader>
 				<div class="mem_tit">合并订单</div>
 				<table border="0" class="order_tab" style="width:930px;" cellspacing="0" cellpadding="0">
 					<tr>
@@ -478,9 +492,11 @@
 		</div>
 		<!--End Footer End -->
 	</div>
-</div>
-</body>
 
+</div>
+
+</body>
+<script src="../../js/element-china-area-data.iife.js"></script>
 <script type="module">
 	import {getOrderList, cancelOrder} from '/api/order.js';
 	import {getOrderDetailList} from '/api/orderDetail.js';
@@ -489,11 +505,16 @@
 		el: '#root',
 		data() {
 			return {
+				selectedOptions: [],
+				pcaTextArr: elementChinaAreaData.pcaTextArr,
 				orderList: [],
 				order: {},
 				page: {
 					currPageNo: 1,
 					pageSize: 5
+				},
+				user: {
+					id: 21
 				},
 				dialogFormVisible: false
 			}
@@ -506,6 +527,7 @@
 			},
 			async getOrderList(currPageNo) {
 				this.page.currPageNo = currPageNo;
+				this.order.userId=this.user.id;
 				let {data} = await getOrderList(this.order, this.page);
 				this.orderList = data.orderList;
 				this.page = data.page;
@@ -533,10 +555,14 @@
 					}
 				}
 
+			},
+			createOrder(cost,orderNo) {
+				window.location.href = "http://localhost:8080/order/createOrderAlipay?cost=" + cost + "&orderNo=" + encodeURIComponent(orderNo);
 			}
 		},
 		async mounted() {
-			await athis.getOrderList(1);
+			await this.getOrderList(1);
+
 		}
 	})
 </script>

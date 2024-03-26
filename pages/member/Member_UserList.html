@@ -351,10 +351,10 @@
                 }
             }
         },
-        mounted:function (){
-            this.getRoleList2();
-            this.getUserLogin();
-            this.getUserList(1);
+         mounted:async function (){
+            await this.getRoleList2();
+            await this.getUserLogin();
+            await this.getUserList(1);
         },
         methods:{
             searchBy(){

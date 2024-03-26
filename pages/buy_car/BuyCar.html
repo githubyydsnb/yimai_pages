@@ -643,8 +643,13 @@
 						<el-link @click="clearShopCar">清空购物车</el-link>
 						<span class="fr">商品总价：<b style="font-size:22px; color:#ff4e00;">￥{{totalPrice}}</b></span>
 						<br>
-						全选<input style="float: left;" type="checkbox" @change="selectAll" v-model="selectedItems" name=""
-							   >
+						全选<input style="float: left;" type="checkbox" @change="selectAll" v-model="selectedItems"
+								   name=""
+					>
+					</td>
+					<td>
+						<el-button @click="deleteShoppingCarByIds" style="float: right">删除</el-button>
+
 					</td>
 				</tr>
 				<tr valign="top" height="150">
@@ -756,7 +761,7 @@
 </div>
 </body>
 <script type="module">
-	import {getShopCarList, deleteShopCar, modifyShopCar} from '../../api/shoppingCar.js';
+	import {getShopCarList, deleteShopCar, modifyShopCar, deleteShoppingCarByIds} from '../../api/shoppingCar.js';
 
 	const vm = new Vue({
 		el: "#root",
@@ -765,8 +770,8 @@
 				user: {
 					id: 21
 				},
-				shopCar:{
-					userId:21,
+				shopCar: {
+					userId: 21,
 				},
 				cars: [],
 				changeColor: 'car_tr',
@@ -828,17 +833,28 @@
 			},
 			goBuy_Two() {
 				if (confirm("确认结算购物车吗?")) {
-					if(this.selectedItems.length<1){
+					if (this.selectedItems.length < 1) {
 						this.$message.error("请选择要结算的商品")
 						return;
 					}
-					window.location.href = "BuyCar_Two.html?idS="+this.selectedItems;
+					window.location.href = "BuyCar_Two.html?idS=" + this.selectedItems;
 				}
+			},
+			async deleteShoppingCarByIds() {
+				if (confirm("确认删除?")) {
+					const {code} = await deleteShoppingCarByIds(this.selectedItems);
+					if (code == "200") {
+						this.$message.success("删除成功")
+						this.getShopCarList();
+
+					}
+				}
+
 			}
 
 		},
-		mounted() {
-			this.getShopCarList();
+	async	mounted() {
+			await this.getShopCarList();
 		},
 	})
 </script>

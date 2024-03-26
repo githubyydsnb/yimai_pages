@@ -81,6 +81,20 @@ const updateProductFileId = (product) => {
       }
   })
 }
+const getProduct = (product) => {
+  return request.post(baseUrl+"/getProduct",{
+      product:{
+          id:product.id
+      }
+  })
+}
+const getProductListByIds = (ids) => {
+  return request.get(baseUrl+"/getProductListByIds",{
+      params:{
+          ids:ids.toString()
+      }
+  })
+}
 export {
     getProductListByCategoryId,
     getPicPathById,
@@ -93,4 +107,6 @@ export {
     modifyProduct,
     getProductByName,
     updateProductFileId,
+    getProduct,
+    getProductListByIds
 }

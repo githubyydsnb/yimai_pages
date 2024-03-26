@@ -122,7 +122,7 @@
                                 <li><a href="#">我的收藏夹</a></li>
                             </ul>
                         </div>
-                    </div>     
+                    </div>
                 </div>
                 <div class="ss_list">
                 	<a href="#">客户服务</a>
@@ -135,7 +135,7 @@
                                 <li><a href="#">客户服务</a></li>
                             </ul>
                         </div>
-                    </div>    
+                    </div>
                 </div>
                 <div class="ss_list">
                 	<a href="#">网站导航</a>
@@ -147,7 +147,7 @@
                                 <li><a href="#">网站导航</a></li>
                             </ul>
                         </div>
-                    </div>    
+                    </div>
                 </div>
             </span>
             <span class="fl">|&nbsp;关注我们：</span>
@@ -248,26 +248,63 @@
 			</div>
 			<div class="m_right">
 				<p></p>
-				<div class="mem_tit">订单管理</div>
-				<el-select clearable v-model="order.status" placeholder="订单状态">
-					<el-option label="全部" value="0"></el-option>
+				<div class="mem_tit">我的订单</div>
+				<!--				<el-select clearable v-model="order.status" placeholder="订单状态">-->
+				<!--					<el-option label="全部" value="0"></el-option>-->
 
-					<el-option label="已支付" value="1"></el-option>
-					<el-option label="未支付" value="2"></el-option>
-					<el-option label="已取消" value="3"></el-option>
-				</el-select>
-				<el-input clearable style="width: 200px" placeholder="地址" v-model.trim="order.userAddress"
-						  class="input-with-select">
+				<!--					<el-option label="已支付" value="1"></el-option>-->
+				<!--					<el-option label="未支付" value="2"></el-option>-->
+				<!--					<el-option label="已取消" value="3"></el-option>-->
+				<!--				</el-select>-->
+				<!--				<el-input clearable style="width: 200px" placeholder="地址" v-model.trim="order.userAddress"-->
+				<!--						  class="input-with-select">-->
 
-				</el-input>
-				<el-input clearable style="width: 200px" placeholder="订单号" v-model.trim="order.serialNumber"
-						  class="input-with-select">
+				<!--				</el-input>-->
+				<!--				<el-input clearable style="width: 200px" placeholder="订单号" v-model.trim="order.serialNumber"-->
+				<!--						  class="input-with-select">-->
 
-					<el-button slot="append" @click="getOrderList(1)" icon="el-icon-search"></el-button>
-				</el-input>
+				<!--					<el-button slot="append" @click="getOrderList(1)" icon="el-icon-search"></el-button>-->
+				<!--				</el-input>-->
+				<el-descriptions class="margin-top" title="订单详情列表" :column="3" border>
+					<el-descriptions-item>
+						<template slot="label">
+							<i class="el-icon-user"></i>
+							用户名
+						</template>
+						{{orderDetailList[0].order.loginName}}
+					</el-descriptions-item>
+					<el-descriptions-item>
+						<template slot="label">
+							<i class="el-icon-mobile-phone"></i>
+							手机号
+						</template>
+						{{orderDetailList[0].user.mobile}}
+					</el-descriptions-item>
+					<el-descriptions-item>
+						<template slot="label">
+							<i class="el-icon-location-outline"></i>
+							订单id
+						</template>
+						{{orderDetailList[0].orderId}}
+					</el-descriptions-item>
 
+					<el-descriptions-item>
+						<template slot="label">
+							<i class="el-icon-office-building"></i>
+							联系地址
+						</template>
+						{{orderDetailList[0].order.userAddress}}
+					</el-descriptions-item>
+					<el-descriptions-item>
+						<template slot="label">
+							<i class="el-icon-location-outline"></i>
+							订单号
+						</template>
+						{{orderDetailList[0].order.serialNumber}}
+					</el-descriptions-item>
+				</el-descriptions>
 				<el-table
-						:data="orderList"
+						:data="orderDetailList"
 						style="width: 100%;margin-bottom: 20px;"
 						border
 						default-expand-all
@@ -279,22 +316,12 @@
 							width="120">
 					</el-table-column>
 					<el-table-column
-							prop="serialNumber"
-							label="订单号"
-							loading
-							width="180">
-					</el-table-column>
-					<el-table-column
 							prop="createTime"
 							label="日期"
 							sortable
 							width="180">
 					</el-table-column>
 
-					<el-table-column
-							prop="userAddress"
-							label="地址">
-					</el-table-column>
 					<el-table-column
 							sortable
 							prop="cost"
@@ -304,42 +331,13 @@
 						</template>
 					</el-table-column>
 
-					<el-table-column
-							prop="status"
-							label="状态">
-						<template slot-scope="scope">
-							<el-steps :space="200">
-								<el-step v-if="scope.row.status==1" title="已支付" status="success">
-
-								</el-step>
-								<el-step v-if="scope.row.status==2" title="未支付" status="error">
-
-								</el-step>
-								<el-step v-if="scope.row.status==3" title="已取消" status="process">
-
-								</el-step>
-							</el-steps>
-						</template>
-					</el-table-column>
-					<el-table-column
-							fixed="right"
-							label="操作"
-							width="150">
-						<template slot-scope="scope">
-							<el-button @click="handleClick(scope.row.id)" type="text" size="small">查看</el-button>
-							<el-button v-if="scope.row.status==2" @click="handleCancel(scope.row.id)" type="text"
-									   size="small">取消订单
-							</el-button>
-						</template>
-					</el-table-column>
-
 				</el-table>
 
 				<el-pagination
 						@size-change="handleSizeChange"
 						@current-change="handleCurrentChange"
 						:current-page="page.currPageNo"
-						:page-sizes="[2, 5, 10, 20]"
+						:page-sizes="[1, 2, 4, 6]"
 						:page-size="page.pageSize"
 						layout="total, sizes, prev, pager, next, jumper"
 						:total="page.totalCount">
@@ -482,61 +480,43 @@
 </body>
 
 <script type="module">
-	import {getOrderList, cancelOrder} from '/api/order.js';
+	import {getOrderList} from '/api/order.js';
 	import {getOrderDetailList} from '/api/orderDetail.js';
 
 	new Vue({
 		el: '#root',
 		data() {
 			return {
-				orderList: [],
-				order: {},
+				orderDetailList: [],
+				orderDetail: {},
 				page: {
 					currPageNo: 1,
-					pageSize: 5
+					pageSize: 2
 				},
 				dialogFormVisible: false
 			}
 		},
 		methods: {
-			load(tree, treeNode, resolve) {
-				setTimeout(() => {
-					resolve(this.orderList.children)
-				}, 1000)
-			},
-			async getOrderList(currPageNo) {
+			async getOrderDetailList(currPageNo) {
 				this.page.currPageNo = currPageNo;
-				let {data} = await getOrderList(this.order, this.page);
-				this.orderList = data.orderList;
-				this.page = data.page;
-				this.orderList.forEach(item => {
-					this.$set(item, 'children', []);
-				})
+				let searchParams = new URLSearchParams(window.location.search);
+				let orderId = searchParams.get("orderId");
+				this.orderDetail.orderId = orderId;
+				const {data} = await getOrderDetailList(this.orderDetail, this.page);
+				this.orderDetailList = data.orderDetailList;
+				this.page=data.page;
 			},
 			handleSizeChange(val) {
 				this.page.pageSize = val;
-				this.getOrderList(this.page.currPageNo);
+				this.getOrderDetailList(this.page.currPageNo);
 			},
 			handleCurrentChange(val) {
-				this.getOrderList(val);
+				this.getOrderDetailList(val);
 			},
-			handleClick(id) {
-				window.location.href = "Member_OrderDetail.html?orderId=" + id;
-			},
-			async handleCancel(id) {
-				const {code} = await cancelOrder(id);
-				if (confirm("确认取消订单吗?")) {
-					if (code == "200") {
-						this.$message.success("取消成功!");
-						this.getOrderList(this.page.currPageNo);
 
-					}
-				}
-
-			}
 		},
 		async mounted() {
-			await athis.getOrderList(1);
+			await this.getOrderDetailList(1);
 		}
 	})
 </script>

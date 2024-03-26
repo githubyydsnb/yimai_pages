@@ -17,9 +17,9 @@
 	<script type="text/javascript" src="../../js/vue.js"></script>
 
 	<!-- 引入样式 -->
-	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<link rel="stylesheet" href="/css/Element.css">
 	<!-- 引入组件库 -->
-	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script src="/js/Element.js"></script>
 	<script type="text/javascript" src="../../js/n_nav.js"></script>
 
 	<title>尤洪</title>
@@ -575,8 +575,8 @@
 		<div class="postion">
 			<span class="fl">全部 > 美妆个护 > 香水 > </span>
 			<span class="n_ch">
-            <span class="fl">品牌：<font>香奈儿</font></span>
-            <a href="javascript:void(0)"><img src="../../images/s_close.gif"/></a>
+            <span class="fl">品牌：<font>{{brand.brandName}}</font></span>
+            <a href="javascript:void(0)" @click="clearBrand"><img src="../../images/s_close.gif"/></a>
         </span>
 		</div>
 		<!--Begin 筛选条件 Begin-->
@@ -588,7 +588,7 @@
 					<td class="td_a">
 						<a href="javascript:void(0)" @click="getProduct(1,'')">全部</a>
 						<a @click="getProduct(1,brand.brandName)" href="javascript:void(0)"
-						   v-for="brand in brandList" >{{brand.brandName}}</a>
+						   v-for="brand in brandList">{{brand.brandName}}</a>
 						<!--						<a href="javascript:void(0)" class="now">香奈儿（Chanel）</a><a-->
 				<tr valign="top">
 					<td>&nbsp; 价格：</td>
@@ -691,16 +691,16 @@
 				<div class="list_c">
 
 					<ul class="cate_list">
-						<li v-for="product in products" :key="product.id">
-							<div class="img"><a href="javascript:void(0)"><img :src="getPicPathById(product.id)"
+						<li v-for="product in products" :key="product.id" >
+							<div class="img" @click="goProductDetail(product.id)"><a href="javascript:void(0)"><img :src="getPicPathById(product.id)"
 																			   width="210"
 																			   height="185"/></a>
 							</div>
 							<div class="price">
 								<font>￥<span>{{product.id}}</span></font> &nbsp; 26R
 							</div>
-							<div class="name"><a href="javascript:void(0)" v-html="product.name"></a></div>
-							<div class="carbg">
+							<div class="name" @click="goProductDetail(product.id)"><a href="javascript:void(0)" v-html="product.name"></a></div>
+							<div class="carbg" >
 								<a href="javascript:void(0)" class="ss">收藏</a>
 								<a href="javascript:void(0)" @click="addShopCar(product.id,1)"
 								   class="j_car">加入购物车</a>
@@ -828,7 +828,7 @@
 </body>
 
 <script type="module">
-	import {getProductByCondition} from '../../api/product.js';
+	import {getProductByCondition, getProductListByIds} from '../../api/product.js';
 	import {addShopCar, checkShopIsExit} from '../../api/shoppingCar.js';
 	import {getShopCarList} from '../../api/shoppingCar.js';
 	import {getBrandList} from '../../api/brand.js';
@@ -838,11 +838,11 @@
 		data() {
 			return {
 				brand: {
-					brandName:'ff',
+					brandName: 'ff',
 				},
 				cars: [],
 				shopCar: {
-					userId:21,
+					userId: 21,
 				},
 				user: {
 					id: 21,
@@ -871,12 +871,12 @@
 		methods: {
 			async getProduct(currPageNo, brandName) {
 				this.page.currPageNo = currPageNo;
-				if(brandName==undefined){
-					brandName=''
+				if (brandName == undefined) {
+					brandName = ''
 				}
 				this.brand.brandName = brandName;
 
-				const {data} = await getProductByCondition(this.productKeyWord,this.brand, this.page);
+				const {data} = await getProductByCondition(this.productKeyWord, this.brand, this.page);
 				console.log(data);
 				this.products = data.products;
 				this.page = data.page;
@@ -886,11 +886,11 @@
 			},
 			handleSizeChange(val) {
 				this.page.pageSize = val;
-				this.getProduct(this.page.currPageNo,this.brand.brandName);
+				this.getProduct(this.page.currPageNo, this.brand.brandName);
 			},
 			handleCurrentChange(val) {
 				this.page.currPageNo = val;
-				this.getProduct(this.page.currPageNo,this.brand.brandName);
+				this.getProduct(this.page.currPageNo, this.brand.brandName);
 			},
 			async checkShopIsExit(shopCar) {
 				const {code} = await checkShopIsExit(shopCar);
@@ -905,6 +905,8 @@
 				this.shopCar.count = count;
 				this.shopCar.userId = this.user.id;
 				if (!await this.checkShopIsExit(this.shopCar)) {
+					this.$message.error("已加入购物车!");
+
 					return;
 				}
 				const {code} = await addShopCar(this.shopCar);
@@ -916,8 +918,8 @@
 						center: true,
 					});
 					await this.getShopCarList();
-
 				}
+
 			},
 			async getShopCarList() {
 				const {data} = await getShopCarList(this.shopCar);
@@ -926,15 +928,20 @@
 			async getBrandList() {
 				const {data} = await getBrandList();
 				this.brandList = data;
+			},
+			clearBrand(){
+				this.brand.brandName='';
+			},
+			goProductDetail(id){
+				window.location.href='../product/Product.html?id='+id;
 			}
 
 		},
-		mounted() {
+		async mounted() {
 			this.productKeyWord.name = decodeURIComponent(window.location.search.substring(6))
-			this.getProduct(1);
-			this.getShopCarList();
-			this.getBrandList();
-
+			await this.getShopCarList();
+			await this.getBrandList();
+			await this.getProduct(1);
 		},
 	})
 </script>
