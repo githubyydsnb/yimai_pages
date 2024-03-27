@@ -33,7 +33,9 @@ const getById = (address) => {
         address:address
     });
 }
-
+const  getLoginAddressDef = () =>{
+    return request.post(baseUrl + "/getLoginAddressDef")
+}
 export {
     getUserAddress,
     UpdateAddress,
@@ -41,4 +43,5 @@ export {
     addAddress,
     setDefault,
     getById,
+    getLoginAddressDef,
 }

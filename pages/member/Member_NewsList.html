@@ -222,13 +222,13 @@
               <tr>                                                                                                                                                    
                 <td width="40%">文章标题</td>
                 <td width="40%">创建时间</td>
-                <td width="20%" colspan="2">操作</td>
+                <td width="20%" colspan="2" v-if="user.roleId<2">操作</td>
               </tr>
               <tr v-for="(news,index) in newsList" :key="news.id">
                 <td><a  :href="'Member_NewsContent.html?id='+news.id"><font color="#ff4e00">{{news.title}}</font></a></td>
                 <td>{{news.createTime}}</td>
-                  <td ><a :href="'Member_NewsUpdate.html?id='+news.id">修改</a></td>
-                  <td ><a href="javascript:void(0)" @click="del(news.id)" >删除</a></td>
+                  <td ><a :href="'Member_NewsUpdate.html?id='+news.id"  v-if="user.roleId<2">修改</a></td>
+                  <td ><a href="javascript:void(0)" @click="del(news.id)"  v-if="user.roleId<2">删除</a></td>
               </tr>
             </table>
             <div class="pages">
@@ -331,17 +331,20 @@
 </body>
 <script type="module">
     import  {getNewsList,delNewsById} from '../../api/news.js';
+    import  {getUserLogin} from '../../api/user.js';
     const vm = new Vue({
         el:"#root",
         data(){
             return{
                 newsList:[],
                 page:{},
-                news:{}
+                news:{},
+                user:{}
             }
         },
         mounted:function (){
             this.getNewsListBy(1);
+            this.getUserLogin();
         },
         methods:{
             async getNewsListBy(currPageNo){
@@ -378,6 +381,10 @@
             },
             add(){
                 window.location.href="Member_NewsAdd.html";
+            },
+            async getUserLogin(){
+                let data = await getUserLogin();
+                this.user = data.data;
             }
         }
     })

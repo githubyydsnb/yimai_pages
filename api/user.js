@@ -54,6 +54,9 @@ const getUserById = (user) =>{
 const updateUser = (user) =>{
     return request.post(baseUrl + "/updateUser",{user:user});
 }
+const getUserCount = (user) =>{
+    return request.post(baseUrl + "/getUserCount",{user:user});
+}
 export {
     checkUser,
     checkLogin,
@@ -66,4 +69,5 @@ export {
     delUserById,
     getUserById,
     updateUser,
+    getUserCount,
 }

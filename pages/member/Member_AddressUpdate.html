@@ -255,8 +255,8 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item label="详细地址" prop="addressDef">
-                    <el-input clearable type="text" v-model.trim="address2.addressDef"
-                              autocomplete="off">
+                    <el-input type="text" v-model.trim="address2.addressDef"
+                              >
                     </el-input>
                 </el-form-item>
                 <el-form-item label="手机" prop="mobile">
@@ -388,9 +388,12 @@
                     return;
                 }
                 this.mobileFlag = true;
+
                 return callback();
             };
             var validateAddressDef = (rule, value, callback) => {
+                this.$forceUpdate();
+                // this.$set(this.address,"addressDef",value)
                 if (value == '') {
                     callback(new Error('请输入详细地址'))
                     return;
@@ -417,6 +420,7 @@
                     return;
                 }
                 this.name = true;
+
                 callback();
             };
             return {

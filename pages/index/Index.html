@@ -210,18 +210,19 @@
 			<div class="nav">
 				<div class="nav_t">全部商品分类</div>
 				<div class="leftNav">
-					<ul>
+					<ul >
 						<li v-for="(category,index) in categoryOneList" :key="category.id"
 							@mouseenter="getParentId(category.id)">
 							<div class="fj">
 								<span class="n_img"><span></span><img src="../../images/nav5.png"/></span>
 								<span class="fl">{{category.name}}</span>
 							</div><!-- style="top:-160px;" -->
-							<div class="zj" v-for="(cateTwo,index) in categoryTwoList" :key="cateTwo.id">
-								<div class="zj_l">
-									<div class="zj_l_c">
+							<template v-if="categoryTwoList.length!=0">
+							<div class="zj">
+								<div class="zj_l" >
+									<div class="zj_l_c" v-for="(cateTwo,index) in categoryTwoList" :key="cateTwo.id">
 										<h2>{{cateTwo.name}}</h2>
-										<a href="#" v-for="(cateThree,index) in categoryThreeList" :key="cateThree.id">{{cateThree.name}}</a>|
+										<a href="#" v-for="(cateThree,index) in categoryThreeList" :key="cateThree.id">{{cateThree.name}}|</a>
 									</div>
 								</div>
 								<div class="zj_r">
@@ -229,6 +230,7 @@
 									<a href="#"><img src="../../images/n_img2.jpg" width="236" height="200"/></a>
 								</div>
 							</div>
+							</template>
 						</li>
 					</ul>
 				</div>
@@ -991,6 +993,38 @@
 </div>
 
 </body>
+<style scoped lang="scss">
+	.leftNav ul li:hover {
+		width: 211px;
+		text-decoration: none;
+		height: 40px;
+		line-height: 40px;
+		background-color: #FFF;
+		color: #ff4e00;
+		z-index: 800px;
+		.zj {
+			display: block;
+			position: absolute;
+			.zj_l{
+				/*float: left;*/
+			}
+		}
+	}
+
+</style>
+<!--<script>-->
+<!--	$(function(){-->
+<!--		$("#letfNavList li").each(function(){-->
+<!--			$(this).mouseover(function(){-->
+<!--				// $(this).find(".zj").css("display","block");-->
+<!--				$("#letfNavList li .zj").css("display","block");-->
+<!--			})-->
+<!--			$(this).mouseleave(function(){-->
+<!--				// $(this).find(".zj").css("display","none");-->
+<!--			})-->
+<!--		})-->
+<!--	})-->
+<!--</script>-->
 <script type="module">
 	import {getCategoryOneList, getCategoryList} from '../../api/category.js';
 	import {getProductList, getProductHotList} from '../../api/product.js';
@@ -1002,72 +1036,7 @@
 		el: "#root",
 		data() {
 			return {
-				categoryOneList: [
-					{
-						"id": 548,
-						"name": "化妆品",
-						"parentId": 0,
-						"type": 1,
-						"iconClass": "",
-						"isDel": 0,
-						"createTime": "2024-03-17 19:13:42"
-					},
-					{
-						"id": 628,
-						"name": "家用商品",
-						"parentId": 0,
-						"type": 1,
-						"iconClass": "",
-						"isDel": 0,
-						"createTime": "2024-03-17 19:13:42"
-					},
-					{
-						"id": 660,
-						"name": "进口食品,生鲜",
-						"parentId": 0,
-						"type": 1,
-						"iconClass": "",
-						"isDel": 0,
-						"createTime": "2024-03-17 19:13:42"
-					},
-					{
-						"id": 670,
-						"name": "电子商品",
-						"parentId": 0,
-						"type": 1,
-						"iconClass": "",
-						"isDel": 0,
-						"createTime": "2024-03-17 19:13:42"
-					},
-					{
-						"id": 676,
-						"name": "保健食品",
-						"parentId": 0,
-						"type": 1,
-						"iconClass": "",
-						"isDel": 0,
-						"createTime": "2024-03-17 19:13:42"
-					},
-					{
-						"id": 681,
-						"name": "箱包",
-						"parentId": 0,
-						"type": 1,
-						"iconClass": "",
-						"isDel": 0,
-						"createTime": "2024-03-17 19:13:42"
-					},
-					{
-						"id": 681,
-						"name": "箱包",
-						"parentId": 0,
-						"type": 1,
-						"iconClass": "",
-						"isDel": 0,
-						"createTime": "2024-03-17 19:13:42"
-					}
-				],
-				// categoryOneList: [],
+				categoryOneList: [],
 				categoryTwoList: [],
 				categoryThreeList: [],
 				page: {},
@@ -1136,13 +1105,24 @@
 			async getCategoryList(id) {
 				let repsonse = await getCategoryList(id);
 				this.categoryTwoList = repsonse.data;
+				console.log(this.categoryTwoList)
+				// this.categoryTwoList.push(repsonse.data);
+				// if (this.categoryTwoList.length > 0) {
+				// 	for(let i = 0;i<this.categoryTwoList.length;i++){
+				// 	this.getCategoryList2(this.categoryTwoList[i].id);
+				// 		this.$forceUpdate();
+				//
+				// 	}
+				// }
 				if (this.categoryTwoList.length > 0) {
-					this.getCategoryList2(this.categoryTwoList[0].id);
+						this.getCategoryList2(this.categoryTwoList[0].id);
+						this.$forceUpdate();
 				}
 			},
 			async getCategoryList2(id) {
 				let repsonse = await getCategoryList(id);
 				this.categoryThreeList = repsonse.data;
+				// this.categoryThreeList.push(repsonse.data);
 			},
 			async getProductList1() {
 				this.product.categoryLevelId = 687

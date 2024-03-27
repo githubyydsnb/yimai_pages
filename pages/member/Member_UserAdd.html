@@ -362,7 +362,7 @@
 </div>
 </body>
 <script type="module">
-    import {addUser, checkUser,getUserByMobile} from "../../api/user.js";
+    import {addUser, checkUser,getUserByMobile,getUserCount} from "../../api/user.js";
     import {getRoleList} from "../../api/role.js";
 
     const vm = new Vue({
@@ -422,6 +422,12 @@
                     callback(new Error('请18位数字的身份证号码（末尾可以用x或X）'));
                     return;
                 }
+                this.isIDExist = false;
+                this.getUserCount(this.user);
+                if(this.isIDExist){
+                    callback(new Error('身份证号码已经存在'));
+                    return;
+                }
                 this.loginName = true;
                 callback();
             };
@@ -463,7 +469,9 @@
                     callback(new Error("请输入合法的手机号"));
                     return;
                 }
-                if(this.checkMobile(this.user)!=null){
+                this.isMExist=false;
+                this.checkMobile(this.user);
+                if(this.isMExist){
                     callback(new Error("该手机号已经被注册！"));
                     return;
                 }
@@ -493,6 +501,8 @@
                 inputVerifyCodeFlag: false,
                 verifyCode: '',
                 showTime: true,
+                isIDExist:false,
+                isMExist:false,
                 getTime: 60,
                 timer: '',
                 rules: {
@@ -591,7 +601,9 @@
             },
         async checkMobile(user){
             let response = await getUserByMobile(user);
-            return response.data;
+            if(response.data!=null){
+                this.isMExist=true;
+            }
         },
             submitForm(formName) {
                 this.$refs[formName].validate(async (valid) => {
@@ -620,7 +632,12 @@
             back(){
                 window.location.href="Member_UserList.html";
             },
-
+            async getUserCount(user){
+                let data = await getUserCount(user);
+                if(data.data>0){
+                    this.isIDExist = true;
+                }
+            }
         }
     })
 </script>

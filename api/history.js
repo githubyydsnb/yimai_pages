@@ -11,8 +11,12 @@ const addHistory = (product) => {
         product:product
     });
 }
+const delAll = () => {
+    return request.post(baseUrl + "/delAll");
+}
 
 export {
     getHistoryList,
     addHistory,
+    delAll
 }
