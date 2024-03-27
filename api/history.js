@@ -15,6 +15,10 @@ const delAll = () => {
     return request.post(baseUrl + "/delAll");
 }
 
+const delAll = () => {
+    return request.post(baseUrl + "/delAll");
+}
+
 export {
     getHistoryList,
     addHistory,

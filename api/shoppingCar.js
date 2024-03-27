@@ -18,10 +18,9 @@ const checkShopIsExit = (shopCar) => {
     })
 }
 const getShoppingCarListByIds = (idStr) => {
-    console.log(idStr)
     return request.get(baseUrl + "/getShoppingCarListByIds", {
         params: {
-            ids:idStr.toString()
+            ids: idStr.toString()
         }
     })
 }
@@ -42,11 +41,19 @@ const modifyShopCar = (carParam) => {
     })
 }
 
+const deleteShoppingCarByIds = (idStr) => {
+    return request.get(baseUrl + "/deleteShoppingCarByIds", {
+        params: {
+            ids: idStr.toString()
+        }
+    })
+}
 export {
     getShopCarList,
     addShopCar,
     checkShopIsExit,
     deleteShopCar,
     modifyShopCar,
-    getShoppingCarListByIds
+    getShoppingCarListByIds,
+    deleteShoppingCarByIds
 }

@@ -30,9 +30,9 @@
 	<script type="text/javascript" src="../../js/vue.js"></script>
 
 	<!-- 引入样式 -->
-	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<link rel="stylesheet" href="/css/Element.css">
 	<!-- 引入组件库 -->
-	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script src="/js/Element.js"></script>
 	<script type="text/javascript" src="../../js/n_nav.js"></script>
 	<title>尤洪</title>
 </head>
@@ -120,52 +120,60 @@
         </span>
 			<!--End 所在收货地区 End-->
 			<span class="fr">
-        	<span class="fl">你好，请<a href="../../Login.html">登录</a>&nbsp; <a href="../../Regist.html"
-																				 style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;<a
-					href="#">我的订单</a>&nbsp;|</span>
+        	<span class="fl" v-if="user.id==undefined">你好，请<a href="../login/Login.html">登录</a>&nbsp;
+				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
+			</span>
+				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
+
+					<el-link  class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
+					<a v-if="user.roleId==3" :href=`../member/Member_UserOrder.html?id=${user.id}`>我的订单</a>&nbsp;|
+					<a v-if="user.roleId<3 " :href=`../member/Member_Order.html`>后台管理</a>&nbsp;|
+									欢迎,{{user.userName}}登录&nbsp;|
+				</span>
         	<span class="ss">
-            	<div class="ss_list">
+            	<div class="ss_list" v-if="user.id>0">
                 	<a href="#">收藏夹</a>
                     <div class="ss_list_bg">
                     	<div class="s_city_t"></div>
                         <div class="ss_list_c">
                         	<ul>
-                            	<li><a href="/yimai/member/Member_Collect.html">我的收藏夹</a></li>
-                                <li><a href="/yimai/member/Member_Collect.html">我的收藏夹</a></li>
+                            	<li><a :href=`/yimai/member/Member_Collect.html?id=${user.id}`>我的收藏夹</a></li>
                             </ul>
                         </div>
                     </div>     
                 </div>
                 <div class="ss_list">
-                	<a href="#">客户服务</a>
+                	<a href="javascript:void(0)">客户服务</a>
                     <div class="ss_list_bg">
                     	<div class="s_city_t"></div>
                         <div class="ss_list_c">
                         	<ul>
-                            	<li><a href="#">客户服务</a></li>
-                                <li><a href="#">客户服务</a></li>
-                                <li><a href="#">客户服务</a></li>
+                            	<li><a href="javascript:void(0)">客户服务</a></li>
+                                <li><a href="javascript:void(0)">客户服务</a></li>
+                                <li><a href="javascript:void(0)">客户服务</a></li>
                             </ul>
                         </div>
                     </div>    
                 </div>
                 <div class="ss_list">
-                	<a href="#">网站导航</a>
+                	<a href="javascript:void(0)">网站导航</a>
                     <div class="ss_list_bg">
                     	<div class="s_city_t"></div>
                         <div class="ss_list_c">
                         	<ul>
-                            	<li><a href="#">网站导航</a></li>
-                                <li><a href="#">网站导航</a></li>
+                            	<li><a href="javascript:void(0)">网站导航</a></li>
+                                <li><a href="javascript:void(0)">网站导航</a></li>
                             </ul>
                         </div>
                     </div>    
                 </div>
             </span>
             <span class="fl">|&nbsp;关注我们：</span>
-            <span class="s_sh"><a href="#" class="sh1">新浪</a><a href="#" class="sh2">微信</a></span>
-            <span class="fr">|&nbsp;<a href="#">手机版&nbsp;<img src="../../images/s_tel.png"
-																 align="absmiddle"/></a></span>
+            <span class="s_sh"><a href="javascript:void(0)" class="sh1">新浪</a><a href="javascript:void(0)"
+																				   class="sh2">微信</a></span>
+            <span class="fr">|&nbsp;<a href="javascript:void(0)">手机版&nbsp;<img src="../../images/s_tel.png"
+																				  align="absmiddle"/></a></span>
         </span>
 		</div>
 	</div>
@@ -174,30 +182,35 @@
 		<div class="search">
 			<form>
 				<input type="text" v-model="productKeyWord.name" value="" class="s_ipt"/>
-				<input type="submit" @click.prevent="searchProduct(1)" value="搜索" class="s_btn"/>
+				<input type="submit" @click.prevent="searchProduct" value="搜索" class="s_btn"/>
 			</form>
-			<span class="fl"><a href="#">咖啡</a><a href="#">iphone 6S</a><a href="#">新鲜美食</a><a href="#">蛋糕</a><a
-					href="#">日用品</a><a href="#">连衣裙</a></span>
+			<span class="fl"><a href="javascript:void(0)">咖啡</a><a href="javascript:void(0)">iphone 6S</a><a
+					href="javascript:void(0)">新鲜美食</a><a href="javascript:void(0)">蛋糕</a><a
+					href="javascript:void(0)">日用品</a><a href="javascript:void(0)">连衣裙</a></span>
 		</div>
 		<div class="i_car">
 			<div class="car_t">购物车 [ <span>{{cars.length}}</span> ]</div>
 			<div class="car_bg">
 				<!--Begin 购物车未登录 Begin-->
-				<div class="un_login">还未登录！<a href="../../Login.html" style="color:#ff4e00;">马上登录</a> 查看购物车！
+				<div class="un_login" v-if="user.id==undefined">还未登录！<a href="../login/Login.html"
+																			style="color:#ff4e00;">马上登录</a> 查看购物车！
 				</div>
 				<!--End 购物车未登录 End-->
 				<!--Begin 购物车已登录 Begin-->
 				<ul class="cars">
 					<li v-for="car in cars" :key="car.id">
-						<div class="img"><a href="#"><img :src="getPicPathById(car.productId)" width="58" height="58"/></a>
+						<div class="img"><a href="javascript:void(0)"><img :src="getPicPathById(car.productId)"
+																		   width="58" height="58"/></a>
 						</div>
-						<div class="name"><a href="#">{{car.productName}}</a></div>
+						<div class="name"><a href="javascript:void(0)">{{car.productName}}</a></div>
 						<div class="price"><font color="#ff4e00">￥{{car.price}}</font> X{{car.count}}</div>
 						<!--						<span style="display: none">{{totalPrice = car.count * car.price}}</span>-->
 					</li>
 				</ul>
-				<div class="price_sum">共计&nbsp; <font color="#ff4e00">￥</font><span>{{totalPrice}}</span></div>
-				<div class="price_a"><a href="../buy_car/BuyCar.html">去购物车结算</a></div>
+				<div class="price_sum" v-if="user.id>0 && cars.length>0">共计&nbsp; <font
+						color="#ff4e00">￥</font><span>{{totalPrice}}</span></div>
+				<div class="price_a" v-if="user.id>0 && cars.length>0"><a href="../buy_car/BuyCar.html">去购物车结算</a></div>
+				<div style="text-align: center" v-if="user.id>0 && cars.length<1">暂无购物车记录~</div>
 				<!--End 购物车已登录 End-->
 			</div>
 		</div>
@@ -208,29 +221,33 @@
 		<div class="menu">
 			<!--Begin 商品分类详情 Begin-->
 			<div class="nav">
-				<div class="nav_t">全部商品分类</div>
+				<div class="nav_t"><a href="../catergory/CategoryList.html">全部商品分类</a></div>
 				<div class="leftNav">
-					<ul >
+					<ul>
 						<li v-for="(category,index) in categoryOneList" :key="category.id"
-							@mouseenter="getParentId(category.id)">
+							@mouseenter="getParentId(category.id)"
+						>
 							<div class="fj">
 								<span class="n_img"><span></span><img src="../../images/nav5.png"/></span>
-								<span class="fl">{{category.name}}</span>
+								<span class="fl"
+									  @click="getProductByCategoryName1(category.name)">{{category.name}}</span>
 							</div><!-- style="top:-160px;" -->
-							<template v-if="categoryTwoList.length!=0">
 							<div class="zj">
-								<div class="zj_l" >
-									<div class="zj_l_c" v-for="(cateTwo,index) in categoryTwoList" :key="cateTwo.id">
-										<h2>{{cateTwo.name}}</h2>
-										<a href="#" v-for="(cateThree,index) in categoryThreeList" :key="cateThree.id">{{cateThree.name}}|</a>
+								<div class="zj_l">
+									<div class="zj_l_c"  v-for="(cateTwo,index) in categoryTwoList" :key="cateTwo.id">
+										<h2 @click="getProductByCategoryName2(cateTwo.name)">{{cateTwo.name}}</h2>
+										<a :href=`../catergory/CategoryList.html?product=${JSON.stringify({categoryName3:cateThree.name})}`
+										   v-for="(cateThree,index) in categoryThreeList"
+										   :key="cateThree.id">{{cateThree.name}}</a>|
 									</div>
 								</div>
 								<div class="zj_r">
-									<a href="#"><img src="../../images/n_img1.jpg" width="236" height="200"/></a>
-									<a href="#"><img src="../../images/n_img2.jpg" width="236" height="200"/></a>
+									<a href="javascript:void(0)"><img src="../../images/n_img1.jpg" width="236"
+																	  height="200"/></a>
+									<a href="javascript:void(0)"><img src="../../images/n_img2.jpg" width="236"
+																	  height="200"/></a>
 								</div>
 							</div>
-							</template>
 						</li>
 					</ul>
 				</div>
@@ -261,21 +278,12 @@
 						<li><img src="../../images/ban1.jpg" width="740" height="401"/></li>
 					</ul>
 					<div class="op_btns clearfix">
-						<a href="#" class="op_btn op_prev"><span></span></a>
-						<a href="#" class="op_btn op_next"><span></span></a>
+						<a href="javascript:void(0)" class="op_btn op_prev"><span></span></a>
+						<a href="javascript:void(0)" class="op_btn op_next"><span></span></a>
 					</div>
 				</div>
 			</div>
-			<!--			<script type="text/javascript">-->
-			<!--				//var jq = jQuery.noConflict();-->
-			<!--				(function () {-->
-			<!--					$(".bxslider").bxSlider({-->
-			<!--						auto: true,-->
-			<!--						prevSelector: jq(".top_slide_wrap .op_prev")[0], nextSelector: jq(".top_slide_wrap .op_next")[0]-->
-			<!--					});-->
-			<!--				})();-->
-			<!--			</script>-->
-			<!--End Banner End-->
+
 			<div class="inews">
 				<div class="news_t">
 					<span class="fr"><a :href="'/yimai/member/Member_NewsList.html'">更多 ></a></span>新闻资讯
@@ -333,16 +341,18 @@
 						<div id="block">
 							<div id="botton-scroll">
 								<ul class="featureUL">
-									<li class="featureBox" v-for="product in productHotList">
+									<li class="featureBox" v-for="product in productHotList"
+										@click="goProductDetail(product.id)">
 										<div class="box">
 											<div class="h_icon"><img src="../../images/hot.png" width="50" height="50"/>
 											</div>
 											<div class="imgbg">
-												<a href="#"><img :src="getPicPathById(product.id)" width="160"
-																 height="136"/></a>
+												<a href="javascript:void(0)"><img :src="getPicPathById(product.id)"
+																				  width="160"
+																				  height="136"/></a>
 											</div>
 											<div class="name">
-												<a href="#">
+												<a href="javascript:void(0)">
 													<h2>{{product.name}}</h2>
 													德亚全脂纯牛奶200ml*48盒
 												</a>
@@ -352,60 +362,6 @@
 											</div>
 										</div>
 									</li>
-									<!--									<li class="featureBox">-->
-									<!--										<div class="box">-->
-									<!--											<div class="h_icon"><img src="../../images/hot.png" width="50" height="50"/>-->
-									<!--											</div>-->
-									<!--											<div class="imgbg">-->
-									<!--												<a href="#"><img src="../../images/hot2.jpg" width="160" height="136"/></a>-->
-									<!--											</div>-->
-									<!--											<div class="name">-->
-									<!--												<a href="#">-->
-									<!--													<h2>iphone 6S</h2>-->
-									<!--													Apple/苹果 iPhone 6s Plus公开版-->
-									<!--												</a>-->
-									<!--											</div>-->
-									<!--											<div class="price">-->
-									<!--												<font>￥<span>5288</span></font> &nbsp; 25R-->
-									<!--											</div>-->
-									<!--										</div>-->
-									<!--									</li>-->
-									<!--									<li class="featureBox">-->
-									<!--										<div class="box">-->
-									<!--											<div class="h_icon"><img src="../../images/hot.png" width="50" height="50"/>-->
-									<!--											</div>-->
-									<!--											<div class="imgbg">-->
-									<!--												<a href="#"><img src="../../images/hot3.jpg" width="160" height="136"/></a>-->
-									<!--											</div>-->
-									<!--											<div class="name">-->
-									<!--												<a href="#">-->
-									<!--													<h2>倩碧特惠组合套装</h2>-->
-									<!--													倩碧补水组合套装8折促销-->
-									<!--												</a>-->
-									<!--											</div>-->
-									<!--											<div class="price">-->
-									<!--												<font>￥<span>368</span></font> &nbsp; 18R-->
-									<!--											</div>-->
-									<!--										</div>-->
-									<!--									</li>-->
-									<!--									<li class="featureBox">-->
-									<!--										<div class="box">-->
-									<!--											<div class="h_icon"><img src="../../images/hot.png" width="50" height="50"/>-->
-									<!--											</div>-->
-									<!--											<div class="imgbg">-->
-									<!--												<a href="#"><img src="../../images/hot4.jpg" width="160" height="136"/></a>-->
-									<!--											</div>-->
-									<!--											<div class="name">-->
-									<!--												<a href="#">-->
-									<!--													<h2>品利特级橄榄油</h2>-->
-									<!--													750ml*4瓶装组合 西班牙原装进口-->
-									<!--												</a>-->
-									<!--											</div>-->
-									<!--											<div class="price">-->
-									<!--												<font>￥<span>280</span></font> &nbsp; 30R-->
-									<!--											</div>-->
-									<!--										</div>-->
-									<!--									</li>-->
 								</ul>
 							</div>
 						</div>
@@ -418,68 +374,90 @@
 		<!--Begin 限时特卖 Begin-->
 		<div class="i_t mar_10">
 			<span class="fl">限时特卖</span>
-			<span class="i_mores fr"><a href="#">更多</a></span>
+			<span class="i_mores fr"><a href="javascript:void(0)">更多</a></span>
 		</div>
 		<div class="content">
 			<div class="i_sell">
 				<div id="imgPlay">
 					<ul class="imgs" id="actor">
-						<li><a href="#"><img src="../../images/tm_r.jpg" width="211" height="357"/></a></li>
-						<li><a href="#"><img src="../../images/tm_r.jpg" width="211" height="357"/></a></li>
-						<li><a href="#"><img src="../../images/tm_r.jpg" width="211" height="357"/></a></li>
+						<li><a href="javascript:void(0)"><img src="../../images/tm_r.jpg" width="211" height="357"/></a>
+						</li>
+						<li><a href="javascript:void(0)"><img src="../../images/tm_r.jpg" width="211" height="357"/></a>
+						</li>
+						<li><a href="javascript:void(0)"><img src="../../images/tm_r.jpg" width="211" height="357"/></a>
+						</li>
 					</ul>
 					<div class="previ">上一张</div>
 					<div class="nexti">下一张</div>
 				</div>
 			</div>
 			<div class="sell_right">
-				<div class="sell_1">
-					<div class="s_img"><a href="#"><img src="../../images/tm_1.jpg" width="185" height="155"/></a></div>
-					<div class="s_price">￥<span>89</span></div>
+
+				<div class="sell_1" @click="goProductDetail(productsDetail1.id)">
+					<div class="s_img"><a href="javascript:void(0)"><img :src="getPicPathById(productsDetail1.id)"
+																		 width="185"
+																		 height="155"/></a></div>
+					<div class="s_price">￥<span>{{productsDetail1.price}}</span></div>
 					<div class="s_name">
-						<h2><a href="#">沙宣洗发水</a></h2>
+						<h2><a href="javascript:void(0)">{{productsDetail1.name}}</a></h2>
 						倒计时：<span>1200</span> 时 <span>30</span> 分 <span>28</span> 秒
 					</div>
 				</div>
-				<div class="sell_2">
-					<div class="s_img"><a href="#"><img src="../../images/tm_2.jpg" width="185" height="155"/></a></div>
-					<div class="s_price">￥<span>289</span></div>
+
+
+				<div class="sell_2" @click="goProductDetail(productsDetail2.id)">
+					<div class="s_img"><a href="javascript:void(0)"><img :src="getPicPathById(productsDetail2.id)"
+																		 width="185"
+																		 height="155"/></a></div>
+					<div class="s_price">￥<span>{{productsDetail2.price}}</span></div>
 					<div class="s_name">
-						<h2><a href="#">德芙巧克力</a></h2>
+						<h2><a href="javascript:void(0)">{{productsDetail2.name}}</a></h2>
 						倒计时：<span>1200</span> 时 <span>30</span> 分 <span>28</span> 秒
 					</div>
 				</div>
-				<div class="sell_b1">
-					<div class="sb_img"><a href="#"><img src="../../images/tm_b1.jpg" width="242" height="356"/></a>
-					</div>
-					<div class="s_price">￥<span>289</span></div>
+
+				<div class="sell_b1" @click="goProductDetail(productsDetail3.id)">
+					<div class="s_img"><a href="javascript:void(0)"><img :src="getPicPathById(productsDetail3.id)"
+																		 width="242"
+																		 height="356"/></a></div>
+					<div class="s_price">￥<span>{{productsDetail3.price}}</span></div>
 					<div class="s_name">
-						<h2><a href="#">东北大米</a></h2>
+						<h2><a href="javascript:void(0)">{{productsDetail3.name}}</a></h2>
 						倒计时：<span>1200</span> 时 <span>30</span> 分 <span>28</span> 秒
 					</div>
 				</div>
-				<div class="sell_3">
-					<div class="s_img"><a href="#"><img src="../../images/tm_3.jpg" width="185" height="155"/></a></div>
-					<div class="s_price">￥<span>289</span></div>
+
+				<div class="sell_3" @click="goProductDetail(productsDetail4.id)">
+					<div class="s_img"><a href="javascript:void(0)"><img :src="getPicPathById(productsDetail4.id)"
+																		 width="185"
+																		 height="155"/></a></div>
+					<div class="s_price">￥<span>{{productsDetail4.price}}</span></div>
 					<div class="s_name">
-						<h2><a href="#">迪奥香水</a></h2>
+						<h2><a href="javascript:void(0)">{{productsDetail4.name}}</a></h2>
 						倒计时：<span>1200</span> 时 <span>30</span> 分 <span>28</span> 秒
 					</div>
 				</div>
-				<div class="sell_4">
-					<div class="s_img"><a href="#"><img src="../../images/tm_4.jpg" width="185" height="155"/></a></div>
-					<div class="s_price">￥<span>289</span></div>
+
+
+				<div class="sell_4" @click="goProductDetail(productsDetail5.id)">
+					<div class="s_img"><a href="javascript:void(0)"><img :src="getPicPathById(productsDetail5.id)"
+																		 width="185"
+																		 height="155"/></a></div>
+					<div class="s_price">￥<span>{{productsDetail5.price}}</span></div>
 					<div class="s_name">
-						<h2><a href="#">美妆</a></h2>
+						<h2><a href="javascript:void(0)">{{productsDetail5.name}}</a></h2>
 						倒计时：<span>1200</span> 时 <span>30</span> 分 <span>28</span> 秒
 					</div>
 				</div>
-				<div class="sell_b2">
-					<div class="sb_img"><a href="#"><img src="../../images/tm_b2.jpg" width="242" height="356"/></a>
-					</div>
-					<div class="s_price">￥<span>289</span></div>
+
+
+				<div class="sell_b2" @click="goProductDetail(productsDetail6.id)">
+					<div class="s_img"><a href="javascript:void(0)"><img :src="getPicPathById(productsDetail6.id)"
+																		 width="242"
+																		 height="356"/></a></div>
+					<div class="s_price">￥<span>{{productsDetail6.price}}</span></div>
 					<div class="s_name">
-						<h2><a href="#">美妆</a></h2>
+						<h2><a href="javascript:void(0)">{{productsDetail6.name}}</a></h2>
 						倒计时：<span>1200</span> 时 <span>30</span> 分 <span>28</span> 秒
 					</div>
 				</div>
@@ -493,17 +471,22 @@
 		<div class="i_t mar_10">
 			<span class="floor_num">1F</span>
 			<span class="fl">进口 <b>·</b> 生鲜</span>
-			<span class="i_mores fr"><a href="#">进口咖啡</a>&nbsp; &nbsp; &nbsp; <a href="#">进口酒</a>&nbsp; &nbsp; &nbsp; <a
-					href="#">进口母婴</a>&nbsp; &nbsp; &nbsp; <a href="#">新鲜蔬菜</a>&nbsp; &nbsp; &nbsp; <a href="#">新鲜水果</a></span>
+			<span class="i_mores fr"><a href="javascript:void(0)">进口咖啡</a>&nbsp; &nbsp; &nbsp; <a
+					href="javascript:void(0)">进口酒</a>&nbsp; &nbsp; &nbsp; <a
+					href="javascript:void(0)">进口母婴</a>&nbsp; &nbsp; &nbsp; <a href="javascript:void(0)">新鲜蔬菜</a>&nbsp; &nbsp; &nbsp; <a
+					href="javascript:void(0)">新鲜水果</a></span>
 		</div>
 		<div class="content">
 			<div class="fresh_left">
 				<div class="fre_ban">
 					<div id="imgPlay1">
 						<ul class="imgs" id="actor1">
-							<li><a href="#"><img src="../../images/fre_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/fre_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/fre_r.jpg" width="211" height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/fre_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/fre_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/fre_r.jpg" width="211"
+																  height="286"/></a></li>
 						</ul>
 						<div class="prevf">上一张</div>
 						<div class="nextf">下一张</div>
@@ -511,21 +494,23 @@
 				</div>
 				<div class="fresh_txt">
 					<div class="fresh_txt_c">
-						<a href="#">进口水果</a><a href="#">奇异果</a><a href="#">西柚</a><a href="#">海鲜水产</a><a
-							href="#">品质牛肉</a><a href="#">奶粉</a><a href="#">鲜活禽蛋</a><a href="#">进口酒</a><a
-							href="#">进口奶粉</a><a href="#">鲜活禽蛋</a>
+						<a href="javascript:void(0)">进口水果</a><a href="javascript:void(0)">奇异果</a><a
+							href="javascript:void(0)">西柚</a><a href="javascript:void(0)">海鲜水产</a><a
+							href="javascript:void(0)">品质牛肉</a><a href="javascript:void(0)">奶粉</a><a
+							href="javascript:void(0)">鲜活禽蛋</a><a href="javascript:void(0)">进口酒</a><a
+							href="javascript:void(0)">进口奶粉</a><a href="javascript:void(0)">鲜活禽蛋</a>
 					</div>
 				</div>
 			</div>
 			<div class="fresh_mid">
 				<ul>
-					<li v-for="(product) in products1">
-						<div class="name"><a href="#">{{product.name}}</a></div>
+					<li v-for="(product) in products1" @click="goProductDetail(product.id)">
+						<div class="name"><a href="javascript:void(0)">{{product.name}}</a></div>
 						<div class="price">
 							<font>￥<span>{{product.price}}</span></font> &nbsp; 26R
 						</div>
-						<div class="img"><a href="#"><img :src="getPicPathById(product.id)" width="185"
-														  height="155"/></a>
+						<div class="img"><a href="javascript:void(0)"><img :src="getPicPathById(product.id)" width="185"
+																		   height="155"/></a>
 						</div>
 					</li>
 
@@ -533,8 +518,10 @@
 			</div>
 			<div class="fresh_right">
 				<ul>
-					<li><a href="#"><img src="../../images/fre_b1.jpg" width="260" height="220"/></a></li>
-					<li><a href="#"><img src="../../images/fre_b2.jpg" width="260" height="220"/></a></li>
+					<li><a href="javascript:void(0)"><img src="../../images/fre_b1.jpg" width="260" height="220"/></a>
+					</li>
+					<li><a href="javascript:void(0)"><img src="../../images/fre_b2.jpg" width="260" height="220"/></a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -543,18 +530,23 @@
 		<div class="i_t mar_10">
 			<span class="floor_num">2F</span>
 			<span class="fl">食品饮料</span>
-			<span class="i_mores fr"><a href="#">咖啡</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a href="#">休闲零食</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
-					href="#">饼干糕点</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a href="#">冲饮谷物</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
-					href="#">营养保健</a></span>
+			<span class="i_mores fr"><a href="javascript:void(0)">咖啡</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">休闲零食</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">饼干糕点</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">冲饮谷物</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">营养保健</a></span>
 		</div>
 		<div class="content">
 			<div class="food_left">
 				<div class="food_ban">
 					<div id="imgPlay2">
 						<ul class="imgs" id="actor2">
-							<li><a href="#"><img src="../../images/food_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/food_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/food_r.jpg" width="211" height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/food_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/food_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/food_r.jpg" width="211"
+																  height="286"/></a></li>
 						</ul>
 						<div class="prev_f">上一张</div>
 						<div class="next_f">下一张</div>
@@ -562,29 +554,33 @@
 				</div>
 				<div class="fresh_txt">
 					<div class="fresh_txt_c">
-						<a href="#">饼干糕点</a><a href="#">休闲零食</a><a href="#">饮料果汁</a><a href="#">牛奶乳品</a><a
-							href="#">冲饮谷物</a><a href="#">营养保健</a><a href="#">冲饮谷物</a><a
-							href="#">营养保健</a>
+						<a href="javascript:void(0)">饼干糕点</a><a href="javascript:void(0)">休闲零食</a><a
+							href="javascript:void(0)">饮料果汁</a><a href="javascript:void(0)">牛奶乳品</a><a
+							href="javascript:void(0)">冲饮谷物</a><a href="javascript:void(0)">营养保健</a><a
+							href="javascript:void(0)">冲饮谷物</a><a
+							href="javascript:void(0)">营养保健</a>
 					</div>
 				</div>
 			</div>
 			<div class="fresh_mid">
 				<ul>
-					<li v-for="(product) in products2">
-						<div class="name"><a href="#">{{product.name}}</a></div>
+					<li v-for="(product) in products2" @click="goProductDetail(product.id)">
+						<div class="name"><a href="javascript:void(0)">{{product.name}}</a></div>
 						<div class="price">
 							<font>￥<span>{{product.price}}</span></font> &nbsp; 25R
 						</div>
-						<div class="img"><a href="#"><img :src="getPicPathById(product.id)" width="185"
-														  height="155"/></a>
+						<div class="img"><a href="javascript:void(0)"><img :src="getPicPathById(product.id)" width="185"
+																		   height="155"/></a>
 						</div>
 					</li>
 				</ul>
 			</div>
 			<div class="fresh_right">
 				<ul>
-					<li><a href="#"><img src="../../images/food_b1.jpg" width="260" height="220"/></a></li>
-					<li><a href="#"><img src="../../images/food_b2.jpg" width="260" height="220"/></a></li>
+					<li><a href="javascript:void(0)"><img src="../../images/food_b1.jpg" width="260" height="220"/></a>
+					</li>
+					<li><a href="javascript:void(0)"><img src="../../images/food_b2.jpg" width="260" height="220"/></a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -593,18 +589,23 @@
 		<div class="i_t mar_10">
 			<span class="floor_num">3F</span>
 			<span class="fl">个人美妆</span>
-			<span class="i_mores fr"><a href="#">洗发护发</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a href="#">面膜</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
-					href="#">洗面奶</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a href="#">香水</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
-					href="#">沐浴露</a></span>
+			<span class="i_mores fr"><a href="javascript:void(0)">洗发护发</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">面膜</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">洗面奶</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">香水</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">沐浴露</a></span>
 		</div>
 		<div class="content">
 			<div class="make_left">
 				<div class="make_ban">
 					<div id="imgPlay3">
 						<ul class="imgs" id="actor3">
-							<li><a href="#"><img src="../../images/make_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/make_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/make_r.jpg" width="211" height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/make_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/make_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/make_r.jpg" width="211"
+																  height="286"/></a></li>
 						</ul>
 						<div class="prev_m">上一张</div>
 						<div class="next_m">下一张</div>
@@ -612,21 +613,23 @@
 				</div>
 				<div class="fresh_txt">
 					<div class="fresh_txt_c">
-						<a href="#">洗发护发</a><a href="#">牙刷牙膏</a><a href="#">面膜</a><a href="#">补水面膜</a><a
-							href="#">香水</a><a href="#">面霜</a><a href="#">洗面奶</a><a href="#">脱毛膏</a><a
-							href="#">沐浴露</a>
+						<a href="javascript:void(0)">洗发护发</a><a href="javascript:void(0)">牙刷牙膏</a><a
+							href="javascript:void(0)">面膜</a><a href="javascript:void(0)">补水面膜</a><a
+							href="javascript:void(0)">香水</a><a href="javascript:void(0)">面霜</a><a
+							href="javascript:void(0)">洗面奶</a><a href="javascript:void(0)">脱毛膏</a><a
+							href="javascript:void(0)">沐浴露</a>
 					</div>
 				</div>
 			</div>
 			<div class="fresh_mid">
 				<ul>
-					<li v-for="(product) in products3">
-						<div class="name"><a href="#">{{product.name}}</a></div>
+					<li v-for="(product) in products3" @click="goProductDetail(product.id)">
+						<div class="name"><a href="javascript:void(0)">{{product.name}}</a></div>
 						<div class="price">
 							<font>￥<span>{{product.price}}</span></font> &nbsp; 16R
 						</div>
-						<div class="img"><a href="#"><img :src="getPicPathById(product.id)" width="185"
-														  height="155"/></a>
+						<div class="img"><a href="javascript:void(0)"><img :src="getPicPathById(product.id)" width="185"
+																		   height="155"/></a>
 						</div>
 					</li>
 
@@ -634,8 +637,10 @@
 			</div>
 			<div class="fresh_right">
 				<ul>
-					<li><a href="#"><img src="../../images/make_b1.jpg" width="260" height="220"/></a></li>
-					<li><a href="#"><img src="../../images/make_b2.jpg" width="260" height="220"/></a></li>
+					<li><a href="javascript:void(0)"><img src="../../images/make_b1.jpg" width="260" height="220"/></a>
+					</li>
+					<li><a href="javascript:void(0)"><img src="../../images/make_b2.jpg" width="260" height="220"/></a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -647,18 +652,23 @@
 		<div class="i_t mar_10">
 			<span class="floor_num">4F</span>
 			<span class="fl">母婴玩具</span>
-			<span class="i_mores fr"><a href="#">营养品</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a href="#">孕妈背带裤</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
-					href="#">儿童玩具</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a href="#">婴儿床</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
-					href="#">喂奶器</a></span>
+			<span class="i_mores fr"><a href="javascript:void(0)">营养品</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">孕妈背带裤</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">儿童玩具</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">婴儿床</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">喂奶器</a></span>
 		</div>
 		<div class="content">
 			<div class="baby_left">
 				<div class="baby_ban">
 					<div id="imgPlay4">
 						<ul class="imgs" id="actor4">
-							<li><a href="#"><img src="../../images/baby_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/baby_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/baby_r.jpg" width="211" height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/baby_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/baby_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/baby_r.jpg" width="211"
+																  height="286"/></a></li>
 						</ul>
 						<div class="prev_b">上一张</div>
 						<div class="next_b">下一张</div>
@@ -666,29 +676,33 @@
 				</div>
 				<div class="fresh_txt">
 					<div class="fresh_txt_c">
-						<a href="#">孕妈必备</a><a href="#">儿童玩具</a><a href="#">重装童鞋</a><a href="#">辅助食品</a><a
-							href="#">奶粉</a><a href="#">鲜活禽蛋</a><a href="#">维生素</a><a href="#">重装童鞋</a><a
-							href="#">辅助食品</a>
+						<a href="javascript:void(0)">孕妈必备</a><a href="javascript:void(0)">儿童玩具</a><a
+							href="javascript:void(0)">重装童鞋</a><a href="javascript:void(0)">辅助食品</a><a
+							href="javascript:void(0)">奶粉</a><a href="javascript:void(0)">鲜活禽蛋</a><a
+							href="javascript:void(0)">维生素</a><a href="javascript:void(0)">重装童鞋</a><a
+							href="javascript:void(0)">辅助食品</a>
 					</div>
 				</div>
 			</div>
 			<div class="fresh_mid">
 				<ul>
-					<li v-for="product in products4">
-						<div class="name"><a href="#">{{product.name}}</a></div>
+					<li v-for="product in products4" @click="goProductDetail(product.id)">
+						<div class="name"><a href="javascript:void(0)">{{product.name}}</a></div>
 						<div class="price">
 							<font>￥<span>{{product.price}}</span></font> &nbsp; 20R
 						</div>
-						<div class="img"><a href="#"><img :src="getPicPathById(product.id)" width="185"
-														  height="155"/></a>
+						<div class="img"><a href="javascript:void(0)"><img :src="getPicPathById(product.id)" width="185"
+																		   height="155"/></a>
 						</div>
 					</li>
 				</ul>
 			</div>
 			<div class="fresh_right">
 				<ul>
-					<li><a href="#"><img src="../../images/baby_b1.jpg" width="260" height="220"/></a></li>
-					<li><a href="#"><img src="../../images/baby_b2.jpg" width="260" height="220"/></a></li>
+					<li><a href="javascript:void(0)"><img src="../../images/baby_b1.jpg" width="260" height="220"/></a>
+					</li>
+					<li><a href="javascript:void(0)"><img src="../../images/baby_b2.jpg" width="260" height="220"/></a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -697,18 +711,22 @@
 		<div class="i_t mar_10">
 			<span class="floor_num">5F</span>
 			<span class="fl">家居生活</span>
-			<span class="i_mores fr"><a href="#">床上用品</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a href="#">家纺布艺</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
-					href="#">餐具</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a href="#">沙发</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
-					href="#">汽车用品</a></span>
+			<span class="i_mores fr"><a href="javascript:void(0)">床上用品</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">家纺布艺</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">餐具</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a href="javascript:void(0)">沙发</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">汽车用品</a></span>
 		</div>
 		<div class="content">
 			<div class="home_left">
 				<div class="home_ban">
 					<div id="imgPlay5">
 						<ul class="imgs" id="actor5">
-							<li><a href="#"><img src="../../images/home_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/home_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/home_r.jpg" width="211" height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/home_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/home_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/home_r.jpg" width="211"
+																  height="286"/></a></li>
 						</ul>
 						<div class="prev_h">上一张</div>
 						<div class="next_h">下一张</div>
@@ -716,29 +734,33 @@
 				</div>
 				<div class="fresh_txt">
 					<div class="fresh_txt_c">
-						<a href="#">床上用品</a><a href="#">家纺布艺</a><a href="#">餐具水具</a><a href="#">锅具厨具</a><a
-							href="#">沙发</a><a href="#">书柜</a><a href="#">狗粮</a><a href="#">家装建材</a><a
-							href="#">汽车用品</a>
+						<a href="javascript:void(0)">床上用品</a><a href="javascript:void(0)">家纺布艺</a><a
+							href="javascript:void(0)">餐具水具</a><a href="javascript:void(0)">锅具厨具</a><a
+							href="javascript:void(0)">沙发</a><a href="javascript:void(0)">书柜</a><a
+							href="javascript:void(0)">狗粮</a><a href="javascript:void(0)">家装建材</a><a
+							href="javascript:void(0)">汽车用品</a>
 					</div>
 				</div>
 			</div>
 			<div class="fresh_mid">
 				<ul>
-					<li v-for="product in products5">
-						<div class="name"><a href="#">{{product.name}}</a></div>
+					<li v-for="product in products5" @click="goProductDetail(product.id)">
+						<div class="name"><a href="javascript:void(0)">{{product.name}}</a></div>
 						<div class="price">
 							<font>￥<span>{{product.price}}</span></font> &nbsp; 50R
 						</div>
-						<div class="img"><a href="#"><img :src="getPicPathById(product.id)" width="185"
-														  height="155"/></a>
+						<div class="img"><a href="javascript:void(0)"><img :src="getPicPathById(product.id)" width="185"
+																		   height="155"/></a>
 						</div>
 					</li>
 				</ul>
 			</div>
 			<div class="fresh_right">
 				<ul>
-					<li><a href="#"><img src="../../images/home_b1.jpg" width="260" height="220"/></a></li>
-					<li><a href="#"><img src="../../images/home_b2.jpg" width="260" height="220"/></a></li>
+					<li><a href="javascript:void(0)"><img src="../../images/home_b1.jpg" width="260" height="220"/></a>
+					</li>
+					<li><a href="javascript:void(0)"><img src="../../images/home_b2.jpg" width="260" height="220"/></a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -747,18 +769,23 @@
 		<div class="i_t mar_10">
 			<span class="floor_num">6F</span>
 			<span class="fl">数码家电</span>
-			<span class="i_mores fr"><a href="#">手机</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a href="#">苹果</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
-					href="#">华为手机</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a href="#">洗衣机</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
-					href="#">数码配件</a></span>
+			<span class="i_mores fr"><a href="javascript:void(0)">手机</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">苹果</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">华为手机</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">洗衣机</a>&nbsp; &nbsp; | &nbsp; &nbsp;<a
+					href="javascript:void(0)">数码配件</a></span>
 		</div>
 		<div class="content">
 			<div class="tel_left">
 				<div class="tel_ban">
 					<div id="imgPlay6">
 						<ul class="imgs" id="actor6">
-							<li><a href="#"><img src="../../images/tel_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/tel_r.jpg" width="211" height="286"/></a></li>
-							<li><a href="#"><img src="../../images/tel_r.jpg" width="211" height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/tel_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/tel_r.jpg" width="211"
+																  height="286"/></a></li>
+							<li><a href="javascript:void(0)"><img src="../../images/tel_r.jpg" width="211"
+																  height="286"/></a></li>
 						</ul>
 						<div class="prev_t">上一张</div>
 						<div class="next_t">下一张</div>
@@ -766,21 +793,23 @@
 				</div>
 				<div class="fresh_txt">
 					<div class="fresh_txt_c">
-						<a href="#">手机</a><a href="#">平板电脑</a><a href="#">空调</a><a href="#">合约机</a><a
-							href="#">电风扇</a><a href="#">数码配件</a><a href="#">洗衣机</a><a href="#">电视</a><a
-							href="#">充电器</a><a href="#">耳线</a>
+						<a href="javascript:void(0)">手机</a><a href="javascript:void(0)">平板电脑</a><a
+							href="javascript:void(0)">空调</a><a href="javascript:void(0)">合约机</a><a
+							href="javascript:void(0)">电风扇</a><a href="javascript:void(0)">数码配件</a><a
+							href="javascript:void(0)">洗衣机</a><a href="javascript:void(0)">电视</a><a
+							href="javascript:void(0)">充电器</a><a href="javascript:void(0)">耳线</a>
 					</div>
 				</div>
 			</div>
 			<div class="fresh_mid">
 				<ul>
-					<li v-for="product in products6">
-						<div class="name"><a href="#">{{product.name}}</a></div>
+					<li v-for="product in products6" @click="goProductDetail(product.id)">
+						<div class="name"><a href="javascript:void(0)">{{product.name}}</a></div>
 						<div class="price">
 							<font>￥<span>{{product.price}}</span></font> &nbsp; 25R
 						</div>
-						<div class="img"><a href="#"><img :src="getPicPathById(product.id)" width="185"
-														  height="155"/></a>
+						<div class="img"><a href="javascript:void(0)"><img :src="getPicPathById(product.id)" width="185"
+																		   height="155"/></a>
 						</div>
 					</li>
 
@@ -788,8 +817,10 @@
 			</div>
 			<div class="fresh_right">
 				<ul>
-					<li><a href="#"><img src="../../images/tel_b1.jpg" width="260" height="220"/></a></li>
-					<li><a href="#"><img src="../../images/tel_b2.jpg" width="260" height="220"/></a></li>
+					<li><a href="javascript:void(0)"><img src="../../images/tel_b1.jpg" width="260" height="220"/></a>
+					</li>
+					<li><a href="javascript:void(0)"><img src="../../images/tel_b2.jpg" width="260" height="220"/></a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -807,10 +838,11 @@
 								<li class="featureBox">
 									<div class="box">
 										<div class="imgbg">
-											<a href="#"><img src="../../images/hot1.jpg" width="160" height="136"/></a>
+											<a href="javascript:void(0)"><img src="../../images/hot1.jpg" width="160"
+																			  height="136"/></a>
 										</div>
 										<div class="name">
-											<a href="#">
+											<a href="javascript:void(0)">
 												<h2>德国进口</h2>
 												德亚全脂纯牛奶200ml*48盒
 											</a>
@@ -823,10 +855,11 @@
 								<li class="featureBox">
 									<div class="box">
 										<div class="imgbg">
-											<a href="#"><img src="../../images/hot2.jpg" width="160" height="136"/></a>
+											<a href="javascript:void(0)"><img src="../../images/hot2.jpg" width="160"
+																			  height="136"/></a>
 										</div>
 										<div class="name">
-											<a href="#">
+											<a href="javascript:void(0)">
 												<h2>iphone 6S</h2>
 												Apple/苹果 iPhone 6s Plus公开版
 											</a>
@@ -839,10 +872,11 @@
 								<li class="featureBox">
 									<div class="box">
 										<div class="imgbg">
-											<a href="#"><img src="../../images/hot3.jpg" width="160" height="136"/></a>
+											<a href="javascript:void(0)"><img src="../../images/hot3.jpg" width="160"
+																			  height="136"/></a>
 										</div>
 										<div class="name">
-											<a href="#">
+											<a href="javascript:void(0)">
 												<h2>倩碧特惠组合套装</h2>
 												倩碧补水组合套装8折促销
 											</a>
@@ -855,10 +889,11 @@
 								<li class="featureBox">
 									<div class="box">
 										<div class="imgbg">
-											<a href="#"><img src="../../images/hot4.jpg" width="160" height="136"/></a>
+											<a href="javascript:void(0)"><img src="../../images/hot4.jpg" width="160"
+																			  height="136"/></a>
 										</div>
 										<div class="name">
-											<a href="#">
+											<a href="javascript:void(0)">
 												<h2>品利特级橄榄油</h2>
 												750ml*4瓶装组合 西班牙原装进口
 											</a>
@@ -871,10 +906,11 @@
 								<li class="featureBox">
 									<div class="box">
 										<div class="imgbg">
-											<a href="#"><img src="../../images/hot4.jpg" width="160" height="136"/></a>
+											<a href="javascript:void(0)"><img src="../../images/hot4.jpg" width="160"
+																			  height="136"/></a>
 										</div>
 										<div class="name">
-											<a href="#">
+											<a href="javascript:void(0)">
 												<h2>品利特级橄榄油</h2>
 												750ml*4瓶装组合 西班牙原装进口
 											</a>
@@ -929,40 +965,40 @@
 		</div>
 		<div class="b_nav">
 			<dl>
-				<dt><a href="#">新手上路</a></dt>
-				<dd><a href="#">售后流程</a></dd>
-				<dd><a href="#">购物流程</a></dd>
-				<dd><a href="#">订购方式</a></dd>
-				<dd><a href="#">隐私声明</a></dd>
-				<dd><a href="#">推荐分享说明</a></dd>
+				<dt><a href="javascript:void(0)">新手上路</a></dt>
+				<dd><a href="javascript:void(0)">售后流程</a></dd>
+				<dd><a href="javascript:void(0)">购物流程</a></dd>
+				<dd><a href="javascript:void(0)">订购方式</a></dd>
+				<dd><a href="javascript:void(0)">隐私声明</a></dd>
+				<dd><a href="javascript:void(0)">推荐分享说明</a></dd>
 			</dl>
 			<dl>
-				<dt><a href="#">配送与支付</a></dt>
-				<dd><a href="#">货到付款区域</a></dd>
-				<dd><a href="#">配送支付查询</a></dd>
-				<dd><a href="#">支付方式说明</a></dd>
+				<dt><a href="javascript:void(0)">配送与支付</a></dt>
+				<dd><a href="javascript:void(0)">货到付款区域</a></dd>
+				<dd><a href="javascript:void(0)">配送支付查询</a></dd>
+				<dd><a href="javascript:void(0)">支付方式说明</a></dd>
 			</dl>
 			<dl>
-				<dt><a href="#">会员中心</a></dt>
-				<dd><a href="#">资金管理</a></dd>
-				<dd><a href="#">我的收藏</a></dd>
-				<dd><a href="#">我的订单</a></dd>
+				<dt><a href="javascript:void(0)">会员中心</a></dt>
+				<dd><a href="javascript:void(0)">资金管理</a></dd>
+				<dd><a href="javascript:void(0)">我的收藏</a></dd>
+				<dd><a href="javascript:void(0)">我的订单</a></dd>
 			</dl>
 			<dl>
-				<dt><a href="#">服务保证</a></dt>
-				<dd><a href="#">退换货原则</a></dd>
-				<dd><a href="#">售后服务保证</a></dd>
-				<dd><a href="#">产品质量保证</a></dd>
+				<dt><a href="javascript:void(0)">服务保证</a></dt>
+				<dd><a href="javascript:void(0)">退换货原则</a></dd>
+				<dd><a href="javascript:void(0)">售后服务保证</a></dd>
+				<dd><a href="javascript:void(0)">产品质量保证</a></dd>
 			</dl>
 			<dl>
-				<dt><a href="#">联系我们</a></dt>
-				<dd><a href="#">网站故障报告</a></dd>
-				<dd><a href="#">购物咨询</a></dd>
-				<dd><a href="#">投诉与建议</a></dd>
+				<dt><a href="javascript:void(0)">联系我们</a></dt>
+				<dd><a href="javascript:void(0)">网站故障报告</a></dd>
+				<dd><a href="javascript:void(0)">购物咨询</a></dd>
+				<dd><a href="javascript:void(0)">投诉与建议</a></dd>
 			</dl>
 			<div class="b_tel_bg">
-				<a href="#" class="b_sh1">新浪微博</a>
-				<a href="#" class="b_sh2">腾讯微博</a>
+				<a href="javascript:void(0)" class="b_sh1">新浪微博</a>
+				<a href="javascript:void(0)" class="b_sh2">腾讯微博</a>
 				<p>
 					服务热线：<br/>
 					<span>400-123-4567</span>
@@ -993,7 +1029,7 @@
 </div>
 
 </body>
-<style scoped lang="scss">
+<style lang="scss">
 	.leftNav ul li:hover {
 		width: 211px;
 		text-decoration: none;
@@ -1001,35 +1037,21 @@
 		line-height: 40px;
 		background-color: #FFF;
 		color: #ff4e00;
-		z-index: 800px;
+		z-index: 10;
+
 		.zj {
 			display: block;
 			position: absolute;
-			.zj_l{
-				/*float: left;*/
-			}
 		}
 	}
 
 </style>
-<!--<script>-->
-<!--	$(function(){-->
-<!--		$("#letfNavList li").each(function(){-->
-<!--			$(this).mouseover(function(){-->
-<!--				// $(this).find(".zj").css("display","block");-->
-<!--				$("#letfNavList li .zj").css("display","block");-->
-<!--			})-->
-<!--			$(this).mouseleave(function(){-->
-<!--				// $(this).find(".zj").css("display","none");-->
-<!--			})-->
-<!--		})-->
-<!--	})-->
-<!--</script>-->
+<script src="../../utils/parseCookie.js"></script>
 <script type="module">
 	import {getCategoryOneList, getCategoryList} from '../../api/category.js';
-	import {getProductList, getProductHotList} from '../../api/product.js';
+	import {getProductList, getProductHotList, getProduct} from '../../api/product.js';
 	import {getShopCarList} from '../../api/shoppingCar.js';
-	import {getUserByMobile} from '../../api/user.js';
+	import {getUserByMobile, getUser, exitSystem} from '../../api/user.js';
 	import {getNewsList} from '../../api/news.js';
 
 	const vm = new Vue({
@@ -1040,12 +1062,11 @@
 				categoryTwoList: [],
 				categoryThreeList: [],
 				page: {},
+				pagePojo: {},
 				newsList: [],
 				news: {},
 				cars: [],
-				shopCar: {
-					userId: 21,
-				},
+				shopCar: {},
 				user: {id: 21, balance: "", mobile: ""},
 				amount: "10",
 				products1: [],
@@ -1054,6 +1075,12 @@
 				products4: [],
 				products5: [],
 				products6: [],
+				productsDetail1: {},
+				productsDetail2: {},
+				productsDetail3: {},
+				productsDetail4: {},
+				productsDetail5: {},
+				productsDetail6: {},
 				productHotList: [],
 				productKeyWord: {
 					name: '',
@@ -1077,24 +1104,11 @@
 
 		methods: {
 			searchProduct() {
-				window.location.href = "../catergory/CategoryList.html?name=" + encodeURIComponent(this.productKeyWord.name);
+				window.location.href = "../catergory/CategoryList.html?product=" + JSON.stringify(this.productKeyWord);
 			},
 			async getCategoryOneList() {
 				let repsonse = await getCategoryOneList();
 				this.categoryOneList = repsonse.data
-				for (let i = 0; i < this.categoryOneList.length; i++) {
-					let temp =
-							{
-								"id": this.categoryOneList[i].id,
-								"name": this.categoryOneList[i].name,
-								"parentId": this.categoryOneList[i].parentId,
-								"type": this.categoryOneList[i].type,
-								"iconClass": this.categoryOneList[i].iconClass,
-								"isDel": this.categoryOneList[i].isDel,
-								"createTime": this.categoryOneList[i].createTime
-							}
-					this.categoryOneList[i] = temp;
-				}
 			},
 			getParentId(id) {
 				this.getCategoryList(id);
@@ -1105,56 +1119,45 @@
 			async getCategoryList(id) {
 				let repsonse = await getCategoryList(id);
 				this.categoryTwoList = repsonse.data;
-				console.log(this.categoryTwoList)
-				// this.categoryTwoList.push(repsonse.data);
-				// if (this.categoryTwoList.length > 0) {
-				// 	for(let i = 0;i<this.categoryTwoList.length;i++){
-				// 	this.getCategoryList2(this.categoryTwoList[i].id);
-				// 		this.$forceUpdate();
-				//
-				// 	}
-				// }
 				if (this.categoryTwoList.length > 0) {
-						this.getCategoryList2(this.categoryTwoList[0].id);
-						this.$forceUpdate();
+					await this.getCategoryList2(this.categoryTwoList[0].id);
 				}
 			},
 			async getCategoryList2(id) {
 				let repsonse = await getCategoryList(id);
 				this.categoryThreeList = repsonse.data;
-				// this.categoryThreeList.push(repsonse.data);
 			},
 			async getProductList1() {
-				this.product.categoryLevelId = 687
-				const {data} = await getProductList(this.product, this.page);
+				this.product.categoryLevelId = 659
+				const {data} = await getProductList(this.product, this.pagePojo);
 				this.products1 = data.productList;
 
 			},
 			async getProductList2() {
 				this.product.categoryLevelId = 662
-				const {data} = await getProductList(this.product, this.page);
+				const {data} = await getProductList(this.product, this.pagePojo);
 				this.products2 = data.productList;
 
 			},
 			async getProductList3() {
 				this.product.categoryLevelId = 688
-				const {data} = await getProductList(this.product, this.page);
+				const {data} = await getProductList(this.product, this.pagePojo);
 				this.products3 = data.productList;
 			},
 			async getProductList4() {
 				this.product.categoryLevelId = 673
-				const {data} = await getProductList(this.product, this.page);
+				const {data} = await getProductList(this.product, this.pagePojo);
 				this.products4 = data.productList;
 
 			},
 			async getProductList5() {
 				this.product.categoryLevelId = 672
-				const {data} = await getProductList(this.product, this.page);
+				const {data} = await getProductList(this.product, this.pagePojo);
 				this.products5 = data.productList;
 			},
 			async getProductList6() {
 				this.product.categoryLevelId = 691
-				const {data} = await getProductList(this.product, this.page);
+				const {data} = await getProductList(this.product, this.pagePojo);
 				this.products6 = data.productList;
 			},
 			async getProductHotList() {
@@ -1162,6 +1165,7 @@
 				this.productHotList = data;
 			},
 			async getShopCarList() {
+				this.shopCar.userId = this.user.id;
 				const {data} = await getShopCarList(this.shopCar);
 				this.cars = data;
 			},
@@ -1187,13 +1191,12 @@
 				// alert(response.msg);
 				return false;
 
-
 			},
 			async balance() {
 				if (!await this.getUserByMobile(this.user)) {
 					return;
 				}
-				this.userBalance(this.user, this.amount);
+				await this.userBalance(this.user, this.amount);
 			},
 			async userBalance(user, amount) {
 				if (amount < 1) {
@@ -1202,24 +1205,72 @@
 				}
 				window.location.href = "http://localhost:8080/alipay/createOrder?mobile=" + user.mobile + "&balanceStr=" + amount;
 			},
+			async exitSystem() {
+				if (confirm("确认退出登录吗?")) {
+					const {code} = await exitSystem();
+					if (code == "200") {
+						window.history.replaceState(null, "", "../login/Login.html");
+						window.history.go(0)
+						this.user = {};
+					}
+				}
+			},
 			async getNewsListBy(currPageNo) {
 				this.page.currPageNo = currPageNo;
 				let response = await getNewsList(this.page, this.news);
 				this.newsList = response.data.newsList;
 				this.page = response.data.page;
+			},
+			goProductDetail(id) {
+				window.location.href = "../product/Product.html?id=" + id;
+			},
+			getProductByCategoryName2(name) {
+				window.location.href = `../catergory/CategoryList.html?product=${JSON.stringify({categoryName2: name})}`;
+			},
+			getProductByCategoryName1(name) {
+				window.location.href = `../catergory/CategoryList.html?product=${JSON.stringify({categoryName1: name})}`;
+			},
+			async getProductDetail() {
+				const response1 = await getProduct({id: 733});
+				this.productsDetail1 = response1.data;
+				const response2 = await getProduct({id: 734});
+				this.productsDetail2 = response2.data;
+				const response3 = await getProduct({id: 735});
+				this.productsDetail3 = response3.data;
+				const response4 = await getProduct({id: 736});
+				this.productsDetail4 = response4.data;
+				const response5 = await getProduct({id: 737});
+				this.productsDetail5 = response5.data;
+				const response6 = await getProduct({id: 738});
+				this.productsDetail6 = response6.data;
+			},
+			async getUser() {
+				const {data} = await getUser(this.user);
+				this.user = data;
 			}
+
 		},
-		mounted() {
-			this.getCategoryOneList();
-			this.getNewsListBy(1);
-			this.getProductList1();
-			this.getProductList2();
-			this.getProductList3();
-			this.getProductList4();
-			this.getProductList5();
-			this.getProductList6();
-			this.getProductHotList();
-			this.getShopCarList();
+		async mounted() {
+			this.user = {};
+			let roleId = parseCookie("roleId");
+			let loginName = parseCookie("loginName");
+			if (loginName != null && loginName != '') {
+				this.user.loginName = loginName;
+				await this.getUser();
+			}
+			if (!isNaN(roleId) || roleId > 0) {
+				await this.getShopCarList();
+			}
+			await this.getCategoryOneList();
+			await this.getNewsListBy(1);
+			await this.getProductList1();
+			await this.getProductList2();
+			await this.getProductList3();
+			await this.getProductList4();
+			await this.getProductList5();
+			await this.getProductList6();
+			await this.getProductHotList();
+			await this.getProductDetail();
 		},
 	})
 </script>

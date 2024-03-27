@@ -43,5 +43,5 @@ export {
     addAddress,
     setDefault,
     getById,
-    getLoginAddressDef,
+    getLoginAddressDef
 }
