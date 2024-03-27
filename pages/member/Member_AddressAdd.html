@@ -511,7 +511,7 @@
 						console.log(this.address.address);
 						this.$delete(this.address, 'addressDef');
 						this.$delete(this.address, 'selectedOptions');
-						const {code} = (await addAddress(this.address));
+						const {code} = (await addAddress(this.address,this.user));
 						if (code == "200") {
 							this.$message({
 								message: "添加成功",

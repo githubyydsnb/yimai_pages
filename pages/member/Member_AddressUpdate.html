@@ -498,7 +498,7 @@
 			},
 			async getById(id) {
 				this.address2.id = id;
-				let data = await getById(this.address2);
+				let data = await getById(this.address2,this.user);
 				this.address2 = data.data;
 				const addressLists = this.address2.address.split('/');
 				for (let i = 0; i < addressLists.length; i++) {

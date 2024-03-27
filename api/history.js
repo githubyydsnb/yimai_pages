@@ -3,21 +3,19 @@ import request from "../utils/request.js";
 const baseUrl = '/history';
 
 
-const getHistoryList = () => {
-    return request.post(baseUrl + "/getHistoryList");
+const getHistoryList = (currentUser) => {
+    return request.post(baseUrl + "/getHistoryList",{currentUser:currentUser});
 }
-const addHistory = (product) => {
+const addHistory = (product,currentUser) => {
     return request.post(baseUrl + "/addHistory",{
-        product:product
+        product:product,
+        currentUser:currentUser
     });
 }
-const delAll = () => {
-    return request.post(baseUrl + "/delAll");
+const delAll = (currentUser) => {
+    return request.post(baseUrl + "/delAll",{currentUser:currentUser});
 }
 
-const delAll = () => {
-    return request.post(baseUrl + "/delAll");
-}
 
 export {
     getHistoryList,

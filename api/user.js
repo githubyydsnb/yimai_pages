@@ -41,23 +41,28 @@ const getUserByMobile = (user) => {
 const getUserList = (page, user) => {
     return request.post(baseUrl + "/getUserList", {user: user, page: page});
 }
-const getUserLogin = (user) => {
-    return request.post(baseUrl + "/getUserLogin",user);
+const getUserLogin = (currentUser) => {
+    return request.post(baseUrl + "/getUserLogin", {currentUser:currentUser});
 }
-const delUserById = (id) => {
-    return request.post(baseUrl + "/delUserById", {id: id});
+const delUserById = (id,currentUser) => {
+    return request.post(baseUrl + "/delUserById", {id: id,currentUser:currentUser});
 }
 const getUserById = (user) => {
     return request.post(baseUrl + "/getUserById", {user: user});
 }
-const updateUser = (user) => {
-    return request.post(baseUrl + "/updateUser", {user: user});
+const updateUser = (user,currentUser) => {
+    return request.post(baseUrl + "/updateUser", {user: user,currentUser:currentUser});
 }
 const exitSystem = () => {
     return request.post(baseUrl + "/exitSystem")
 }
 const getUser = (user) => {
     return request.post(baseUrl + "/getUser", {
+        user: user
+    })
+}
+const getUserCount = (user) => {
+    return request.post(baseUrl + "/getUserCount", {
         user: user
     })
 }
@@ -74,5 +79,6 @@ export {
     getUserById,
     updateUser,
     exitSystem,
-    getUser
+    getUser,
+    getUserCount
 }

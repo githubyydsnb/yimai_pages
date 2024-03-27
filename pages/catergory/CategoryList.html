@@ -655,7 +655,7 @@
 				await this.getProduct(1);
 			},
 			async addCollection(product) {
-				let data = await addCollection(product);
+				let data = await addCollection(product,this.user);
 				if (data.code == "200") {
 					this.$message({
 						message: '加入收藏成功!',
@@ -685,7 +685,7 @@
 				return this.isCollect;
 			},
 			async getHistoryList() {
-				let data = await getHistoryList();
+				let data = await getHistoryList(this.user);
 				this.historyList = data.data;
 			},
 			async exitSystem() {
@@ -706,7 +706,7 @@
 				}
 			},
 			async delAll() {
-				let {code} = await delAll();
+				let {code} = await delAll(this.user);
 				await this.getHistoryList();
 			},
 			getProductByCategoryName2(name) {
