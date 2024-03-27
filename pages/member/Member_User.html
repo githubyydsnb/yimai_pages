@@ -428,18 +428,18 @@
 				this.user.loginName = loginName;
 				await this.getUser();
 			}
-			await this.getLoginAddressDef();
-			await this.getUserLogin();
+			await this.getLoginAddressDef(this.user);
+			await this.getUserLogin(this.user);
 			await this.getShopCarList();
 
 		},
 		methods: {
-			async getUserLogin() {
-				let response = await getUserLogin();
+			async getUserLogin(currentUser) {
+				let response = await getUserLogin(currentUser);
 				this.loginUser = response.data;
 			},
-			async getLoginAddressDef() {
-				let response = await getLoginAddressDef();
+			async getLoginAddressDef(currentUser) {
+				let response = await getLoginAddressDef(currentUser);
 				this.address = response.data;
 				if (this.address != null) {
 					this.isAddress.isTrue = true;

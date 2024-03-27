@@ -1203,7 +1203,7 @@
 			getPicPathById(id) {
 				return "http://localhost:5173/nginx/product/downloadProductImg?id=" + id;
 			},
-			
+
 			async addShopCar() {
 				this.shopCar.productId = this.product.id;
 				this.shopCar.count = this.count;
@@ -1267,6 +1267,8 @@
 			searchProduct() {
 				window.location.href = "../catergory/CategoryList.html?product=" + JSON.stringify(this.productKeyWord);
 			},
+				await addHistory(this.product,this.user);
+			}
 
 		},
 		async mounted() {

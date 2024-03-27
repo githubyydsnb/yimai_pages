@@ -3,19 +3,21 @@ import request from "../utils/request.js";
 const baseUrl = '/address';
 
 
-const getUserAddress = (page) => {
+const getUserAddress = (page,currentUser) => {
     return request.post(baseUrl + "/getUserAddress",{
-        page:page
+        page:page,
+        currentUser:currentUser
     });
 }
-const UpdateAddress = (address) => {
+const UpdateAddress = (address,currentUser) => {
     return request.post(baseUrl + "/UpdateAddress",{
         address:address
     });
 }
-const setDefault = (address) => {
+const setDefault = (address,currentUser) => {
     return request.post(baseUrl + "/setDefault",{
-        address:address
+        address:address,
+        currentUser:currentUser
     });
 }
 const delAddress = (address) => {
@@ -23,18 +25,20 @@ const delAddress = (address) => {
         address:address
     });
 }
-const addAddress = (address) => {
+const addAddress = (address,currentUser) => {
     return request.post(baseUrl + "/addAddress",{
-        address:address
+        address:address,
+        currentUser:currentUser
     });
 }
-const getById = (address) => {
+const getById = (address,currentUser) => {
     return request.post(baseUrl + "/getById",{
-        address:address
+        address:address,
+        currentUser:currentUser
     });
 }
-const  getLoginAddressDef = () =>{
-    return request.post(baseUrl + "/getLoginAddressDef")
+const  getLoginAddressDef = (currentUser) =>{
+    return request.post(baseUrl + "/getLoginAddressDef",{currentUser:currentUser})
 }
 export {
     getUserAddress,

@@ -406,12 +406,13 @@
 				addAddressList: [],
 				page: {},
 				user: {},
+
 			}
 		},
 		methods: {
 			async getUserAddress(currPageNo) {
 				this.page.currPageNo = currPageNo;
-				let data = await getUserAddress(this.page);
+				let data = await getUserAddress(this.page,this.user);
 				this.addAddressList = data.data.addresses;
 				this.page = data.data.page;
 			},
@@ -428,7 +429,7 @@
 				this.setDefault(address);
 			},
 			async setDefault(address) {
-				let data = await setDefault(address);
+				let data = await setDefault(address,this.user);
 				if (data.code == "200") {
 					this.$message.success('设置成功!')
 					this.getUserAddress(1);

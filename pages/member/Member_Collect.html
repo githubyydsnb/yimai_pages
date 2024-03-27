@@ -407,18 +407,18 @@
 				}
 			},
 			async getCount() {
-				let data = await getCollectionsCount();
+				let data = await getCollectionsCount(this.user);
 				this.count = data.data;
 			},
 			async getCollectList() {
-				let data = await getCollectionsList();
+				let data = await getCollectionsList(this.user);
 				this.collectList = data.data;
 			},
 			del(product) {
 				this.delCollections(product);
 			},
 			async delCollections(product) {
-				let data = await delCollections(product);
+				let data = await delCollections(product,this.user);
 				if (data.code == "200") {
 					this.getCollectList();
 					this.getCount();

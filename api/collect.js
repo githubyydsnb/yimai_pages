@@ -2,20 +2,22 @@ import request from "../utils/request.js";
 const baseUrl = '/collect';
 
 
-const getCollectionsCount = () => {
-    return request.post(baseUrl + "/getCollectionsCount");
+const getCollectionsCount = (currentUser) => {
+    return request.post(baseUrl + "/getCollectionsCount",{currentUser:currentUser});
 }
-const getCollectionsList = () => {
-    return request.post(baseUrl + "/getCollectionsList");
+const getCollectionsList = (currentUser) => {
+    return request.post(baseUrl + "/getCollectionsList",{currentUser:currentUser});
 }
-const delCollections = (product) => {
+const delCollections = (product,currentUser) => {
     return request.post(baseUrl + "/delCollections",{
-        product:product
+        product:product,
+        currentUser:currentUser
     });
 }
-const addCollection = (product) => {
+const addCollection = (product,currentUser) => {
     return request.post(baseUrl + "/addCollections",{
-        product:product
+        product:product,
+        currentUser:currentUser
     });
 }
 
