@@ -430,10 +430,8 @@
 			async setDefault(address) {
 				let data = await setDefault(address);
 				if (data.code == "200") {
-					alert(data.msg);
+					this.$message.success('设置成功!')
 					this.getUserAddress(1);
-				} else {
-					alert(data.msg);
 				}
 			},
 			del(address) {
@@ -443,9 +441,10 @@
 				let data = await delAddress(address);
 				if (data.code == "200") {
 					// alert(data.msg);
+					this.$message.success("删除成功")
 					this.getUserAddress(1);
 				} else {
-					alert(data.msg);
+					this.$message.error(data.msg)
 				}
 			},
 

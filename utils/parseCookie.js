@@ -1,4 +1,4 @@
-function parseCookie(nameParam,index) {
+function parseCookie(nameParam) {
     let allCookies = document.cookie;
     let cookieArray = allCookies.split(';')
     for (let i = 0; i < cookieArray.length; i++) {

@@ -708,6 +708,8 @@
 	</div>
 </div>
 </body>
+<script src="../../utils/parseCookie.js"></script>
+<script src="../../js/axios.js"></script>
 <script type="module">
 	new Vue({
 		el: '#root',
@@ -718,8 +720,24 @@
 			}
 		},
 		methods: {
-			createOrder() {
-				window.location.href = "http://localhost:8080/order/createOrderAlipay?cost=" + this.cost + "&orderNo=" + encodeURIComponent(this.orderNo);
+			createOrder: async function () {
+				let token = parseCookie("token");
+				const {data} = await axios.get('http://localhost:8080/order/createOrderAlipay', {
+					params: {
+						cost: this.cost,
+						orderNo: encodeURIComponent(this.orderNo),
+						headers: {
+							token: token,
+						}
+					}
+				})
+				if (data != null) {
+					let div = document.createElement('div')
+					div.append(data)
+					document.querySelector('body').append(div)
+					data.submit()
+				}
+				// window.location.href = "?cost=" + this.cost + "&orderNo=" + encodeURIComponent(this.orderNo);
 			}
 		},
 		async mounted() {

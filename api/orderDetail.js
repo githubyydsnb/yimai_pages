@@ -1,6 +1,6 @@
 import request from "../utils/request.js";
 
-const baseUrl = "orderDetail";
+const baseUrl = "/orderDetail";
 
 const addOrderDetail = (orderDetails) => {
     console.log(orderDetails,toString())

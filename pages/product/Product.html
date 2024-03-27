@@ -120,18 +120,25 @@
         </span>
 			<!--End 所在收货地区 End-->
 			<span class="fr">
-        	<span class="fl">你好，请<a href="../login/Login.html">登录</a>&nbsp; <a href="../login/Regist.html"
-																					style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;<a
-					href="javascript:void(0)">我的订单</a>&nbsp;|</span>
+      <span class="fl" v-if="user.id==undefined">你好，请<a href="../login/Login.html">登录</a>&nbsp;
+				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
+			</span>
+				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
+
+					<el-link  class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
+					<a v-if="user.roleId==3" :href=`../member/Member_UserOrder.html?id=${user.id}`>我的订单</a>&nbsp;|
+					<a v-if="user.roleId<3 " :href=`../member/Member_Order.html`>后台管理</a>&nbsp;|
+									欢迎,{{user.userName}}登录&nbsp;|
+				</span>
         	<span class="ss">
             	<div class="ss_list">
                 	<a href="javascript:void(0)">收藏夹</a>
                     <div class="ss_list_bg">
                     	<div class="s_city_t"></div>
                         <div class="ss_list_c">
-                        	<ul>
-                            	<li><a href="javascript:void(0)">我的收藏夹</a></li>
-                                <li><a href="javascript:void(0)">我的收藏夹</a></li>
+                        	<ul >
+                            	<li v-if="user.id>0"> <a :href=`/yimai/member/Member_Collect.html?id=${user.id}`>我的收藏夹</a></li>
                             </ul>
                         </div>
                     </div>     
@@ -174,8 +181,8 @@
 		<div class="logo"><a href="pages/index/Index.html"><img src="../../images/logo.png"/></a></div>
 		<div class="search">
 			<form>
-				<input type="text" value="" class="s_ipt"/>
-				<input type="submit" value="搜索" class="s_btn"/>
+				<input type="text" v-model="productKeyWord.name" value="" class="s_ipt"/>
+				<input type="submit" @click.prevent="searchProduct" value="搜索" class="s_btn"/>
 			</form>
 			<span class="fl"><a href="javascript:void(0)">咖啡</a><a href="javascript:void(0)">iphone 6S</a><a
 					href="javascript:void(0)">新鲜美食</a><a href="javascript:void(0)">蛋糕</a><a
@@ -185,7 +192,8 @@
 			<div class="car_t">购物车 [ <span>{{cars.length}}</span> ]</div>
 			<div class="car_bg">
 				<!--Begin 购物车未登录 Begin-->
-				<div class="un_login">还未登录！<a href="../../Login.html" style="color:#ff4e00;">马上登录</a> 查看购物车！
+				<div class="un_login" v-if="user.id==undefined">还未登录！<a href="../login/Login.html"
+																			style="color:#ff4e00;">马上登录</a> 查看购物车！
 				</div>
 				<!--End 购物车未登录 End-->
 				<!--Begin 购物车已登录 Begin-->
@@ -199,8 +207,10 @@
 						<!--						<span style="display: none">{{totalPrice = car.count * car.price}}</span>-->
 					</li>
 				</ul>
-				<div class="price_sum">共计&nbsp; <font color="#ff4e00">￥</font><span>{{totalPrice}}</span></div>
-				<div class="price_a"><a href="../buy_car/BuyCar.html">去购物车结算</a></div>
+				<div class="price_sum" v-if="user.id>0 && cars.length>0">共计&nbsp; <font
+						color="#ff4e00">￥</font><span>{{totalPrice}}</span></div>
+				<div class="price_a" v-if="user.id>0 && cars.length>0"><a href="../buy_car/BuyCar.html">去购物车结算</a></div>
+				<div style="text-align: center" v-if="user.id>0 && cars.length<1">暂无购物车记录~</div>
 				<!--End 购物车已登录 End-->
 			</div>
 		</div>
@@ -571,7 +581,7 @@
 			</div>
 			<!--End 商品分类详情 End-->
 			<ul class="menu_r">
-				<li><a href="pages/index/Index.html">首页</a></li>
+				<li><a href="../index/Index.html">首页</a></li>
 				<li><a href="Food.html">美食</a></li>
 				<li><a href="Fresh.html">生鲜</a></li>
 				<li><a href="HomeDecoration.html">家居</a></li>
@@ -787,8 +797,10 @@
 						</div>
 						<div class="name"><a href="javascript:void(0)">{{productsByThree[2].name}}</a></div>
 						<div class="price">
-							<div class="checkbox"><input type="checkbox" v-model="selectedItems"
-														 :value="productsByThree[2].id" name="zuhe" checked="checked"/>
+							<div class="checkbox" @click="getProductParams"><input type="checkbox"
+																				   v-model="selectedItems"
+																				   :value="productsByThree[2].id"
+																				   name="zuhe" checked="checked"/>
 							</div>
 							<font>￥<span>{{productsByThree[2].price}}</span></font> &nbsp; 18R
 						</div>
@@ -1127,7 +1139,8 @@
 		<!--End Footer End -->
 	</div>
 </div>
-</body>
+</body><script src="../../utils/parseCookie.js"></script>
+
 
 <script src="../../js/ShopShow.js"></script>
 <script type="module">
@@ -1135,6 +1148,7 @@
 	import {addShopCar, checkShopIsExit} from '../../api/shoppingCar.js';
 	import {getShopCarList} from '../../api/shoppingCar.js';
 	import {addHistory} from '../../api/history.js';
+	import {getUserByMobile, getUser, exitSystem} from '../../api/user.js';
 
 	new Vue({
 		el: "#root",
@@ -1150,6 +1164,10 @@
 				packageCount: 1,
 				selectedItems: [],
 				productParams: [],
+				user:{},
+				productKeyWord: {
+					name: '',
+				},
 			}
 		},
 		computed: {
@@ -1165,7 +1183,7 @@
 				if (this.selectedItems.length < 1) {
 					return getCarPrice;
 				}
-				this.getProductParams();
+				// this.getProductParams();
 				for (let i = 0; i < this.productParams.length; i++) {
 					getCarPrice += this.productParams[i].price;
 				}
@@ -1185,10 +1203,7 @@
 			getPicPathById(id) {
 				return "http://localhost:5173/nginx/product/downloadProductImg?id=" + id;
 			},
-			async getShopCarList() {
-				const {data} = await getShopCarList(this.shopCar);
-				this.cars = data;
-			},
+			
 			async addShopCar() {
 				this.shopCar.productId = this.product.id;
 				this.shopCar.count = this.count;
@@ -1197,8 +1212,6 @@
 					return;
 				}
 				const {code} = await addShopCar(this.shopCar);
-
-
 				if (code == "200") {
 					ShowDiv_1('MyDiv1', 'fade1');
 				}
@@ -1227,16 +1240,46 @@
 					this.$message.error("请选择要购买的商品")
 					return;
 				}
-				// const temp1=this.
-				// 	const {code} = await addShopCar(temp);
 				window.location.href = "./../buy_car/BuyCar_Two.html?idS=" + this.selectedItems;
 			},
 			async addHistory() {
 				await addHistory(this.product);
-			}
+			},
+			async getUser() {
+				const {data} = await getUser(this.user);
+				this.user = data;
+			},
+			async exitSystem() {
+				if (confirm("确认退出登录吗?")) {
+					const {code} = await exitSystem();
+					if (code == "200") {
+						window.history.replaceState(null, "", "../login/Login.html");
+						window.history.go(0)
+						this.user = {};
+					}
+				}
+			},
+			async getShopCarList() {
+				this.shopCar.userId = this.user.id;
+				const {data} = await getShopCarList(this.shopCar);
+				this.cars = data;
+			},
+			searchProduct() {
+				window.location.href = "../catergory/CategoryList.html?product=" + JSON.stringify(this.productKeyWord);
+			},
 
 		},
 		async mounted() {
+			this.user = {};
+			let roleId = parseCookie("roleId");
+			let loginName = parseCookie("loginName");
+			if (loginName != null && loginName != '') {
+				this.user.loginName = loginName;
+				await this.getUser();
+			}
+			if (!isNaN(roleId) || roleId > 0) {
+				await this.getShopCarList();
+			}
 			await this.getProductDetail();
 			await this.getShopCarList();
 			await this.getProductByThree();
