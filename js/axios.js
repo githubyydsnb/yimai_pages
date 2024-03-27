@@ -3419,5 +3419,4 @@
   return axios;
 
 }));
-export default axios
 //# sourceMappingURL=axios.js.map

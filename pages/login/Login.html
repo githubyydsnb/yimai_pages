@@ -213,7 +213,7 @@
 					if (valid) {
 						const {code} = await checkLogin(this.user);
 						if (code == "500") {
-							this.$message("账户或密码错误")
+							this.$message.error("账户或密码错误")
 							return;
 						}
 						this.$message("登陆成功")

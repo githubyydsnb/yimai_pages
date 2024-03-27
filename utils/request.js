@@ -26,6 +26,9 @@ instance.interceptors.request.use(async (config) => {
 })
 instance.interceptors.response.use(function (response) {
     isAccess = true
+    if (response.data.code == "401") {
+        window.location.href = "../login/Login.html"
+    }
     return response.data;
 }, function (error) {
     return Promise.reject(error);

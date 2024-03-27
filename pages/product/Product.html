@@ -1131,9 +1131,10 @@
 
 <script src="../../js/ShopShow.js"></script>
 <script type="module">
-	import {getProduct, getProductHotList,getProductListByIds} from '../../api/product.js';
+	import {getProduct, getProductHotList, getProductListByIds} from '../../api/product.js';
 	import {addShopCar, checkShopIsExit} from '../../api/shoppingCar.js';
 	import {getShopCarList} from '../../api/shoppingCar.js';
+	import {addHistory} from '../../api/history.js';
 
 	new Vue({
 		el: "#root",
@@ -1148,7 +1149,7 @@
 				count: 1,
 				packageCount: 1,
 				selectedItems: [],
-				productParams:[],
+				productParams: [],
 			}
 		},
 		computed: {
@@ -1159,9 +1160,9 @@
 				}
 				return totalPrice;
 			},
-			 getCarPrice() {
+			getCarPrice() {
 				let getCarPrice = 0;
-				if(this.selectedItems.length<1){
+				if (this.selectedItems.length < 1) {
 					return getCarPrice;
 				}
 				this.getProductParams();
@@ -1172,13 +1173,13 @@
 			}
 		},
 		methods: {
-			async getProductParams(){
-				const {data}=await getProductListByIds(this.selectedItems.toString());
-				this. productParams=data;
+			async getProductParams() {
+				const {data} = await getProductListByIds(this.selectedItems.toString());
+				this.productParams = data;
 			},
 			async getProductDetail() {
 				this.product.id = window.location.search.substring(4);
-				const {data} = await getProduct( this.product);
+				const {data} = await getProduct(this.product);
 				this.product = data;
 			},
 			getPicPathById(id) {
@@ -1229,7 +1230,9 @@
 				// const temp1=this.
 				// 	const {code} = await addShopCar(temp);
 				window.location.href = "./../buy_car/BuyCar_Two.html?idS=" + this.selectedItems;
-
+			},
+			async addHistory() {
+				await addHistory(this.product);
 			}
 
 		},
@@ -1237,6 +1240,7 @@
 			await this.getProductDetail();
 			await this.getShopCarList();
 			await this.getProductByThree();
+			await this.addHistory();
 		},
 	})
 </script>
