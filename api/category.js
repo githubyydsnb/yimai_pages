@@ -83,6 +83,14 @@ const addCategory = (category) => {
     return request.post(baseUrl + "/addCategory", {
         category:category})
 }
+const getPriceRange = (start,end, brand, page) =>{
+    return request.post(baseUrl +"/getPriceRange",{
+        start:start,
+        end:end,
+        brand:brand,
+        page:page
+    })
+}
 export {
     getCategoryOneList,
     getCategoryList,
@@ -96,5 +104,6 @@ export {
     getTypeList,
     modifyCategory,
     deleteCategory,
-    addCategory
+    addCategory,
+    getPriceRange
 }

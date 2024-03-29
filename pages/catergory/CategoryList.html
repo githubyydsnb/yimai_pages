@@ -279,7 +279,7 @@
 						<!--						<a href="javascript:void(0)" class="now">香奈儿（Chanel）</a><a-->
 				<tr valign="top">
 					<td>&nbsp; 价格：</td>
-					<td class="td_a"><a href="javascript:void(0)">0-199</a><a href="javascript:void(0)" class="now">200-399</a><a
+					<td class="td_a"><a href="javascript:void(0)" @click="getPriceRange(1,199, brand.brandName, 1)">0-199</a><a href="javascript:void(0)" class="now">200-399</a><a
 							href="javascript:void(0)">400-599</a><a
 							href="#">600-899</a><a href="javascript:void(0)">900-1299</a><a href="javascript:void(0)">1300-1399</a><a
 							href="#">1400以上</a>
@@ -520,7 +520,7 @@
 	import {addCollection} from "../../api/collect.js";
 	import {getHistoryList, delAll} from "../../api/history.js";
 	import {exitSystem, getUser} from "../../api/user.js";
-	import {getCategoryOneList, getCategoryList} from '../../api/category.js';
+	import {getCategoryOneList, getCategoryList,getPriceRange} from '../../api/category.js';
 
 
 	new Vue({
@@ -718,6 +718,15 @@
 			async getUser() {
 				const {data} = await getUser(this.user);
 				this.user = data;
+			},
+			async getPriceRange(start,end, brandName, currPageNo){
+				this.brand.brandName = brandName;
+				if(start==0){
+					start = 0;
+				}
+				const {data} = await getPriceRange(start,end, this.brand, this.page);
+				this.products = data.products;
+				this.page = data.page;
 			}
 
 		},
