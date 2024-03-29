@@ -109,6 +109,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>

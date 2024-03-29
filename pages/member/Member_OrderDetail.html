@@ -111,6 +111,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -328,6 +330,7 @@
 				</el-table>
 
 				<el-pagination
+						background
 						@size-change="handleSizeChange"
 						@current-change="handleCurrentChange"
 						:current-page="page.currPageNo"
@@ -439,7 +442,20 @@
 </div>
 </body>
 <script src="../../utils/parseCookie.js"></script>
-
+<style scoped lang="scss">
+	.el-pagination.is-background .el-pager li:hover {
+		　　color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled):hover {
+		　　color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled).active:hover {
+		　　background-color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled).active {
+		background-color: #ff4e00;   // 进行修改背景
+	}
+</style>
 <script type="module">
 	import {getOrderList} from '/api/order.js';
 	import {getOrderDetailList} from '/api/orderDetail.js';
@@ -469,12 +485,12 @@
 				this.orderDetailList = data.orderDetailList;
 				this.page = data.page;
 			},
-			handleSizeChange(val) {
+			async handleSizeChange(val) {
 				this.page.pageSize = val;
-				this.getOrderDetailList(this.page.currPageNo);
+				await this.getOrderDetailList(this.page.currPageNo);
 			},
-			handleCurrentChange(val) {
-				this.getOrderDetailList(val);
+			async handleCurrentChange(val) {
+				await this.getOrderDetailList(val);
 			},
 			async getUser() {
 				const {data} = await getUser(this.user);
@@ -491,7 +507,6 @@
 						window.history.replaceState(null, "", "../login/Login.html");
 						window.history.go(0)
 						this.user = {};
-
 					}
 				}
 			},

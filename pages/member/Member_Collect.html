@@ -112,6 +112,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -393,6 +395,7 @@
 				this.shopCar.count = count;
 				this.shopCar.userId = this.user.id;
 				if (!await this.checkShopIsExit(this.shopCar)) {
+					this.$message.error("已加入购物车!")
 					return;
 				}
 				const {code} = await addShopCar(this.shopCar);
@@ -403,7 +406,6 @@
 						type: 'success',
 						center: true,
 					});
-
 				}
 			},
 			async getCount() {
@@ -414,20 +416,20 @@
 				let data = await getCollectionsList(this.user);
 				this.collectList = data.data;
 			},
-			del(product) {
-				this.delCollections(product);
+			async del(product) {
+				await this.delCollections(product);
 			},
 			async delCollections(product) {
-				let data = await delCollections(product,this.user);
+				let data = await delCollections(product, this.user);
 				if (data.code == "200") {
-					this.getCollectList();
-					this.getCount();
+					await this.getCollectList();
+					await this.getCount();
 					this.$message.success("删除成功")
 				} else {
 					this.$message.error(data.msg)
 				}
 			},
-			getPicPathById(id) {
+			 getPicPathById(id) {
 				return "http://localhost:5173/nginx/product/downloadProductImg?id=" + id;
 			},
 			async getUser() {
@@ -439,11 +441,9 @@
 				if (confirm("确认退出登录吗?")) {
 					const {code} = await exitSystem();
 					if (code == "200") {
-						// window.location.href = "../login/Login.html"
 						window.history.replaceState(null, "", "../login/Login.html");
 						window.history.go(0)
 						this.user = {};
-
 					}
 				}
 			},

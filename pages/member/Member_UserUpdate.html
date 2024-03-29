@@ -99,6 +99,8 @@
 				<a href="../login/Regist.html" v-if="currentUser.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="currentUser.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${currentUser.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -379,9 +381,11 @@
 					callback(new Error('请18位身份证号码'));
 					return;
 				}
+				this.$delete(this.user, 'confirmPass');
 				let {data}=await getUserCount(this.user);
+
 				if(data.identityCode!=this.IdentityCode) {
-					if (data > 0) {
+					if (data !=null) {
 						callback(new Error('身份证号码已经存在'));
 						return;
 					}
@@ -404,9 +408,9 @@
 					callback(new Error('请再次输入密码'));
 				} else if (value.length < 3 || value.length > 6) {
 					callback(new Error('请输入3-6位密码'));
-				} else if (value == vm.user.password) {
+				} /*else if (value == vm.user.password) {
 					callback(new Error('不能和原密码相同'));
-				} else {
+				}*/ else {
 					this.confirmPassFlag = true;
 					callback();
 				}
@@ -427,6 +431,7 @@
 					this.mobileFlag = true;
 					return callback();
 				}
+				this.$delete(this.user, 'confirmPass');
 				let {data} = await getUserByMobile(this.user);
 				if(data.mobile!=this.Mobile) {
 					if (data != null) {
@@ -564,18 +569,19 @@
 			this.user.id = id;
 			await this.getUserById(this.user);
 			this.Mobile = this.user.mobile;
-			this.IdentityCode = this.user.IdentityCode;
+			this.IdentityCode = this.user.identityCode;
 		},
 		methods: {
 			async getRoleList() {
 				let response = await getRoleList(this.currentUser);
 				this.roleList = response.data;
 			},
-			submitForm(formName) {
+			async submitForm(formName) {
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
 						this.user.password = this.user.confirmPass;
 						this.$delete(this.user, 'confirmPass');
+
 						const {code} = (await updateUser(this.user,this.currentUser));
 						if (code == "200") {
 							this.$message({

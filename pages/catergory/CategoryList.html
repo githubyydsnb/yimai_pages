@@ -351,7 +351,7 @@
 									height="185"/></a>
 							</div>
 							<div class="price">
-								<font>￥<span>{{product.id}}</span></font> &nbsp; 分类:
+								<font>￥<span>{{product.price}}</span></font> &nbsp; 分类:
 																		  {{product.categoryName1}}--{{product.categoryName2}}--{{product.categoryName3}}
 							</div>
 							<!--							<div class="name"><a href="javascript:void(0)" v-html="product.name"></a></div>-->
@@ -363,7 +363,7 @@
 								   class="j_car">加入购物车</a>
 							</div>
 							<div class="name" @click="goProductDetail(product.id)"><a href="javascript:void(0)"
-																					  v-html=`${product.brandName}---${product.name}`></a>
+																					  v-html=`【${product.brandName}】&nbsp;&nbsp;${product.name}`></a>
 							</div>
 							<!--							<div class="carbg" >-->
 							<!--								<a href="javascript:void(0)" class="ss">收藏</a>-->
@@ -377,6 +377,7 @@
 
 					<!--					<div class="pages">-->
 					<el-pagination
+							background
 							@size-change="handleSizeChange"
 							@current-change="handleCurrentChange"
 							:current-page="page.currPageNo"
@@ -507,8 +508,20 @@
 			position: absolute;
 		}
 	}
-
+	.el-pagination.is-background .el-pager li:hover {
+		　　color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled):hover {
+		　　color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled).active:hover {
+		　　background-color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled).active {
+		background-color: #ff4e00;   // 进行修改背景
+	}
 </style>
+
 <script src="../../js/axios.js"></script>
 <script src="../../utils/parseCookie.js"></script>
 
@@ -687,6 +700,7 @@
 			async getHistoryList() {
 				let data = await getHistoryList(this.user);
 				this.historyList = data.data;
+				this.$forceUpdate();
 			},
 			async exitSystem() {
 				if (confirm("确认退出登录吗?")) {

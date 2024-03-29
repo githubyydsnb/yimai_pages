@@ -99,6 +99,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -373,17 +375,17 @@
 				this.newsList = response.data.newsList;
 				this.page = response.data.page;
 			},
-			previous() {
-				this.getNewsListBy(this.page.currPageNo - 1);
+			async previous() {
+				await this.getNewsListBy(this.page.currPageNo - 1);
 			},
-			next() {
-				this.getNewsListBy(this.page.currPageNo + 1);
+			async next() {
+				await this.getNewsListBy(this.page.currPageNo + 1);
 			},
-			last() {
-				this.getNewsListBy(this.page.totalPage);
+			async last() {
+				await this.getNewsListBy(this.page.totalPage);
 			},
-			searchBy() {
-				this.getNewsListBy(1);
+			async searchBy() {
+				await this.getNewsListBy(1);
 			},
 			del(id) {
 				if (confirm("是否确认删除？")) {

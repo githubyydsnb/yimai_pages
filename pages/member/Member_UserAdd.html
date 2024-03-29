@@ -100,6 +100,8 @@
 				<a href="../login/Regist.html" v-if="currentUser.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="currentUser.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${currentUser.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -381,6 +383,7 @@
 					callback(new Error('请18位数字的身份证号码（末尾可以用x或X）'));
 					return;
 				}
+				this.$delete(this.user, 'confirmPass');
 				let {data}=await getUserCount(this.user);
 				if(data!=null){
 					callback(new Error('身份证号码已经存在'));
@@ -423,6 +426,8 @@
 					callback(new Error("请输入合法的手机号"));
 					return;
 				}
+				this.$delete(this.user, 'confirmPass');
+
 				let {data} = await getUserByMobile(this.user);
 				if(data!=null){
 					callback(new Error("该手机号已经被注册！"));

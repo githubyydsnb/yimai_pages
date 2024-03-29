@@ -118,6 +118,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -617,7 +619,8 @@
 					<td colspan="6" style="font-family:'Microsoft YaHei'; border-bottom:0;">
 
 						<el-link @click="clearShopCar">清空购物车</el-link>
-						<span class="fr">商品总价：<b style="font-size:22px; color:#ff4e00;">￥{{totalPrice}}</b></span>
+						<span class="fr">商品总价：<b
+								style="font-size:22px; color:#ff4e00;">￥{{commonSelectedProducts}}</b></span>
 						<br>
 						全选<input style="float: left;" type="checkbox" @change="selectAll" v-model="selectedItems"
 								   name=""
@@ -759,14 +762,34 @@
 			}
 		},
 		computed: {
-			totalPrice() {
-				let totalPrice = 0;
-				for (let i = 0; i < this.cars.length; i++) {
-					totalPrice += this.cars[i].price * this.cars[i].count;
-				}
-				return totalPrice;
-
+			total() {
+				var sum = 0;
+				this.cars.forEach(item => {
+					if (item.isCheck) {
+						sum += item.price * item.count
+					}
+				})
+				return sum;
 			},
+			// itemTotalPrice() {
+			// 	return this.cars.map(item => {
+			// 		return item.count * item.price;
+			// 	});
+			// },
+			// totalPrice() {
+			// 	return this.itemTotalPrice.reduce((total, item) => {
+			// 		return total + item;
+			// 	}, 0);
+			// },
+			commonSelectedProducts() {
+				const selectedProducts = this.cars.filter(item =>
+						this.selectedItems.includes(item.id)
+				);
+				const total = selectedProducts.reduce((accumulator, car) => {
+					return accumulator + (car.count * car.price);
+				}, 0);
+				return total;
+			}
 		},
 		methods: {
 			getPicPathById(id) {
@@ -812,11 +835,13 @@
 				}, 1000)
 			},
 			async deleteShopCar(id) {
+
 				if (confirm("确认删除?")) {
+
 					const {code} = await deleteShopCar(id)
 					if (code == "200") {
 						this.$message.success("删除成功")
-						this.getShopCarList();
+						await this.getShopCarList();
 					}
 				}
 			},
@@ -847,6 +872,10 @@
 				}
 			},
 			async deleteShoppingCarByIds() {
+				if (this.selectedItems.length < 1) {
+					this.$message.error('请选择要删除的商品!');
+					return;
+				}
 				if (confirm("确认删除?")) {
 					const {code} = await deleteShoppingCarByIds(this.selectedItems);
 					if (code == "200") {

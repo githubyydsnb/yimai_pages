@@ -18,10 +18,10 @@ function readTokenCookie() {
 
 let isAccess = true;
 instance.interceptors.request.use(async (config) => {
-    if (isAccess) {
-        isAccess = false
+    // if (isAccess) {
+    //     isAccess = false
         config.headers.token = readTokenCookie()
-    }
+    // }
     return config
 })
 instance.interceptors.response.use(function (response) {
@@ -37,7 +37,7 @@ instance.interceptors.response.use(function (response) {
     }
     return response.data;
 }, function (error) {
-    window.history.replaceState(null, "", "../login/Login.html");
+    // window.history.replaceState(null, "", "../login/Login.html");
     return Promise.reject(error);
 })
 export default instance

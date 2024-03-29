@@ -109,6 +109,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -208,7 +210,7 @@
 									  autocomplete="off" name="stock"></el-input>
 						</el-form-item>
 						<el-form-item label="品牌" prop="brandId">
-							<el-select v-model="product.brandId" name="brandId">
+							<el-select filterable v-model="product.brandId" name="brandId">
 								<el-option v-for="brand in brands" :key="brand.id"
 										   :label="brand.brandName" :value="brand.id">
 
@@ -223,7 +225,7 @@
 						</el-form-item>
 						<el-form-item label="一级分类" prop="oneId">
 							<!--						"-->
-							<el-select clearable v-model="product.oneId"
+							<el-select filterable clearable v-model="product.oneId"
 									   @change="getProductCategoryListByParentId(product.oneId)">
 								<el-option v-for="categoryOne in categoryOneList" :key="categoryOne.id"
 										   :label="categoryOne.name"
@@ -233,7 +235,7 @@
 							</el-select>
 						</el-form-item>
 						<el-form-item label="二级分类" prop="twoId">
-							<el-select clearable ref="twoId" v-model="product.twoId"
+							<el-select filterable clearable ref="twoId" v-model="product.twoId"
 									   @change="getProductCategoryThirdListByParentId(product.twoId)"
 							>
 								<el-option v-for="categoryTwo in categoryTwoList" :key="categoryTwo.id"
@@ -244,22 +246,22 @@
 						</el-form-item>
 
 						<el-form-item label="三级分类" prop="categoryLevelId">
-							<el-select clearable ref="threeId" name="categoryLevelId" v-model="product.categoryLevelId">
+							<el-select filterable clearable ref="threeId" name="categoryLevelId" v-model="product.categoryLevelId">
 								<el-option v-for="categoryThree in categoryThreeList" :key="categoryThree.id"
 										   :label="categoryThree.name" :value="categoryThree.id">
 								</el-option>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="商品图片" prop="goodsFile">
+						<el-form-item label="商品图片">
 							<el-upload
 									class="avatar-uploader"
 									action="#"
 									:show-file-list="false"
 									:before-upload="beforeAvatarUpload"
 									:http-request="handleChange"
-									name="goodsFile"
 							>
-								<img v-if="imageUrl" width="100px" height="80px" :src="imageUrl" class="avatar" alt=""/>
+								<img v-if="imageUrl" width="100px" height="80px"
+									 :src="imageUrl" class="avatar" alt=""/>
 								<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 
 							</el-upload>
@@ -444,7 +446,6 @@
 			return {
 				product: {
 					name: '',
-
 				},
 				oneIdByChild: 0,
 				secondIdByChild: 0,
@@ -503,20 +504,18 @@
 							min: 2, max: 20, message: '长度在2-20位', trigger: 'blur'
 						}
 					],
-					goodsFile: [
-						{required: true, message: '请上传图片', trigger: 'blur'},
 
-					]
 				}
 			};
 		},
 		methods: {
-			submitForm(formName) {
+			async submitForm(formName) {
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
 						let formData = new FormData(document.getElementById("product"))
 						formData.set("brandId", this.product.brandId);
 						formData.set("categoryLevelId", this.product.categoryLevelId);
+						formData.set("goodsFile", this.product.filePath)
 						const productResult = await addProduct(formData)
 						this.filePojo.filePath = encodeURIComponent(productResult.data.filePath);
 						this.filePojo.productId = productResult.data.id;
@@ -526,12 +525,13 @@
 							this.product.fileId = fileResult.data.id;
 							const {code} = await updateProductFileId(this.product)
 							if (code == "200") {
-								window.location.href = "ProductList.html";
 								this.$message({
 									message: '添加成功',
 									type: 'success',
 									center: 'true',
 								})
+								window.location.href = "ProductList.html";
+
 							}
 
 						} else {
@@ -553,7 +553,7 @@
 				this.loading = false;
 				await this.getSecondIdListByChild();
 			},
-			getPicPathById() {
+			async getPicPathById() {
 				return "http://localhost:5173/nginx/product/downloadProductImg?id=" + window.location.search.substring(4);
 
 			},
@@ -595,11 +595,11 @@
 				this.$delete(this.product, 'categoryLevelId');
 				this.categoryThreeList = data;
 			},
-			handleChange(req) {
+			async handleChange(req) {
 				this.imageUrl = URL.createObjectURL(req.file);
-				this.product.filePath = this.imageUrl
+				this.product.filePath = req.file;
 			},
-			beforeAvatarUpload(file) {
+			async beforeAvatarUpload(file) {
 				const isJPG = file.type === "image/jpeg";
 				const isPNG = file.type === "image/png";
 				const isLt2M = file.size / 1024 / 1024 < 2;

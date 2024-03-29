@@ -111,9 +111,11 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
-					<el-link  class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
+					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
 					<a :href=`../member/Member_UserOrder.html?id=${user.id}`>我的订单</a>&nbsp;|
 									欢迎,{{user.userName}}登录&nbsp;|
 				</span>
@@ -233,14 +235,14 @@
 							prop="status"
 							label="状态">
 						<template slot-scope="scope">
-							<el-steps :space="200">
+							<el-steps :space="150">
 								<el-step v-if="scope.row.status==1" title="已支付" status="success">
 
 								</el-step>
 								<el-step v-if="scope.row.status==2" title="未支付" status="error">
 
 								</el-step>
-								<el-step v-if="scope.row.status==3" title="已取消" status="process">
+								<el-step v-if="scope.row.status==3" icon="el-icon-bell" title="已取消" status="wait">
 
 								</el-step>
 							</el-steps>
@@ -249,7 +251,7 @@
 					<el-table-column
 							fixed="right"
 							label="操作"
-							width="150">
+							width="130">
 						<template slot-scope="scope">
 							<el-button @click="handleClick(scope.row.id)" type="text" size="small">查看</el-button>
 							<el-button v-if="scope.row.status==2" @click="handleCancel(scope.row.id)" type="text"
@@ -261,6 +263,7 @@
 				</el-table>
 
 				<el-pagination
+						background
 						@size-change="handleSizeChange"
 						@current-change="handleCurrentChange"
 						:current-page="page.currPageNo"
@@ -406,7 +409,20 @@
 </div>
 </body>
 <script src="../../utils/parseCookie.js"></script>
-
+<style scoped lang="scss">
+	.el-pagination.is-background .el-pager li:hover {
+		　　color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled):hover {
+		　　color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled).active:hover {
+		　　background-color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled).active {
+		background-color: #ff4e00;   // 进行修改背景
+	}
+</style>
 <script type="module">
 	import {getOrderList, cancelOrder} from '/api/order.js';
 	import {getOrderDetailList} from '/api/orderDetail.js';
@@ -422,14 +438,14 @@
 					currPageNo: 1,
 					pageSize: 5
 				},
-				user:{},
+				user: {},
 				dialogFormVisible: false
 			}
 		},
 		methods: {
-			load(tree, treeNode, resolve) {
-				setTimeout(() => {
-					resolve(this.orderList.children)
+			async load(tree, treeNode, resolve) {
+				setTimeout(async () => {
+					resolve(await this.orderList.children)
 				}, 1000)
 			},
 			async getOrderList(currPageNo) {
@@ -441,12 +457,12 @@
 					this.$set(item, 'children', []);
 				})
 			},
-			handleSizeChange(val) {
+			async handleSizeChange(val) {
 				this.page.pageSize = val;
-				this.getOrderList(this.page.currPageNo);
+				await this.getOrderList(this.page.currPageNo);
 			},
-			handleCurrentChange(val) {
-				this.getOrderList(val);
+			async handleCurrentChange(val) {
+				await this.getOrderList(val);
 			},
 			handleClick(id) {
 				window.location.href = "Member_OrderDetail.html?orderId=" + id;
@@ -456,7 +472,7 @@
 				if (confirm("确认取消订单吗?")) {
 					if (code == "200") {
 						this.$message.success("取消成功!");
-						this.getOrderList(this.page.currPageNo);
+						await this.getOrderList(this.page.currPageNo);
 
 					}
 				}

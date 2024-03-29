@@ -320,7 +320,7 @@
 							</td>
 						</tr>
 						<tr height="35">
-							<td colspan="2"><input type="button" value="立即充值" @click.prevent="balance" class="c_btn"/></td>
+							<td colspan="2"><button style="color: white" type="button" value="立即充值" @click="balance" class="c_btn">立即充值</button></td>
 						</tr>
 					</table>
 				</form>
@@ -1201,9 +1201,26 @@
 			async userBalance(user, amount) {
 				if (amount < 1) {
 					this.$message.error("请选择充值金额！")
-					return false;
+					return ;
 				}
-				window.location.href = "http://localhost:8080/alipay/createOrder?mobile=" + user.mobile + "&balanceStr=" + amount;
+				let token = parseCookie("token");
+				const {data} = await axios.get('http://localhost:5173/nginx/alipay/createOrder', {
+					params: {
+						mobile: user.mobile,
+						balanceStr: amount,
+					},
+					headers: {
+						token: token,
+					}
+
+				})
+				if (data != null) {
+					let div = document.createElement('div')
+					div.innerHTML=data;
+					document.body.appendChild(div);
+					document.getElementsByName('punchout_form')[0].submit();
+				}
+				// window.location.href = "http://localhost:8080/alipay/createOrder?mobile=" + user.mobile + "&balanceStr=" + amount;
 			},
 			async exitSystem() {
 				if (confirm("确认退出登录吗?")) {

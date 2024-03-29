@@ -69,7 +69,7 @@
 		<div class="regist">
 			<div class="log_img"><img src="../../images/l_img.png" width="611" height="425"/></div>
 			<div class="reg_c">
-				<h1>注册</h1>
+				<h2  style="font-size:24px;text-align: center;margin-top: 20px;margin-bottom: 10px">注册</h2>
 				<el-form :model="user" status-icon :rules="rules" ref="user" label-width="100px"
 						 class="demo-ruleForm" v-cloak style="width: 400px">
 					<el-form-item label="用户名" prop="loginName">
@@ -94,8 +94,8 @@
 								  v-model.trim="user.mobile" autocomplete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="验证码" prop="inputVerifyCode">
-						<input type="text" v-model="user.inputVerifyCode" @blur="validateInputVerifyCode"></input>
-						<span id="verifyCodeMsg">{{verifyCodeMsg}}</span>
+						<input style="outline: #3a8ee6;height: 25px" type="text" v-model="user.inputVerifyCode" @blur="validateInputVerifyCode"></input>
+						<span  ref="verifyCodeMsg" id="verifyCodeMsg">{{verifyCodeMsg}}</span>
 						<p></p>
 						<!--						<el-input type="text" prefix-icon="el-icon-unlock" clearable-->
 						<!--								  v-model="user.inputVerifyCode" autocomplete="off"></el-input>-->
@@ -217,11 +217,11 @@
 			};
 			return {
 				user: {
-					loginName: 'user2',
-					password: '123',
-					email: '534286289@qq.com',
-					mobile: '18973532786',
-					confirmPass: '123',
+					loginName: '',
+					password: '',
+					email: '',
+					mobile: '',
+					confirmPass: '',
 					inputVerifyCode: '',
 
 				},
@@ -348,6 +348,7 @@
 				window.location.href = "Login.html";
 			},
 			async validateInputVerifyCode() {
+				this.$refs.verifyCodeMsg.style.color="red";
 				var value = this.user.inputVerifyCode;
 				if (value.length != 6) {
 					this.verifyCodeMsg = "请输入6位验证码";

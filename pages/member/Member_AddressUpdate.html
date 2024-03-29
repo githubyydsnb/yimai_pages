@@ -113,6 +113,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -377,7 +379,7 @@
 				}
 				callback(new Error("请选择地址"));
 			};
-			var validateMobile = (rule, value, callback) => {
+			var validateMobile = async (rule, value, callback) => {
 				const regMobile = /^1[3-9][0-9]{9}$/;
 				if (!regMobile.test(value)) {
 					callback(new Error("请输入合法的手机号"));
@@ -386,7 +388,7 @@
 				this.mobileFlag = true;
 				return callback();
 			};
-			var validateAddressDef = (rule, value, callback) => {
+			var validateAddressDef =async (rule, value, callback) => {
 				this.$forceUpdate();
 				if (value == '') {
 					callback(new Error('请输入详细地址'))
@@ -498,7 +500,7 @@
 			},
 			async getById(id) {
 				this.address2.id = id;
-				let data = await getById(this.address2,this.user);
+				let data = await getById(this.address2, this.user);
 				this.address2 = data.data;
 				const addressLists = this.address2.address.split('/');
 				for (let i = 0; i < addressLists.length; i++) {
@@ -508,10 +510,8 @@
 						this.address.addressDef = addressLists[i];
 					}
 				}
-				// console.log(this.address.selectedOptions);
 				this.address2.selectedOptions = this.address.selectedOptions;
 				this.address2.addressDef = this.address.addressDef;
-				console.log(this.address2);
 			},
 			back() {
 				window.location.href = "Member_Address.html";
@@ -543,8 +543,6 @@
 				await this.getUser();
 			}
 			await this.getById(id)
-			// this.getUserAddress(1);
-			// console.log(this.addAddressList)
 		},
 	})
 </script>

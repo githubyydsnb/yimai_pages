@@ -108,6 +108,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -197,13 +199,13 @@
 									  autocomplete="off" name="name"></el-input>
 						</el-form-item>
 						<el-form-item label="价格" prop="price">
-							<el-input clearable v-model.trim="product.price"
+							<el-input clearable v-model.number="product.price"
 									  prefix-icon="el-icon-unlock"
 									  autocomplete="off" name="price"></el-input>
 						</el-form-item>
 						<el-form-item label="库存" prop="stock">
 							<el-input clearable
-									  v-model.trim="product.stock"
+									  v-model.number="product.stock"
 									  prefix-icon="el-icon-unlock"
 									  autocomplete="off" name="stock"></el-input>
 						</el-form-item>
@@ -238,7 +240,6 @@
 									:show-file-list="false"
 									:before-upload="beforeAvatarUpload"
 									:http-request="handleChange"
-									name="goodsFile"
 							>
 								<img v-if="imageUrl" width="100px" height="80px" :src="imageUrl" class="avatar" alt=""/>
 								<i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -471,18 +472,20 @@
 			};
 		},
 		methods: {
-			submitForm(formName) {
+			async submitForm(formName) {
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
 						let formData = new FormData(document.getElementById("product"))
-
-						// if (this.imageUrl == '') {
-						// 	this.imageUrl = URL.createObjectURL(this.product.filePath);
-						// 	formData.set("goodsFile", this.imageUrl);
-						// }
 						formData.set("id", this.product.id);
 						formData.set("brandId", this.product.brandId);
 						formData.set("categoryLevelId", this.product.categoryLevelId);
+						if(this.imageUrl==""){
+							formData.set("goodsFile", new window.File([this.product.filePath],"goodsFile"));
+
+						}else{
+							formData.set("goodsFile", this.product.filePath)
+
+						}
 
 						const {code} = await modifyProduct(formData)
 						if (code == "200") {
@@ -556,11 +559,11 @@
 				const {data} = await getCategoryThreeListByThird(id);
 				this.categoryThreeList = data;
 			},
-			handleChange(req) {
+			async handleChange(req) {
 				this.imageUrl = URL.createObjectURL(req.file);
-				this.product.filePath = this.imageUrl
+				this.product.filePath = req.file;
 			},
-			beforeAvatarUpload(file) {
+			async beforeAvatarUpload(file) {
 				const isJPG = file.type === "image/jpeg";
 				const isPNG = file.type === "image/png";
 				const isLt2M = file.size / 1024 / 1024 < 2;

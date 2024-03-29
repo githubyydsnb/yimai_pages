@@ -722,20 +722,23 @@
 		methods: {
 			createOrder: async function () {
 				let token = parseCookie("token");
-				const {data} = await axios.get('http://localhost:8080/order/createOrderAlipay', {
+				const {data} = await axios.get('http://localhost:5173/nginx/order/createOrderAlipay', {
 					params: {
 						cost: this.cost,
 						orderNo: encodeURIComponent(this.orderNo),
-						headers: {
-							token: token,
-						}
+					},
+					headers: {
+						token: token,
 					}
+
 				})
 				if (data != null) {
 					let div = document.createElement('div')
-					div.append(data)
-					document.querySelector('body').append(div)
-					data.submit()
+					// div.append(data)
+
+					div.innerHTML=data;
+					document.body.appendChild(div);
+					document.getElementsByName('punchout_form')[0].submit();
 				}
 				// window.location.href = "?cost=" + this.cost + "&orderNo=" + encodeURIComponent(this.orderNo);
 			}

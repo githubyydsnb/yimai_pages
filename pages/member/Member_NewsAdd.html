@@ -5,6 +5,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<link type="text/css" rel="stylesheet" href="../../css/style.css"/>
 	<script type="text/javascript" src="../../js/vue.js"></script>
+	<!-- 引入样式 -->
+	<link rel="stylesheet" href="/css/Element.css">
+	<!-- 引入组件库 -->
+	<script src="/js/Element.js" type=""></script>
 </head>
 <body>
 <!--Begin Header Begin-->
@@ -94,6 +98,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -306,7 +312,7 @@
 			}
 		},
 		methods: {
-			titleCheck() {
+			 titleCheck() {
 				let msg = this.msg;
 				let news = this.news;
 				msg.title = "";

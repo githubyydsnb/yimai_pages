@@ -106,6 +106,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -182,7 +184,7 @@
 						<el-option v-for="type in typeList" :key="type.id"
 								   :label="type+'级'" :value="type"></el-option>
 					</el-select>
-					<el-input clearable style="width: 400px" placeholder="商品名" v-model="category.name"
+					<el-input clearable style="width: 400px" placeholder="分类名" v-model="category.name"
 							  class="input-with-select">
 
 						<el-button slot="append" @click="getProductCategoryList(1)" icon="el-icon-search"></el-button>
@@ -203,7 +205,7 @@
 						<!--					添加二级分类-->
 						<el-form :inline="true" ref="categoryTwoAddForm" :model="categoryTwoAddForm" :rules="rules">
 							<el-form-item label="选择一级分类" prop="id">
-								<el-select @click.native="getCategoryOneList();"
+								<el-select filterable @click.native="getCategoryOneList();"
 										   clearable v-model="categoryTwoAddForm.id"
 										   placeholder="请选择选择一级分类">
 									<el-option v-for="category in categoryOneList" :key="category.id"
@@ -227,7 +229,7 @@
 						<el-form :inline="true" ref="categoryThreeAddForm" :model="categoryThreeAddForm" :rules="rules">
 							<el-form-item label="选择二级分类" prop="id">
 								<el-cascader
-
+									filterable
 										placeholder="选择一二级分类"
 										clearable
 										v-model="categoryThreeAddForm.id"
@@ -260,6 +262,11 @@
 
 				>
 					<el-table-column
+							type="index"
+							label="序号"
+							width="100">
+					</el-table-column>
+					<el-table-column
 							label="分类编号"
 							width="100">
 						<template slot-scope="scope">
@@ -271,7 +278,6 @@
 							width="150">
 						<template slot-scope="scope">
 							<el-popover trigger="hover" placement="top">
-								<p>品牌: {{ scope.row.name }}</p>
 								<p>所属分类级别: {{ scope.row.type }}级</p>
 								<div slot="reference" class="name-wrapper">
 									<el-tag size="medium">{{ scope.row.name }}</el-tag>
@@ -329,12 +335,13 @@
 									title="删除后,分类下的商品也会被删除,确认删除分类吗?"
 									@confirm="deleteProduct(scope.row.type,scope.row.id)"
 							>
-								<el-button slot="reference" type="danger" size="mini">删除</el-button>
+								<el-button slot="reference" type="text" size="mini">删除</el-button>
 							</el-popconfirm>
 						</template>
 					</el-table-column>
 				</el-table>
 				<el-pagination
+						background
 						@size-change="handleSizeChange"
 						@current-change="handleCurrentChange"
 						:current-page="page.currPageNo"
@@ -443,6 +450,20 @@
 	</div>
 </div>
 </body>
+<style scoped lang="scss">
+	.el-pagination.is-background .el-pager li:hover {
+		　　color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled):hover {
+		　　color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled).active:hover {
+		　　background-color: #ff4e00;
+	}
+	.el-pagination.is-background .el-pager li:not(.disabled).active {
+		background-color: #ff4e00;   // 进行修改背景
+	}
+</style>
 <script src="../../utils/parseCookie.js"></script>
 
 <script type="module">
@@ -541,12 +562,12 @@
 				const {data} = await getBrandList();
 				this.brands = data;
 			},
-			handleSizeChange(val) {
+			async handleSizeChange(val) {
 				this.page.pageSize = val;
-				this.getProductCategoryList(this.page.currPageNo);
+				await this.getProductCategoryList(this.page.currPageNo);
 			},
 
-			modify(formName) {
+			async modify(formName) {
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
 						const {code} = await modifyCategory(this.categoryForm);
@@ -557,7 +578,7 @@
 								center: 'true',
 							})
 							this.dialogFormVisible = false;
-							this.getProductCategoryList(1);
+							await this.getProductCategoryList(1);
 						} else {
 							this.$message.error('修改失败')
 						}
@@ -567,8 +588,8 @@
 					}
 				});
 			},
-			handleCurrentChange(val) {
-				this.getProductCategoryList(val);
+			async handleCurrentChange(val) {
+				await this.getProductCategoryList(val);
 			},
 			async deleteProduct(type, id) {
 				const response = await deleteCategory(type, id);
@@ -594,13 +615,11 @@
 				const {data} = await getProductCategory(this.categoryForm);
 				this.categoryForm = data;
 				this.dialogFormVisible = true;
-			}
-			,
+			},
 			async getTypeList() {
 				const {data} = await getTypeList();
 				this.typeList = data;
-			}
-			,
+			},
 			async getProductCategoryList(currPageNo) {
 				this.page.currPageNo = currPageNo;
 				const {data} = await getProductCategoryList(this.category, this.page);
@@ -613,7 +632,7 @@
 						const {code} = await addCategory(this.categoryOneAddForm);
 						if (code == "200") {
 							this.$message.success("添加一级分类成功!");
-							this.getProductCategoryList(1);
+							await this.getProductCategoryList(1);
 
 						}
 					}
@@ -631,13 +650,13 @@
 						const {code} = await addCategory(category);
 						if (code == "200") {
 							this.$message.success("添加二级分类成功!");
-							this.getProductCategoryList(1);
+							await this.getProductCategoryList(1);
 
 						}
 					}
 				});
 			},
-			addThreeCategory(formName) {
+			async addThreeCategory(formName) {
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
 						var category = {
@@ -648,7 +667,7 @@
 						const {code} = await addCategory(category);
 						if (code == "200") {
 							this.$message.success("添加三级分类成功!");
-							this.getProductCategoryList(1);
+							await this.getProductCategoryList(1);
 
 						}
 					}

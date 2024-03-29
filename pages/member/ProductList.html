@@ -21,8 +21,6 @@
 <body>
 <!--Begin Header Begin-->
 <div id="root">
-
-
 	<div class="soubg">
 		<div class="sou">
 			<!--Begin 所在收货地区 Begin-->
@@ -108,6 +106,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -177,13 +177,14 @@
 			<div class="m_right">
 				<div style="margin-top: 15px;">
 					品牌
-					<el-select style="width: 120px;" v-model="product.brandId" slot="prepend">
+					<el-select filterable clearable style="width: 120px;" v-model="product.brandId" slot="prepend">
 						<el-option label="全部" :value="0">全部</el-option>
 						<el-option @click="getProductList(1)" v-for="brand in brands" :key="brand.id"
 								   :label="brand.brandName" :value="brand.id"></el-option>
 					</el-select>
 					分类
-					<el-select style="width: 120px;" v-model="product.categoryLevelId" slot="prepend">
+					<el-select filterable clearable style="width: 120px;" v-model="product.categoryLevelId"
+							   slot="prepend">
 						<el-option label="全部" :value="0">全部</el-option>
 						<el-option @click="getProductList(1)" v-for="category in categoryList" :key="category.id"
 								   :label="category.name" :value="category.id"></el-option>
@@ -263,9 +264,10 @@
 							<span style="margin-left: 10px">{{ scope.row.createTime }}</span>
 						</template>
 					</el-table-column>
-					<el-table-column label="操作" fixed="right" width="150">>
+					<el-table-column label="操作" fixed="right" width="100">>
 						<template slot-scope="scope">
 							<el-button
+									type="text"
 									size="mini"
 									@click="toModify(scope.row.id)">修改
 							</el-button>
@@ -277,12 +279,13 @@
 									title="确认删除商品吗?"
 									@confirm="deleteProduct(scope.row.fileId,scope.row.id)"
 							>
-								<el-button slot="reference" type="danger" size="mini">删除</el-button>
+								<el-button slot="reference" type="text" size="mini">删除</el-button>
 							</el-popconfirm>
 						</template>
 					</el-table-column>
 				</el-table>
 				<el-pagination
+						background
 						@size-change="handleSizeChange"
 						@current-change="handleCurrentChange"
 						:current-page="page.currPageNo"
@@ -392,7 +395,24 @@
 </div>
 </body>
 <script src="../../utils/parseCookie.js"></script>
+<style scoped lang="scss">
+	.el-pagination.is-background .el-pager li:hover {
+		　　color: #ff4e00;
+	}
 
+	.el-pagination.is-background .el-pager li:not(.disabled):hover {
+		　　color: #ff4e00;
+	}
+
+	.el-pagination.is-background .el-pager li:not(.disabled).active:hover {
+		　　background-color: #ff4e00;
+	}
+
+	.el-pagination.is-background .el-pager li:not(.disabled).active {
+		background-color: #ff4e00;
+	/ / 进行修改背景
+	}
+</style>
 <script type="module">
 	import {getProductList, deleteProduct} from '/api/product.js';
 	import {getProductCategoryList} from '/api/category.js';
@@ -416,7 +436,7 @@
 				},
 				visible: false,
 				brands: [],
-				user:{},
+				user: {},
 			}
 		},
 		methods: {
@@ -430,16 +450,15 @@
 				const {data} = await getBrandList();
 				this.brands = data;
 			},
-			handleSizeChange(val) {
+			async handleSizeChange(val) {
 				this.page.pageSize = val;
-				this.getProductList(this.page.currPageNo);
+				await this.getProductList(this.page.currPageNo);
 			},
-			handleCurrentChange(val) {
-				this.getProductList(val);
+			async handleCurrentChange(val) {
+				await this.getProductList(val);
 			},
 			async deleteProduct(fileId, id) {
 				const {code} = await deleteProduct(id);
-
 				await deleteFile(fileId);
 				await this.getProductList(this.page.currPageNo);
 				if (code == "200") {

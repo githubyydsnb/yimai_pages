@@ -110,6 +110,7 @@
         </span>
 			<!--End 所在收货地区 End-->
 			<span class="fr">
+					<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
       <span class="fl" v-if="user.id==undefined">你好，请<a href="../login/Login.html">登录</a>&nbsp;
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
@@ -559,7 +560,7 @@
 		<div class="content mar_20">
 			<div class="two_bg">
 				<div class="two_t">
-					<span class="fr"><a href="javascript:void(0)">修改</a></span>商品列表
+					<span class="fr"><a href="../member/Member_User.html">修改</a></span>商品列表
 				</div>
 				<table border="0" class="car_tab" style="width:1110px;" cellspacing="0" cellpadding="0">
 					<tr>
@@ -590,47 +591,42 @@
 							<div>{{product.name}}</div>
 						</td>
 						<td align="center">颜色：灰色</td>
-						<td align="center">1</td>
 						<td align="center" style="color:#ff4e00;">￥{{product.price}}</td>
+
+						<td align="center">{{packageCount}}</td>
 						<td align="center">26R</td>
 					</tr>
 					<tr>
 						<td colspan="5" align="right" style="font-family:'Microsoft YaHei';">
-							商品总价：￥{{totalPrice}} ； 返还积分 56R
+							商品总价：￥{{totalPriceForZuHe}} ； 返还积分 56R
 						</td>
 					</tr>
 				</table>
 
 				<div class="two_t">
-					<span class="fr"><a href="javascript:void(0)">修改</a></span>收货人信息
+					<span class="fr"><a href="../member/Member_User.html">修改</a></span>收货人信息
 				</div>
-				<table border="0" class="peo_tab" style="width:1110px;" cellspacing="0" cellpadding="0">
+				<table v-if="address!=null" border="0" class="peo_tab" style="width:1110px;" cellspacing="0"
+					   cellpadding="0">
 					<tr>
-						<td class="p_td" width="160">商品名称</td>
-						<td width="395">海贼王</td>
-						<td class="p_td" width="160">电子邮件</td>
+						<td class="p_td" width="160">收货人</td>
+						<td width="395">{{address.name}}</td>
+						<td class="p_td" width="160">邮箱</td>
 						<td width="395">12345678@qq.com</td>
 					</tr>
 					<tr>
 						<td class="p_td">详细信息</td>
-						<td>四川省成都市武侯区</td>
-						<td class="p_td">邮政编码</td>
-						<td>6011111</td>
-					</tr>
-					<tr>
-						<td class="p_td">电话</td>
-						<td></td>
+						<td>{{address.address}}</td>
 						<td class="p_td">手机</td>
-						<td>18600002222</td>
-					</tr>
-					<tr>
-						<td class="p_td">标志建筑</td>
-						<td></td>
-						<td class="p_td">最佳送货时间</td>
-						<td></td>
+						<td>{{address.mobile}}</td>
 					</tr>
 				</table>
-
+				<table v-if="address==null" border="0" class="peo_tab" style="width:1110px;" cellspacing="0"
+					   cellpadding="0">
+					<tr>
+						<td>暂无收货地址,点击去 <a href="../member/Member_User.html">设置</a></td>
+					</tr>
+				</table>
 
 				<div class="two_t">
 					配送方式
@@ -810,8 +806,11 @@
 					</tr>
 					<tr height="70">
 						<td align="right">
-							<b style="font-size:14px;">应付款金额：<span
-									style="font-size:22px; color:#ff4e00;">￥{{totalPrice}}</span></b>
+							<b style="font-size:14px;">应付款金额：
+								<span v-if="cars.length>0" style="font-size:22px; color:#ff4e00;">￥{{totalPrice}}</span>
+								<span v-if="products.length>0"
+									  style="font-size:22px; color:#ff4e00;">￥{{totalPriceForZuHe}}</span>
+							</b>
 						</td>
 					</tr>
 					<tr height="70">
@@ -931,25 +930,25 @@
 	import {submitOrder} from "../../api/order.js";
 	import {addOrderDetail} from "../../api/orderDetail.js";
 	import {exitSystem, getUser} from "../../api/user.js";
+	import {getLoginAddressDef, getUserAddress, setDefault} from '../../api/address.js';
 
 
 	const vm = new Vue({
 		el: "#root",
 		data() {
 			return {
-				user: {
-				},
+				user: {},
 				cars: [],
 				changeColor: 'car_tr',
 				selectedItems: [],
 				idStr: "",
 				products: [],
-				address: {
-					userId: 1,
-					address: '翻斗花园',
-					remark: '胡图图'
-				},
+				address: {},
 				order: {},
+				isAddress: {
+					isTrue: false,
+				},
+				packageCount: 0,
 
 			}
 		},
@@ -962,6 +961,13 @@
 				return totalPrice;
 
 			},
+			totalPriceForZuHe() {
+				let totalPrice = 0;
+				for (let i = 0; i < this.products.length; i++) {
+					totalPrice += this.products[i].price * this.packageCount;
+				}
+				return totalPrice;
+			}
 		},
 		methods: {
 			getPicPathById(id) {
@@ -969,25 +975,39 @@
 			},
 			getIds() {
 				this.idStr = window.location.search.substring(5)
+
 			},
 			async getShopCarList() {
 				console.log(this.idStr)
 				const {data} = await getShoppingCarListByIds(this.idStr)
 				this.cars = data;
+
 			},
 			async getZBuyCar() {
 				let {data} = await getProductListByIds(window.location.search.substring(5));
 				this.products = data;
+				let searchParams = new URLSearchParams(window.location.search);
+				this.packageCount = parseInt(searchParams.get("counts"));
 			},
 			async submitOrder() {
+				if (this.address == null) {
+					this.$message.error("未设置地址,请设置收货地址!")
+					return;
+				}
+				if (this.cars.length == 0) {
+					for (let i = 0; i < this.products.length; i++) {
+						this.cars[i] = {productId: 0, count: 0};
+						this.cars[i].productId = this.products[i].id
+						this.cars[i].count = this.packageCount
+					}
+				}
 				const response = await submitOrder(this.cars, this.address, this.user.id);
-				console.log(response);
 				if (response.code == "500") {
 					this.$message.error('商品库存不足,无法购买!')
 					return;
 				}
 				// 进入购物车3页面
-				window.location.href='BuyCar_Three.html?cost='+ response.data.cost + "&orderNo=" + encodeURIComponent(response.data.serialNumber);
+				window.location.href = 'BuyCar_Three.html?cost=' + response.data.cost + "&orderNo=" + encodeURIComponent(response.data.serialNumber);
 			},
 			async getUser() {
 				const {data} = await getUser(this.user);
@@ -1004,7 +1024,22 @@
 					}
 				}
 			},
-			async getUserAddress(){
+			async getUserAddress() {
+
+			},
+			async getLoginAddressDef(currentUser) {
+				let response = await getLoginAddressDef(currentUser);
+				//查询该用户的收货地址列表,只有一条设置为默认,多条询问用户
+				this.address = response.data;
+				if (this.address == null) {
+					//未设置默认地址
+					const {data} = await getUserAddress({}, this.user);
+					if (data.addresses.length == 1) {
+						await setDefault(data.addresses[0], this.user);
+					} else {
+						this.$message.error('还未设置默认地址哦~!');
+					}
+				}
 
 			},
 		},
@@ -1021,6 +1056,8 @@
 				await this.getUser();
 			}
 			await this.getShopCarList();
+			await this.getLoginAddressDef(this.user);
+
 		},
 	})
 </script>

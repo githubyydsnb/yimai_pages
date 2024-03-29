@@ -113,6 +113,8 @@
 				<a href="../login/Regist.html" v-if="user.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="user.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${user.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -412,44 +414,44 @@
 		methods: {
 			async getUserAddress(currPageNo) {
 				this.page.currPageNo = currPageNo;
-				let data = await getUserAddress(this.page,this.user);
+				let data = await getUserAddress(this.page, this.user);
 				this.addAddressList = data.data.addresses;
 				this.page = data.data.page;
 			},
-			previous() {
-				this.getUserAddress(this.page.currPageNo - 1);
+			async previous() {
+				await this.getUserAddress(this.page.currPageNo - 1);
 			},
-			next() {
-				this.getUserAddress(this.page.currPageNo + 1);
+			async next() {
+				await this.getUserAddress(this.page.currPageNo + 1);
 			},
-			last() {
-				this.getUserAddress(this.page.totalPage);
+			async last() {
+				await this.getUserAddress(this.page.totalPage);
 			},
-			setDef(address) {
-				this.setDefault(address);
+			async setDef(address) {
+				await this.setDefault(address);
 			},
 			async setDefault(address) {
-				let data = await setDefault(address,this.user);
+				let data = await setDefault(address, this.user);
 				if (data.code == "200") {
 					this.$message.success('设置成功!')
-					this.getUserAddress(1);
+					await this.getUserAddress(1);
 				}
 			},
-			del(address) {
-				this.delAddress(address);
+			async del(address) {
+				await this.delAddress(address);
 			},
 			async delAddress(address) {
 				let data = await delAddress(address);
 				if (data.code == "200") {
 					// alert(data.msg);
 					this.$message.success("删除成功")
-					this.getUserAddress(1);
+					await this.getUserAddress(1);
 				} else {
 					this.$message.error(data.msg)
 				}
 			},
 
-			submitForm(formName) {
+			async submitForm(formName) {
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
 						let addressList = this.address.selectedOptions;
@@ -467,7 +469,7 @@
 								center: true,
 								type: 'success',
 							})
-							this.getUserAddress(1);
+							await this.getUserAddress(1);
 						}
 					} else {
 						return false;
@@ -501,7 +503,6 @@
 				await this.getUser();
 			}
 			await this.getUserAddress(1);
-			// console.log(this.addAddressList)
 		},
 	})
 </script>

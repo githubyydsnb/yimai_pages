@@ -99,6 +99,8 @@
 				<a href="../login/Regist.html" v-if="currentUser.id==undefined" style="color:#ff4e00;">免费注册</a>&nbsp;|&nbsp;
 			</span>
 				<span class="fl" v-if="currentUser.id>0">
+										<el-link class="fl" href="../index/Index.html">首页|&nbsp;</el-link>
+
 										<el-link class="fl" :href=`../member/Member_User.html?id=${currentUser.id}`>个人中心|&nbsp;</el-link>
 
 					<el-link class="fl" @click="exitSystem">退出登陆&nbsp;|</el-link>
@@ -191,7 +193,7 @@
 						<td>{{user.sexStr}}</td>
 						<td>{{user.roleName}}</td>
 						<td><a :href="'Member_UserUpdate.html?id='+user.id"
-							   v-if="currentUser.roleId<user.roleId || currentUser.id==user.id">修改</a></td>
+							   v-if="currentUser.roleId<user.roleId">修改</a></td>
 						<td><a href="javascript:void(0)" @click="del(user.id)"
 							   v-if="currentUser.roleId<user.roleId">删除</a></td>
 					</tr>
@@ -349,24 +351,24 @@
 				this.userList = response.data.userList;
 				this.page = response.data.page;
 			},
-			previous() {
-				this.getUserList(this.page.currPageNo - 1);
+			async previous() {
+			 await 	this.getUserList(this.page.currPageNo - 1);
 			},
-			next() {
-				this.getUserList(this.page.currPageNo + 1);
+			async next() {
+				await this.getUserList(this.page.currPageNo + 1);
 			},
-			last() {
-				this.getUserList(this.page.totalPage);
+			async last() {
+				await this.getUserList(this.page.totalPage);
 			},
-			del(id) {
+			 async del(id) {
 				if (confirm("是否确认删除？")) {
-					this.delUserById(id,this.currentUser);
+					await this.delUserById(id,this.currentUser);
 				}
 			},
 			async delUserById(id,currentUser) {
 				let response = await delUserById(id,currentUser);
 				if (response.code == "200") {
-					this.getUserList(1);
+					await this.getUserList(1);
 				} else {
 					alert(resposne.msg);
 				}
